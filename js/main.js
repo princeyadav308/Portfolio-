@@ -297,22 +297,23 @@ const scriptURL = 'https://script.google.com/macros/s/AKfycbxLWctQI7t6iLKZsDZSlD
 const form = document.forms['submit-to-google-sheet']
 const msg = document.getElementById("msg")
 
-form.addEventListener('submit', e => {
-    e.preventDefault()
-    fetch(scriptURL, {
-        method: 'POST',
-        body: new FormData(form)
-    })
-        .then(response => {
-            msg.innerHTML = "Thankyou for Submitting!"
-            setTimeout(() => {
-                msg.innerHTML = ""
-            }, 5000)
-            form.reset();
-            // console.log("success", response)
+if (form) {
+    form.addEventListener('submit', e => {
+        e.preventDefault()
+        fetch(scriptURL, {
+            method: 'POST',
+            body: new FormData(form)
         })
-        .catch(error => console.error('Error!', error.message))
-})
+            .then(response => {
+                msg.innerHTML = "Thankyou for Submitting!"
+                setTimeout(() => {
+                    msg.innerHTML = ""
+                }, 5000)
+                form.reset();
+            })
+            .catch(error => console.error('Error!', error.message))
+    })
+}
 
 // Theme Light/Dark Mode Toggle
 window.addEventListener("load", () => {
@@ -356,4 +357,65 @@ window.addEventListener("scroll", () => {
     } else {
         header.classList.remove("sticky");
     }
-});
+});
+
+// Timeline Progress Scroll Effect (Horizontal)
+window.addEventListener("scroll", () => {
+    const scrollTrack = document.querySelector(".horizontal-scroll-track");
+    const scrollSticky = document.querySelector(".horizontal-scroll-sticky");
+    const blueprintTimeline = document.querySelector("#blueprint-timeline");
+    if (!scrollTrack || !scrollSticky || !blueprintTimeline) return;
+
+    const progressLine = document.querySelector(".timeline-progress-line");
+    const markers = document.querySelectorAll(".timeline-marker");
+    const timelineItems = document.querySelectorAll(".timeline-item");
+
+    const trackBounds = scrollTrack.getBoundingClientRect();
+    const stickyHeight = scrollSticky.offsetHeight;
+    const scrollContentWidth = blueprintTimeline.scrollWidth;
+    const viewportWidth = 1140; // Restrict calculation to container width
+
+    // Calculate progress (0 to 1) based on vertical scroll within the track
+    let progress = -trackBounds.top / (trackBounds.height - stickyHeight);
+    progress = Math.max(0, Math.min(1, progress));
+
+    // Horizontal translation of the timeline row
+    const maxTranslate = scrollContentWidth - viewportWidth;
+    if (maxTranslate > 0) {
+        blueprintTimeline.style.transform = `translateX(${-progress * maxTranslate}px)`;
+    }
+
+    // Update horizontal progress line width
+    if (progressLine) {
+        progressLine.style.width = (progress * 100) + "%";
+    }
+
+    // Highlight markers and items based on horizontal scroll position
+    const horizontalScrollPos = progress * maxTranslate;
+    timelineItems.forEach((item, index) => {
+        const itemCenter = item.offsetLeft + (item.offsetWidth / 2);
+        const marker = markers[index];
+        
+        // Trigger marker when its center point reaches the center of the viewport
+        if (horizontalScrollPos + (viewportWidth / 2) >= itemCenter) {
+            if (marker) marker.classList.add("active");
+            item.classList.add("in-view");
+        } else {
+            if (marker) marker.classList.remove("active");
+            item.classList.remove("in-view");
+        }
+    });
+
+    // Handle phase card scale/emphasis based on focus
+    const cards = document.querySelectorAll(".timeline-phase-card");
+    cards.forEach((card) => {
+        const bounds = card.getBoundingClientRect();
+        const center = viewportWidth / 2;
+        if (bounds.left < center + 100 && bounds.right > center - 100) {
+            card.style.transform = "scale(1.15)";
+            card.style.transition = "transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
+        } else {
+            card.style.transform = "scale(1)";
+        }
+    });
+});

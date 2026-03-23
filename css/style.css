@@ -30,15 +30,16 @@
     border: 1px solid var(--bg-black-50);
     /* Simulated Neomorphic gradient and grip lines */
     background: linear-gradient(145deg, #ffffff, #dcdcdf),
-                repeating-linear-gradient(to bottom, transparent, transparent 40%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.1) 42%, transparent 42%, transparent 44%, rgba(0,0,0,0.1) 44%, rgba(0,0,0,0.1) 46%, transparent 46%, transparent 100%);
-    background-size: 100% 100%, 80% 50%; /* Grip lines in middle 50% height */
+        repeating-linear-gradient(to bottom, transparent, transparent 40%, rgba(0, 0, 0, 0.1) 40%, rgba(0, 0, 0, 0.1) 42%, transparent 42%, transparent 44%, rgba(0, 0, 0, 0.1) 44%, rgba(0, 0, 0, 0.1) 46%, transparent 46%, transparent 100%);
+    background-size: 100% 100%, 80% 50%;
+    /* Grip lines in middle 50% height */
     background-repeat: no-repeat;
     background-position: center;
 }
 
 body.dark ::-webkit-scrollbar-thumb {
     background: linear-gradient(145deg, #404448, #282c2f),
-                repeating-linear-gradient(to bottom, transparent, transparent 40%, rgba(255,255,255,0.2) 40%, rgba(255,255,255,0.2) 42%, transparent 42%, transparent 44%, rgba(255,255,255,0.2) 44%, rgba(255,255,255,0.2) 46%, transparent 46%, transparent 100%);
+        repeating-linear-gradient(to bottom, transparent, transparent 40%, rgba(255, 255, 255, 0.2) 40%, rgba(255, 255, 255, 0.2) 42%, transparent 42%, transparent 44%, rgba(255, 255, 255, 0.2) 44%, rgba(255, 255, 255, 0.2) 46%, transparent 46%, transparent 100%);
     background-size: 100% 100%, 80% 50%;
     background-repeat: no-repeat;
     background-position: center;
@@ -1628,4 +1629,264 @@ img {
     max-width: 100%;
     text-align: right;
     padding: 0 15px;
+}
+
+/* Production Timeline */
+/* Production Timeline */
+.horizontal-timeline-section {
+    position: relative;
+    background-color: var(--bg-black-900);
+}
+
+.horizontal-scroll-track {
+    height: 500vh;
+    /* Determines scroll duration */
+}
+
+.horizontal-scroll-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.sticky-title-wrapper {
+    z-index: 10;
+    padding: 30px 0 0;
+    /* Reduced top/bottom padding */
+    width: 100%;
+}
+
+.sticky-title-wrapper .section-title {
+    margin-bottom: 60px;
+    margin-top: 80px;
+}
+
+.horizontal-timeline-container {
+    max-width: 1140px;
+    margin: 0 auto;
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* Aligned everything to the top to reduce middle gap */
+    overflow: hidden;
+}
+
+.timeline-row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 20px 345px 0;
+    height: calc(100% - 140px);
+    /* Explicit height to control placement */
+    width: max-content;
+    will-change: transform;
+    position: relative;
+    margin-top: 0;
+}
+
+.timeline-main-line {
+    position: absolute;
+    top: 507px;
+    /* Vertically centered behind 60px markers (520px height - 30px radius) */
+    left: 570px;
+    /* Starts at the center of the first item (345px padding + 225px half-width) */
+    width: 4800px;
+    /* Spans to the center of the 9th item (8 intervals * 600px) */
+    height: 6px;
+    background-color: var(--bg-black-100);
+    box-shadow: var(--inner-shadow);
+    border-radius: 10px;
+    z-index: 1;
+}
+
+.timeline-progress-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background-color: var(--skin-color);
+    box-shadow: 0 0 10px var(--skin-color);
+    transition: width 0.1s linear;
+}
+
+.timeline-item {
+    display: flex;
+    flex-direction: column-reverse;
+    /* Cards/Content at top */
+    align-items: center;
+    position: relative;
+    width: 450px;
+    margin-right: 150px;
+    height: 520px;
+    /* Fixed height to keep line alignment consistent */
+    justify-content: flex-end;
+    /* Pushes content to the top (in reverse, start is bottom) */
+    padding-bottom: 60px;
+    /* Leave space for bottom-anchored marker */
+}
+
+.timeline-item:last-child {
+    margin-right: 10vw;
+}
+
+.timeline-marker {
+    height: 60px;
+    width: 60px;
+    background-color: var(--bg-black-50);
+    border: 4px solid var(--bg-black-100);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--text-black-600);
+    z-index: 10;
+    box-shadow: var(--outer-shadow);
+    transition: all 0.3s ease;
+    margin-top: 0;
+    background-clip: padding-box;
+    flex-shrink: 0;
+    position: absolute;
+    bottom: 0;
+    /* Anchored to bottom to ensure center is at 490px vertically */
+}
+
+.timeline-marker.active {
+    color: #ffffff;
+    background-color: var(--skin-color);
+    border-color: var(--skin-color);
+    box-shadow: 0 0 15px var(--skin-color);
+}
+
+.timeline-content {
+    background-color: var(--bg-black-50);
+    padding: 50px 30px;
+    /* Matched service-item padding */
+    border-radius: 20px;
+    box-shadow: var(--outer-shadow);
+    width: 100%;
+    margin-bottom: 30px;
+    transition: all 0.3s ease;
+    text-align: center;
+    /* Centered content like service items */
+}
+
+.timeline-content:hover {
+    box-shadow: var(--outer-shadow);
+    /* Keep outer shadow on hover but inner for icon */
+}
+
+.timeline-content .icon {
+    height: 60px;
+    width: 60px;
+    text-align: center;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto 30px;
+    position: relative;
+    line-height: 60px;
+    font-size: 25px;
+    color: var(--text-black-900);
+    /* Black by default */
+    transition: all 0.3s ease;
+    /* Smooth color transition */
+}
+
+.timeline-content .icon i {
+    transition: all 0.3s ease;
+}
+
+.timeline-content:hover .icon {
+    color: var(--skin-color);
+    /* Green on hover */
+}
+
+.timeline-content .icon::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    box-shadow: var(--inner-shadow);
+    transition: all 0.3s ease;
+    /* Smooth shadow transition */
+}
+
+.timeline-content:hover .icon::after {
+    box-shadow: var(--outer-shadow);
+    /* Inverts on hover like service items */
+}
+
+.timeline-content h3 {
+    font-size: 22px;
+    color: var(--text-black-900);
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.timeline-content p {
+    font-size: 15px;
+    color: var(--text-black-600);
+    line-height: 1.6;
+}
+
+.timeline-phase-card-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.timeline-phase-card {
+    background: var(--bg-black-100);
+    padding: 20px 30px;
+    border-radius: 30px;
+    box-shadow: var(--inner-shadow);
+    text-align: center;
+    min-width: 200px;
+}
+
+.timeline-phase-card h4 {
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.timeline-phase-card.phase-one h4 {
+    color: #06d79c;
+}
+
+.timeline-phase-card.phase-two h4 {
+    color: #ff9c07;
+}
+
+.timeline-phase-card.phase-three h4 {
+    color: #8a49ff;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767px) {
+    .timeline-item {
+        width: 320px;
+        margin-right: 50px;
+    }
+
+    .timeline-content h3 {
+        font-size: 18px;
+    }
+
+    .timeline-content p {
+        font-size: 14px;
+    }
 }
