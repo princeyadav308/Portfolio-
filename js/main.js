@@ -155,37 +155,119 @@ function bodyScrollingToggle() {
         }
     })
 
-    // added for personal projects
-    document.querySelector(".personal-projects").addEventListener("click", (event) => {
-        if (event.target.closest(".timeline-item-inner") && event.target.closest(".portfolio-item-img")) {
-            const timelineItemInner = event.target.closest(".timeline-item-inner");
-            screenshots = timelineItemInner.querySelector(".portfolio-item-img img").getAttribute("data-screenshots");
-            screenshots = screenshots.split(",");
-            if (screenshots.length === 1) {
-                prevBtn.style.display = "none";
-                nextBtn.style.display = "none";
-            } else {
-                prevBtn.style.display = "block";
-                nextBtn.style.display = "block";
+    // added for personal projects showcase
+    const ppPopup = document.querySelector(".personal-project-popup");
+    const ppCloseBtn = document.querySelector(".ppp-close");
+
+    if (ppCloseBtn) {
+        ppCloseBtn.addEventListener("click", () => {
+            ppPopup.classList.remove("open");
+            if (document.body.classList.contains("hidden-scrolling")) {
+                bodyScrollingToggle();
             }
-            slideIndex = 0;
-            popupToggle();
-            popupSlideshow();
+        });
+    }
+
+    document.querySelector(".personal-projects").addEventListener("click", (event) => {
+        if (event.target.closest(".timeline-item-inner") && (event.target.closest(".portfolio-item-img") || event.target.classList.contains("view-project"))) {
+            const item = event.target.closest(".timeline-item-inner");
             
-            // popupDetails for personal projects
-            projectDetailsBtn.style.display = "none"; // placeholder for now or handle details if present
-            const title = timelineItemInner.querySelector("h3").innerHTML;
-            popup.querySelector(".pp-title h2").innerHTML = title;
-            popup.querySelector(".pp-project-category").innerHTML = "personal project";
+            // Get data attributes
+            const title = item.querySelector("h3").innerText;
+            const role = item.getAttribute("data-role") || "Concept";
+            const type = item.getAttribute("data-type") || "Project";
+            const intro = item.getAttribute("data-intro") || "Detail introduction about the project goes here.";
+            const design = item.getAttribute("data-design") || "Details about the design process go here.";
+            const performance = item.getAttribute("data-performance") || "Details about the final performance go here.";
+            const link = item.getAttribute("data-link") || "#";
             
-            // if there are details (optional)
-            if (timelineItemInner.querySelector(".portfolio-items-details")) {
-                projectDetailsBtn.style.display = "block";
-                const details = timelineItemInner.querySelector(".portfolio-items-details").innerHTML;
-                popup.querySelector(".pp-project-details").innerHTML = details;
+            // Get screenshots
+            const imgEl = item.querySelector(".portfolio-item-img img");
+            let screenshots = [];
+            if (imgEl && imgEl.hasAttribute("data-screenshots")) {
+                screenshots = imgEl.getAttribute("data-screenshots").split(",");
+            } else if (imgEl && imgEl.src) {
+                screenshots = [imgEl.src];
+            }
+
+            // Populate popup
+            if (ppPopup) {
+                ppPopup.querySelector(".ppp-title").innerText = title;
+                ppPopup.querySelector(".ppp-role").innerText = role;
+                ppPopup.querySelector(".ppp-type").innerText = type;
+                
+                ppPopup.querySelector(".ppp-intro-text").innerText = intro;
+                ppPopup.querySelector(".ppp-design-text").innerText = design;
+                ppPopup.querySelector(".ppp-performance-text").innerText = performance;
+                
+                if (link && link !== "#") {
+                    ppPopup.querySelector(".ppp-live-link").href = link;
+                    ppPopup.querySelector(".ppp-live-link").classList.remove("hide");
+                } else {
+                    ppPopup.querySelector(".ppp-live-link").classList.add("hide");
+                }
+
+                // Populate featured image
+                const featuredImage = ppPopup.querySelector(".ppp-featured-image");
+                if (screenshots && screenshots.length > 0) {
+                    featuredImage.querySelector("img").src = screenshots[0];
+                    featuredImage.classList.remove("hide");
+                } else {
+                    featuredImage.classList.add("hide");
+                }
+
+                // Populate images grid
+                const gridItems = ppPopup.querySelectorAll(".ppp-grid-item");
+                const imageGrid = ppPopup.querySelector(".ppp-image-grid");
+                
+                if (screenshots && screenshots.length > 0) {
+                    imageGrid.classList.remove("hide");
+                    gridItems.forEach((item, index) => {
+                        // Cycle through screenshots if there are fewer screenshots than grid items
+                        const screenshotIndex = index % screenshots.length;
+                        item.querySelector("img").src = screenshots[screenshotIndex];
+                        item.classList.remove("hide");
+                    });
+                } else {
+                    imageGrid.classList.add("hide");
+                }
+
+                // Reset image scales
+                ppPopup.querySelectorAll(".ppp-img").forEach(img => {
+                    img.style.transform = "scale(1.25)";
+                });
+
+                // Open Popup
+                ppPopup.classList.add("open");
+                bodyScrollingToggle();
             }
         }
-    })
+    });
+
+    // Smooth scroll zoom effect inside the popup
+    if (ppPopup) {
+        ppPopup.addEventListener("scroll", () => {
+            requestAnimationFrame(() => {
+                const images = ppPopup.querySelectorAll(".ppp-img");
+                const viewHeight = window.innerHeight;
+                
+                images.forEach(img => {
+                    const rect = img.getBoundingClientRect();
+                    
+                    // If image is visible in the viewport
+                    if (rect.top <= viewHeight && rect.bottom >= 0) {
+                        // Calculate scroll progress through the image
+                        let progress = 1 - (rect.bottom / (viewHeight + rect.height));
+                        progress = Math.max(0, Math.min(1, progress));
+                        
+                        // Zoom out from 1.25 to 1.00 as user scrolls past it
+                        const scale = 1.25 - (0.25 * progress);
+                        img.style.transform = `scale(${scale})`;
+                    }
+                });
+            });
+        });
+    }
 
     closeBtn.addEventListener("click", () => {
         popupToggle();
