@@ -1665,7 +1665,7 @@ img {
 }
 
 .horizontal-timeline-container {
-    max-width: 1140px;
+    /* max-width: 1200px; */
     margin: 0 auto;
     position: relative;
     height: 100%;
@@ -1711,7 +1711,6 @@ img {
     height: 100%;
     width: 0;
     background-color: var(--skin-color);
-    box-shadow: 0 0 10px var(--skin-color);
     transition: width 0.1s linear;
 }
 
@@ -1762,7 +1761,6 @@ img {
     color: #ffffff;
     background-color: var(--skin-color);
     border-color: var(--skin-color);
-    box-shadow: 0 0 15px var(--skin-color);
 }
 
 .timeline-content {
@@ -2323,7 +2321,8 @@ img {
     overflow: hidden;
     aspect-ratio: 16 / 9;
     max-height: 100vh;
-    cursor: none; /* hide cursor as requested */
+    cursor: none;
+    /* hide cursor as requested */
     touch-action: none;
 }
 
@@ -2379,5 +2378,196 @@ img {
 }
 
 .sbs-handle-line {
-    display: none; /* hide the green line as requested */
+    display: none;
+    /* hide the green line as requested */
+}
+
+/* -----------------------------
+   Additional Service Sections
+------------------------------ */
+.services-subsection {
+    padding: 80px 0 0;
+}
+
+.services-subsection-title {
+    text-align: center;
+    margin-bottom: 50px;
+    width: 100%;
+}
+
+.services-subsection-title h2 {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--text-black-900);
+    text-transform: capitalize;
+    margin: 0;
+}
+
+.services-subsection-title p {
+    font-size: 16px;
+    color: var(--text-black-600);
+    margin: 15px auto 0;
+    max-width: 600px;
+}
+
+/* Engagement & Commitments Items */
+.engagement-item,
+.commitment-item {
+    flex: 0 0 33.33%;
+    max-width: 33.33%;
+    padding: 15px;
+}
+
+.engagement-item-inner,
+.commitment-item-inner {
+    padding: 40px 30px;
+    border-radius: 10px;
+    background-color: var(--bg-black-50);
+    text-align: left;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.engagement-item-inner.popular {
+    border: 2px solid var(--skin-color);
+}
+
+.engagement-badge {
+    position: absolute;
+    top: 20px;
+    right: -35px;
+    background-color: var(--skin-color);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 40px;
+    transform: rotate(45deg);
+    text-transform: uppercase;
+}
+
+.engagement-item-inner h3,
+.commitment-item-inner h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-black-900);
+    margin-bottom: 15px;
+}
+
+.commitment-item-inner h3 {
+    font-size: 20px;
+}
+
+.engagement-item-inner p,
+.commitment-item-inner p {
+    font-size: 16px;
+    color: var(--text-black-600);
+    line-height: 26px;
+    margin-bottom: 25px;
+}
+
+.engagement-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.engagement-tags .skill-tag,
+.commitment-pill {
+    margin: 0;
+    padding: 5px 15px;
+    font-size: 13px;
+    border-radius: 20px;
+    background-color: var(--bg-black-50);
+    color: var(--text-black-900);
+    font-weight: 600;
+    display: inline-block;
+}
+
+.commitment-pill {
+    background-color: var(--bg-black-100);
+    color: var(--skin-color);
+    margin-top: 10px;
+}
+
+/* Scope Box */
+.scope-column {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 0 15px;
+}
+
+.scope-box {
+    padding: 40px;
+    border-radius: 10px;
+    background-color: var(--bg-black-50);
+    height: 100%;
+}
+
+.scope-box h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-black-900);
+    margin-bottom: 25px;
+}
+
+.scope-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.scope-list li {
+    font-size: 16px;
+    color: var(--text-black-600);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.scope-list li i {
+    margin-top: 5px;
+    margin-right: 15px;
+    font-size: 16px;
+}
+
+.scope-list.included li i {
+    color: var(--skin-color);
+}
+
+.scope-list.excluded li i {
+    color: #ff4757;
+}
+
+.scope-footer {
+    text-align: center;
+    margin-top: 40px;
+    width: 100%;
+}
+
+.scope-footer p {
+    font-size: 16px;
+    color: var(--text-black-600);
+    font-weight: 500;
+}
+
+/* Responsive Overrides */
+@media(max-width: 991px) {
+    .engagement-item, 
+    .commitment-item {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media(max-width: 767px) {
+    .engagement-item, 
+    .commitment-item, 
+    .scope-column {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    .scope-box {
+        margin-bottom: 30px;
+    }
 }
