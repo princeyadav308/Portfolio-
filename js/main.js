@@ -105,13 +105,6 @@ function bodyScrollingToggle() {
     const filterContainer = document.querySelector(".portfolio-filter"),
         portfolioItemsContainer = document.querySelector(".portfolio-items"),
         portfolioItems = document.querySelectorAll(".portfolio-item");
-    popup = document.querySelector(".portfolio-popup"),
-        prevBtn = popup.querySelector(".pp-prev"),
-        nextBtn = popup.querySelector(".pp-next"),
-        closeBtn = popup.querySelector(".pp-close"),
-        projectDetailsContainer = popup.querySelector(".pp-details"),
-        projectDetailsBtn = popup.querySelector(".pp-project-details-btn");
-    let itemIndex, slideIndex, screenshots;
 
     // portfolio items
     filterContainer.addEventListener("click", (event) => {
@@ -132,227 +125,6 @@ function bodyScrollingToggle() {
             })
         }
     })
-
-    portfolioItemsContainer.addEventListener("click", (event) => {
-        if (event.target.closest(".portfolio-item-inner")) {
-            const portfolioItem = event.target.closest(".portfolio-item-inner").parentElement;
-            // portfolio item index
-            itemIndex = Array.from(portfolioItem.parentElement.children).indexOf(portfolioItem);
-            screenshots = portfolioItems[itemIndex].querySelector(".portfolio-item-img img").getAttribute("data-screenshots");
-            // convert screenshot into array
-            screenshots = screenshots.split(",");
-            if (screenshots.length === 1) {
-                prevBtn.style.display = "none";
-                nextBtn.style.display = "none";
-            } else {
-                prevBtn.style.display = "block";
-                nextBtn.style.display = "block";
-            }
-            slideIndex = 0;
-            popupToggle();
-            popupSlideshow();
-            popupDetails(portfolioItems[itemIndex]);
-        }
-    })
-
-    // added for personal projects showcase
-    const ppPopup = document.querySelector(".personal-project-popup");
-    const ppCloseBtn = document.querySelector(".ppp-close");
-
-    if (ppCloseBtn) {
-        ppCloseBtn.addEventListener("click", () => {
-            ppPopup.classList.remove("open");
-            if (document.body.classList.contains("hidden-scrolling")) {
-                bodyScrollingToggle();
-            }
-        });
-    }
-
-    document.querySelector(".personal-projects").addEventListener("click", (event) => {
-        if (event.target.closest(".timeline-item-inner") && (event.target.closest(".portfolio-item-img") || event.target.classList.contains("view-project"))) {
-            const item = event.target.closest(".timeline-item-inner");
-            
-            // Get data attributes
-            const title = item.querySelector("h3").innerText;
-            const role = item.getAttribute("data-role") || "Concept";
-            const type = item.getAttribute("data-type") || "Project";
-            const intro = item.getAttribute("data-intro") || "Detail introduction about the project goes here.";
-            const design = item.getAttribute("data-design") || "Details about the design process go here.";
-            const performance = item.getAttribute("data-performance") || "Details about the final performance go here.";
-            const link = item.getAttribute("data-link") || "#";
-            
-            // Get screenshots
-            const imgEl = item.querySelector(".portfolio-item-img img");
-            let screenshots = [];
-            if (imgEl && imgEl.hasAttribute("data-screenshots")) {
-                screenshots = imgEl.getAttribute("data-screenshots").split(",");
-            } else if (imgEl && imgEl.src) {
-                screenshots = [imgEl.src];
-            }
-
-            // Populate popup
-            if (ppPopup) {
-                ppPopup.querySelector(".ppp-title").innerText = title;
-                ppPopup.querySelector(".ppp-role").innerText = role;
-                ppPopup.querySelector(".ppp-type").innerText = type;
-                
-                ppPopup.querySelector(".ppp-intro-text").innerText = intro;
-                ppPopup.querySelector(".ppp-design-text").innerText = design;
-                ppPopup.querySelector(".ppp-performance-text").innerText = performance;
-                
-                if (link && link !== "#") {
-                    ppPopup.querySelector(".ppp-live-link").href = link;
-                    ppPopup.querySelector(".ppp-live-link").classList.remove("hide");
-                } else {
-                    ppPopup.querySelector(".ppp-live-link").classList.add("hide");
-                }
-
-                // Populate featured image (Side-by-Side)
-                const featuredImage = ppPopup.querySelector(".ppp-featured-image");
-                if (screenshots && screenshots.length > 0) {
-                    featuredImage.querySelector(".ppp-featured-img-after").src = screenshots[0];
-                    featuredImage.querySelector(".ppp-featured-img-before").src = screenshots.length > 1 ? screenshots[1] : screenshots[0];
-                    featuredImage.classList.remove("hide");
-                } else {
-                    featuredImage.classList.add("hide");
-                }
-
-                // Populate images grid
-                const gridItems = ppPopup.querySelectorAll(".ppp-grid-item");
-                const imageGrid = ppPopup.querySelector(".ppp-image-grid");
-                
-                if (screenshots && screenshots.length > 0) {
-                    imageGrid.classList.remove("hide");
-                    gridItems.forEach((item, index) => {
-                        // Cycle through screenshots if there are fewer screenshots than grid items
-                        const screenshotIndex = index % screenshots.length;
-                        item.querySelector("img").src = screenshots[screenshotIndex];
-                        item.classList.remove("hide");
-                    });
-                } else {
-                    imageGrid.classList.add("hide");
-                }
-
-                // Reset image scales
-                ppPopup.querySelectorAll(".ppp-img").forEach(img => {
-                    img.style.transform = "scale(1.25)";
-                });
-
-                // Open Popup
-                ppPopup.classList.add("open");
-                bodyScrollingToggle();
-            }
-        }
-    });
-
-    // Smooth scroll zoom effect inside the popup
-    if (ppPopup) {
-        ppPopup.addEventListener("scroll", () => {
-            requestAnimationFrame(() => {
-                const images = ppPopup.querySelectorAll(".ppp-img");
-                const viewHeight = window.innerHeight;
-                
-                images.forEach(img => {
-                    const rect = img.getBoundingClientRect();
-                    
-                    // If image is visible in the viewport
-                    if (rect.top <= viewHeight && rect.bottom >= 0) {
-                        // Calculate scroll progress through the image
-                        let progress = 1 - (rect.bottom / (viewHeight + rect.height));
-                        progress = Math.max(0, Math.min(1, progress));
-                        
-                        // Zoom out from 1.25 to 1.00 as user scrolls past it
-                        const scale = 1.25 - (0.25 * progress);
-                        img.style.transform = `scale(${scale})`;
-                    }
-                });
-            });
-        });
-    }
-
-    closeBtn.addEventListener("click", () => {
-        popupToggle();
-        if (projectDetailsContainer.classList.contains("active")) {
-            popupDetailsToggle();
-        }
-
-    })
-
-    function popupToggle() {
-        popup.classList.toggle("open");
-        bodyScrollingToggle();
-    }
-
-    function popupSlideshow() {
-        const imgSrc = screenshots[slideIndex];
-        const popupImg = popup.querySelector(".pp-img");
-        //activate preloader
-        popup.querySelector(".pp-loader").classList.add("active");
-        popupImg.src = imgSrc;
-        popupImg.onload = () => {
-            // deactivate loader
-            popup.querySelector(".pp-loader").classList.remove("active");
-        }
-        popup.querySelector(".pp-counter").innerHTML = (slideIndex + 1) + " of " + screenshots.length;
-    }
-
-    // next slide
-    nextBtn.addEventListener("click", () => {
-        if (slideIndex === screenshots.length - 1) {
-            slideIndex = 0;
-        } else {
-            slideIndex++;
-        }
-        popupSlideshow();
-    })
-
-    // prev slide
-    prevBtn.addEventListener("click", () => {
-        if (slideIndex === 0) {
-            slideIndex = screenshots.length - 1;
-        } else {
-            slideIndex--;
-        }
-        popupSlideshow();
-    })
-
-    function popupDetails(item) {
-        let currentItem = item || portfolioItems[itemIndex];
-        // if no project details
-        if (!currentItem.querySelector(".portfolio-items-details")) {
-            projectDetailsBtn.style.display = "none";
-            return;
-        }
-        projectDetailsBtn.style.display = "block";
-        // project details
-        const details = currentItem.querySelector(".portfolio-items-details").innerHTML;
-        popup.querySelector(".pp-project-details").innerHTML = details;
-        const title = currentItem.querySelector(".portfolio-item-title") ? 
-                      currentItem.querySelector(".portfolio-item-title").innerHTML :
-                      currentItem.querySelector("h3").innerHTML;
-        popup.querySelector(".pp-title h2").innerHTML = title;
-        const category = currentItem.getAttribute("data-category") || "personal-project";
-        popup.querySelector(".pp-project-category").innerHTML = category.split("-").join(" ");
-    }
-
-    projectDetailsBtn.addEventListener("click", () => {
-        popupDetailsToggle();
-    })
-
-    function popupDetailsToggle() {
-        if (projectDetailsContainer.classList.contains("active")) {
-            projectDetailsBtn.querySelector("i").classList.remove("fa-minus");
-            projectDetailsBtn.querySelector("i").classList.add("fa-plus");
-            projectDetailsContainer.classList.remove("active");
-            projectDetailsContainer.style.maxHeight = 0 + "px";
-        } else {
-            projectDetailsBtn.querySelector("i").classList.remove("fa-plus");
-            projectDetailsBtn.querySelector("i").classList.add("fa-minus");
-            projectDetailsContainer.classList.add("active");
-            projectDetailsContainer.style.maxHeight = projectDetailsContainer.scrollHeight + "px";
-            popup.scrollTo(0, projectDetailsContainer.offsetTop);
-        }
-    }
 
 })();
 
@@ -568,3 +340,144 @@ window.addEventListener("scroll", () => {
         observer.observe(slider);
     });
 })();
+/* =========================================================
+   Neumorphic Clock Logic
+========================================================= */
+(function() {
+    function initClocks() {
+        const wrappers = document.querySelectorAll('.neumorphic-clock-wrapper');
+        if (wrappers.length === 0) return;
+
+        wrappers.forEach(wrapper => {
+            const ticksContainer = wrapper.querySelector('.clock-update-ticks');
+            const numbersContainer = wrapper.querySelector('.clock-numbers');
+            
+            // Generate Ticks
+            if (ticksContainer) {
+                ticksContainer.innerHTML = '';
+                for (let i = 0; i < 60; i++) {
+                    const tick = document.createElement('div');
+                    tick.classList.add('clock-tick');
+                    if (i % 5 === 0) {
+                        tick.classList.add('tick-5');
+                    }
+                    tick.style.transform = `rotate(${i * 6}deg)`;
+                    ticksContainer.appendChild(tick);
+                }
+            }
+
+            // Generate Numbers
+            if (numbersContainer) {
+                numbersContainer.innerHTML = '';
+                for (let i = 1; i <= 12; i++) {
+                    const num = document.createElement('div');
+                    num.className = 'num';
+                    num.style.transform = `rotate(${i * 30}deg)`;
+                    
+                    const innerNum = document.createElement('span');
+                    innerNum.className = 'num-inner';
+                    innerNum.textContent = i;
+                    innerNum.style.transform = `rotate(${-i * 30}deg)`;
+                    
+                    num.appendChild(innerNum);
+                    numbersContainer.appendChild(num);
+                }
+            }
+        });
+
+        function updateClocks() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            let seconds = now.getSeconds();
+
+            // Analog Hand Rotations
+            const hourDeg = (hours % 12) * 30 + (minutes * 0.5);
+            const minuteDeg = (minutes * 6) + (seconds * 0.1);
+            const secondDeg = seconds * 6;
+
+            wrappers.forEach(wrapper => {
+                const hourHand = wrapper.querySelector('.clock-update-hour');
+                const minuteHand = wrapper.querySelector('.clock-update-minute');
+                const secondHand = wrapper.querySelector('.clock-update-second');
+
+                if (hourHand) hourHand.style.transform = `rotate(${hourDeg}deg)`;
+                if (minuteHand) minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
+                if (secondHand) secondHand.style.transform = `rotate(${secondDeg}deg)`;
+            });
+        }
+
+        updateClocks();
+        setInterval(updateClocks, 1000);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        initClocks();
+    });
+})();
+
+/* =========================================================
+   Scroll Reveal Text Animation
+========================================================= */
+(() => {
+    const wrapper = document.querySelector('.scroll-reveal-wrapper');
+    const revealText = document.querySelector('#scroll-reveal-text');
+    if (!wrapper || !revealText) return;
+
+    // Split text into words
+    const text = revealText.innerText;
+    const words = text.split(' ');
+    revealText.innerHTML = '';
+    words.forEach(word => {
+        const span = document.createElement('span');
+        span.innerText = word + ' ';
+        span.classList.add('reveal-word');
+        revealText.appendChild(span);
+    });
+
+    const wordSpans = revealText.querySelectorAll('.reveal-word');
+
+    window.addEventListener('scroll', () => {
+        const rect = wrapper.getBoundingClientRect();
+        const wrapperTop = rect.top;
+        const wrapperHeight = rect.height;
+        const windowHeight = window.innerHeight;
+        
+        // Progress goes from 0 to 1 as the sticky container scrolls
+        let progress = 0;
+        if (wrapperTop <= 0) {
+            const scrollDistance = -wrapperTop;
+            const totalScrollable = wrapperHeight - windowHeight;
+            progress = scrollDistance / totalScrollable;
+            progress = Math.max(0, Math.min(1, progress));
+        }
+
+        const wordsToReveal = Math.floor(progress * wordSpans.length);
+        
+        wordSpans.forEach((span, index) => {
+            if (index < wordsToReveal) {
+                span.classList.add('active');
+            } else {
+                span.classList.remove('active');
+            }
+        });
+    });
+})();
+
+/* =========================================================
+   Initialize Lenis for Smooth Scrolling
+========================================================= */
+const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+    wheelMultiplier: 1,
+    touchMultiplier: 2,
+});
+
+function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+}
+
+requestAnimationFrame(raf);
