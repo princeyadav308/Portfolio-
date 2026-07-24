@@ -34,7 +34,7 @@
         max-width: 350px;
     }
     .effect-3 {
-        margin-left: -60px;
+        margin-left: -150px; /* Fix theme button overlap */
     }
     .effect-4 {
         left: 7%;
@@ -88,5 +88,137 @@
     }
     .home-section .home-text h2 {
         font-size: 40px;
+    }
+}
+@media(max-width: 991px) {
+    .horizontal-scroll-track {
+        height: 300vh !important;
+    }
+    .timeline-row {
+        padding: 20px 30px 0 !important;
+    }
+}
+
+/* Fix timeline line positioning on tablets and mobile */
+@media(min-width: 768px) and (max-width: 991px) {
+    .timeline-main-line {
+        left: 255px !important; /* 30px padding + 225px half-width */
+        width: 4800px !important; /* same as desktop */
+    }
+}
+
+@media(max-width: 767px) {
+    .timeline-main-line {
+        left: 190px !important; /* 30px padding + 160px half-width */
+        width: 2960px !important; /* 8 intervals * 370px */
+    }
+}
+
+/* Fix missing gap between scope cards on mobile and tablet */
+@media(max-width: 991px) {
+    .scope-column {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+        margin-bottom: 30px !important;
+    }
+    .scope-column:last-child {
+        margin-bottom: 0 !important;
+    }
+}
+
+/* Fix missing side padding on testimonials mobile view */
+@media(max-width: 991px) {
+    .testimonials {
+        padding: 0 15px !important;
+    }
+}
+
+/* Home section mobile size adjustments */
+@media(max-width: 580px) {
+    .home-section .home-img .img-box {
+        max-width: 320px !important; /* Make image section bigger */
+        padding: 15px !important; /* Increase actual image size */
+    }
+    .home-section .home-text h2 {
+        font-size: 32px !important; /* Make text smaller */
+    }
+    .home-section .home-text h1 {
+        font-size: 16px !important;
+        line-height: 1.4;
+    }
+    .home-section .home-text p {
+        font-size: 14px !important;
+        margin-top: 10px;
+    }
+}
+
+/* Contact Section Mobile & Tablet Optimization */
+@media(max-width: 991px) {
+    .contact-section {
+        overflow-x: hidden !important;
+    }
+    .contact-section .container {
+        padding: 0 20px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    .contact-section .row {
+        width: 100% !important;
+        margin: 0 !important;
+        justify-content: center !important;
+    }
+    .contact-section .contact-item,
+    .contact-section .w-50 {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+        padding: 10px 0 !important;
+    }
+    .contact-section .contact-item-inner {
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    .contact-section .contact-form {
+        margin-top: 30px !important;
+        padding: 0 !important;
+    }
+    .contact-section .submit-btn {
+        padding: 0 !important;
+        margin-top: 15px !important;
+        text-align: center !important;
+    }
+    .contact-section .input-group {
+        width: 100% !important;
+    }
+}
+
+/* Clock Mobile Optimization */
+@media(max-width: 770px) and (min-width: 581px) {
+    .clock-analog-container {
+        transform: scale(0.85);
+        margin-top: -40px;
+        margin-bottom: -40px;
+    }
+}
+@media(max-width: 580px) {
+    .clock-analog-container {
+        transform: scale(0.6);
+        margin-top: -100px;
+        margin-bottom: -100px;
+    }
+}
+
+@media(max-width: 767px) {
+    /* Reduce portfolio slider size on mobile */
+    .ps-card.ps-mobile {
+        width: 100px !important;
+        height: 180px !important;
+    }
+    .ps-card.ps-web {
+        width: 225px !important;
+        height: 180px !important;
+    }
+    .port-slider-container {
+        padding: 10px 0 30px !important;
     }
 }

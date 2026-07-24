@@ -466,7 +466,7 @@ img {
 
 @media(max-width: 990px) {
     .header.sticky {
-        background-color: #e6e8ee;
+        background-color: var(--bg-black-50);
         box-shadow: var(--outer-shadow);
     }
 
@@ -478,7 +478,7 @@ img {
 
 @media(min-width: 991px) and (max-width: 1340px) {
     .header.sticky {
-        background-color: #e6e8ee;
+        background-color: var(--bg-black-50);
         box-shadow: var(--outer-shadow);
     }
 
@@ -894,6 +894,7 @@ img {
     transition: all 0.3s ease;
     width: 170px;
     box-sizing: border-box;
+    background-color: var(--bg-black-50);
 }
 
 .about-section .skill-tag.outer-shadow:hover {
@@ -1721,7 +1722,7 @@ img {
     transition: width 0.1s linear;
 }
 
-.timeline-item {
+#blueprint-timeline .timeline-item {
     display: flex;
     flex-direction: column-reverse;
     /* Cards/Content at top */
@@ -1737,7 +1738,7 @@ img {
     /* Leave space for bottom-anchored marker */
 }
 
-.timeline-item:last-child {
+#blueprint-timeline .timeline-item:last-child {
     margin-right: 10vw;
 }
 
@@ -1882,7 +1883,7 @@ img {
 
 /* Responsive Adjustments */
 @media (max-width: 767px) {
-    .timeline-item {
+    #blueprint-timeline .timeline-item {
         width: 320px;
         margin-right: 50px;
     }
@@ -2210,15 +2211,12 @@ img {
 .skills-slider-container {
     width: 60vw;
     overflow: hidden;
-    position: absolute;
-    top: calc(108vh - 120px);
-    padding: 20px 0;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
+    margin: 30px auto 0;
     background: transparent;
     display: flex;
     align-items: center;
-    z-index: 10;
+    padding: 20px 0;
 }
 
 /* Faded edges effect to blend with background */
@@ -2306,6 +2304,7 @@ img {
 @media(max-width: 767px) {
     .skills-slider-container {
         padding: 20px 0;
+        width: 100%;
     }
 
     .skill-tag-slide {

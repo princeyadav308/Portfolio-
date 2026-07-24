@@ -105,6 +105,13 @@ function bodyScrollingToggle() {
     const filterContainer = document.querySelector(".portfolio-filter"),
         portfolioItemsContainer = document.querySelector(".portfolio-items"),
         portfolioItems = document.querySelectorAll(".portfolio-item");
+    popup = document.querySelector(".portfolio-popup"),
+        prevBtn = popup.querySelector(".pp-prev"),
+        nextBtn = popup.querySelector(".pp-next"),
+        closeBtn = popup.querySelector(".pp-close"),
+        projectDetailsContainer = popup.querySelector(".pp-details"),
+        projectDetailsBtn = popup.querySelector(".pp-project-details-btn");
+    let itemIndex, slideIndex, screenshots;
 
     // portfolio items
     filterContainer.addEventListener("click", (event) => {
@@ -125,6 +132,235 @@ function bodyScrollingToggle() {
             })
         }
     })
+
+    portfolioItemsContainer.addEventListener("click", (event) => {
+        if (event.target.closest(".portfolio-item-inner")) {
+            const portfolioItem = event.target.closest(".portfolio-item-inner").parentElement;
+            // portfolio item index
+            itemIndex = Array.from(portfolioItem.parentElement.children).indexOf(portfolioItem);
+            screenshots = portfolioItems[itemIndex].querySelector(".portfolio-item-img img").getAttribute("data-screenshots");
+            // convert screenshot into array
+            screenshots = screenshots.split(",");
+            if (screenshots.length === 1) {
+                prevBtn.style.display = "none";
+                nextBtn.style.display = "none";
+            } else {
+                prevBtn.style.display = "block";
+                nextBtn.style.display = "block";
+            }
+            slideIndex = 0;
+            popupToggle();
+            popupSlideshow();
+            popupDetails(portfolioItems[itemIndex]);
+        }
+    })
+
+    // added for personal projects showcase
+    const ppPopup = document.querySelector(".personal-project-popup");
+    const ppCloseBtn = document.querySelector(".ppp-close");
+
+    if (ppCloseBtn) {
+        ppCloseBtn.addEventListener("click", () => {
+            ppPopup.classList.remove("open");
+            if (document.body.classList.contains("hidden-scrolling")) {
+                bodyScrollingToggle();
+            }
+            if (window.lenis) window.lenis.start();
+        });
+    }
+
+    document.querySelector(".personal-projects").addEventListener("click", (event) => {
+        if (event.target.closest(".timeline-item-inner") && (event.target.closest(".portfolio-item-img") || event.target.classList.contains("view-project"))) {
+            const item = event.target.closest(".timeline-item-inner");
+            
+            // Get data attributes
+            const title = item.querySelector("h3").innerText;
+            const role = item.getAttribute("data-role") || "Concept";
+            const type = item.getAttribute("data-type") || "Project";
+            const intro = item.getAttribute("data-intro") || "Detail introduction about the project goes here.";
+            const design = item.getAttribute("data-design") || "Details about the design process go here.";
+            const performance = item.getAttribute("data-performance") || "Details about the final performance go here.";
+            const link = item.getAttribute("data-link") || "#";
+            
+            // Get screenshots
+            const imgEl = item.querySelector(".portfolio-item-img img");
+            let screenshots = [];
+            if (imgEl && imgEl.hasAttribute("data-screenshots")) {
+                screenshots = imgEl.getAttribute("data-screenshots").split(",");
+            } else if (imgEl && imgEl.src) {
+                screenshots = [imgEl.src];
+            }
+
+            // Populate popup
+            if (ppPopup) {
+                ppPopup.querySelector(".ppp-title").innerText = title;
+                ppPopup.querySelector(".ppp-role").innerText = role;
+                ppPopup.querySelector(".ppp-type").innerText = type;
+                
+                ppPopup.querySelector(".ppp-intro-text").innerText = intro;
+                ppPopup.querySelector(".ppp-design-text").innerText = design;
+                ppPopup.querySelector(".ppp-performance-text").innerText = performance;
+                
+                if (link && link !== "#") {
+                    ppPopup.querySelector(".ppp-live-link").href = link;
+                    ppPopup.querySelector(".ppp-live-link").classList.remove("hide");
+                } else {
+                    ppPopup.querySelector(".ppp-live-link").classList.add("hide");
+                }
+
+                // Populate featured image (Side-by-Side)
+                const featuredImage = ppPopup.querySelector(".ppp-featured-image");
+                if (screenshots && screenshots.length > 0) {
+                    featuredImage.querySelector(".ppp-featured-img-after").src = screenshots[0];
+                    featuredImage.querySelector(".ppp-featured-img-before").src = screenshots.length > 1 ? screenshots[1] : screenshots[0];
+                    featuredImage.classList.remove("hide");
+                } else {
+                    featuredImage.classList.add("hide");
+                }
+
+                // Populate images grid
+                const gridItems = ppPopup.querySelectorAll(".ppp-grid-item");
+                const imageGrid = ppPopup.querySelector(".ppp-image-grid");
+                
+                if (screenshots && screenshots.length > 0) {
+                    imageGrid.classList.remove("hide");
+                    gridItems.forEach((item, index) => {
+                        // Cycle through screenshots if there are fewer screenshots than grid items
+                        const screenshotIndex = index % screenshots.length;
+                        item.querySelector("img").src = screenshots[screenshotIndex];
+                        item.classList.remove("hide");
+                    });
+                } else {
+                    imageGrid.classList.add("hide");
+                }
+
+                // Reset image scales
+                ppPopup.querySelectorAll(".ppp-img").forEach(img => {
+                    img.style.transform = "scale(1.25)";
+                });
+
+                // Open Popup
+                ppPopup.classList.add("open");
+                if (window.lenis) window.lenis.stop();
+                bodyScrollingToggle();
+            }
+        }
+    });
+
+    // Smooth scroll zoom effect inside the popup
+    if (ppPopup) {
+        ppPopup.addEventListener("scroll", () => {
+            requestAnimationFrame(() => {
+                const images = ppPopup.querySelectorAll(".ppp-img");
+                const viewHeight = window.innerHeight;
+                
+                images.forEach(img => {
+                    const rect = img.getBoundingClientRect();
+                    
+                    // If image is visible in the viewport
+                    if (rect.top <= viewHeight && rect.bottom >= 0) {
+                        // Calculate scroll progress through the image
+                        let progress = 1 - (rect.bottom / (viewHeight + rect.height));
+                        progress = Math.max(0, Math.min(1, progress));
+                        
+                        // Zoom out from 1.25 to 1.00 as user scrolls past it
+                        const scale = 1.25 - (0.25 * progress);
+                        img.style.transform = `scale(${scale})`;
+                    }
+                });
+            });
+        });
+    }
+
+    closeBtn.addEventListener("click", () => {
+        popupToggle();
+        if (projectDetailsContainer.classList.contains("active")) {
+            popupDetailsToggle();
+        }
+
+    })
+
+    function popupToggle() {
+        popup.classList.toggle("open");
+        bodyScrollingToggle();
+        if (popup.classList.contains("open")) {
+            if (window.lenis) window.lenis.stop();
+            popup.scrollTop = 0;
+        } else {
+            if (window.lenis) window.lenis.start();
+        }
+    }
+
+    function popupSlideshow() {
+        const imgSrc = screenshots[slideIndex];
+        const popupImg = popup.querySelector(".pp-img");
+        //activate preloader
+        popup.querySelector(".pp-loader").classList.add("active");
+        popupImg.src = imgSrc;
+        popupImg.onload = () => {
+            // deactivate loader
+            popup.querySelector(".pp-loader").classList.remove("active");
+        }
+        popup.querySelector(".pp-counter").innerHTML = (slideIndex + 1) + " of " + screenshots.length;
+    }
+
+    // next slide
+    nextBtn.addEventListener("click", () => {
+        if (slideIndex === screenshots.length - 1) {
+            slideIndex = 0;
+        } else {
+            slideIndex++;
+        }
+        popupSlideshow();
+    })
+
+    // prev slide
+    prevBtn.addEventListener("click", () => {
+        if (slideIndex === 0) {
+            slideIndex = screenshots.length - 1;
+        } else {
+            slideIndex--;
+        }
+        popupSlideshow();
+    })
+
+    function popupDetails(item) {
+        let currentItem = item || portfolioItems[itemIndex];
+        // if no project details
+        if (!currentItem.querySelector(".portfolio-items-details")) {
+            projectDetailsBtn.style.display = "none";
+            return;
+        }
+        projectDetailsBtn.style.display = "block";
+        // project details
+        const details = currentItem.querySelector(".portfolio-items-details").innerHTML;
+        popup.querySelector(".pp-project-details").innerHTML = details;
+        const title = currentItem.querySelector(".portfolio-item-title") ? 
+                      currentItem.querySelector(".portfolio-item-title").innerHTML :
+                      currentItem.querySelector("h3").innerHTML;
+        popup.querySelector(".pp-title h2").innerHTML = title;
+        const category = currentItem.getAttribute("data-category") || "personal-project";
+        popup.querySelector(".pp-project-category").innerHTML = category.split("-").join(" ");
+    }
+
+    projectDetailsBtn.addEventListener("click", () => {
+        popupDetailsToggle();
+    })
+
+    function popupDetailsToggle() {
+        if (projectDetailsContainer.classList.contains("active")) {
+            projectDetailsBtn.querySelector("i").classList.remove("fa-minus");
+            projectDetailsBtn.querySelector("i").classList.add("fa-plus");
+            projectDetailsContainer.classList.remove("active");
+            projectDetailsContainer.style.maxHeight = 0 + "px";
+        } else {
+            projectDetailsBtn.querySelector("i").classList.remove("fa-plus");
+            projectDetailsBtn.querySelector("i").classList.add("fa-minus");
+            projectDetailsContainer.classList.add("active");
+            projectDetailsContainer.style.maxHeight = projectDetailsContainer.scrollHeight + "px";
+            popup.scrollTo(0, projectDetailsContainer.offsetTop);
+        }
+    }
 
 })();
 
@@ -228,7 +464,7 @@ window.addEventListener("scroll", () => {
     const trackBounds = scrollTrack.getBoundingClientRect();
     const stickyHeight = scrollSticky.offsetHeight;
     const scrollContentWidth = blueprintTimeline.scrollWidth;
-    const viewportWidth = 1140; // Restrict calculation to container width
+    const viewportWidth = window.innerWidth < 1140 ? window.innerWidth : 1140; // Dynamically calculate for mobile
 
     // Calculate progress (0 to 1) based on vertical scroll within the track
     let progress = -trackBounds.top / (trackBounds.height - stickyHeight);
@@ -467,17 +703,19 @@ window.addEventListener("scroll", () => {
 /* =========================================================
    Initialize Lenis for Smooth Scrolling
 ========================================================= */
-const lenis = new Lenis({
+window.lenis = new Lenis({
     duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     smoothWheel: true,
     wheelMultiplier: 1,
     touchMultiplier: 2,
+    prevent: (node) => node.closest('[data-lenis-prevent]') !== null,
 });
 
 function raf(time) {
-    lenis.raf(time);
+    window.lenis.raf(time);
     requestAnimationFrame(raf);
 }
 
 requestAnimationFrame(raf);
+
