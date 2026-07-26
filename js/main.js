@@ -172,7 +172,7 @@ function bodyScrollingToggle() {
     document.querySelector(".personal-projects").addEventListener("click", (event) => {
         if (event.target.closest(".timeline-item-inner") && (event.target.closest(".portfolio-item-img") || event.target.classList.contains("view-project"))) {
             const item = event.target.closest(".timeline-item-inner");
-            
+
             // Get data attributes
             const title = item.querySelector("h3").innerText;
             const role = item.getAttribute("data-role") || "Concept";
@@ -181,7 +181,7 @@ function bodyScrollingToggle() {
             const design = item.getAttribute("data-design") || "Details about the design process go here.";
             const performance = item.getAttribute("data-performance") || "Details about the final performance go here.";
             const link = item.getAttribute("data-link") || "#";
-            
+
             // Get screenshots
             const imgEl = item.querySelector(".portfolio-item-img img");
             let screenshots = [];
@@ -196,11 +196,11 @@ function bodyScrollingToggle() {
                 ppPopup.querySelector(".ppp-title").innerText = title;
                 ppPopup.querySelector(".ppp-role").innerText = role;
                 ppPopup.querySelector(".ppp-type").innerText = type;
-                
+
                 ppPopup.querySelector(".ppp-intro-text").innerText = intro;
                 ppPopup.querySelector(".ppp-design-text").innerText = design;
                 ppPopup.querySelector(".ppp-performance-text").innerText = performance;
-                
+
                 if (link && link !== "#") {
                     ppPopup.querySelector(".ppp-live-link").href = link;
                     ppPopup.querySelector(".ppp-live-link").classList.remove("hide");
@@ -221,7 +221,7 @@ function bodyScrollingToggle() {
                 // Populate images grid
                 const gridItems = ppPopup.querySelectorAll(".ppp-grid-item");
                 const imageGrid = ppPopup.querySelector(".ppp-image-grid");
-                
+
                 if (screenshots && screenshots.length > 0) {
                     imageGrid.classList.remove("hide");
                     gridItems.forEach((item, index) => {
@@ -253,16 +253,16 @@ function bodyScrollingToggle() {
             requestAnimationFrame(() => {
                 const images = ppPopup.querySelectorAll(".ppp-img");
                 const viewHeight = window.innerHeight;
-                
+
                 images.forEach(img => {
                     const rect = img.getBoundingClientRect();
-                    
+
                     // If image is visible in the viewport
                     if (rect.top <= viewHeight && rect.bottom >= 0) {
                         // Calculate scroll progress through the image
                         let progress = 1 - (rect.bottom / (viewHeight + rect.height));
                         progress = Math.max(0, Math.min(1, progress));
-                        
+
                         // Zoom out from 1.25 to 1.00 as user scrolls past it
                         const scale = 1.25 - (0.25 * progress);
                         img.style.transform = `scale(${scale})`;
@@ -335,9 +335,9 @@ function bodyScrollingToggle() {
         // project details
         const details = currentItem.querySelector(".portfolio-items-details").innerHTML;
         popup.querySelector(".pp-project-details").innerHTML = details;
-        const title = currentItem.querySelector(".portfolio-item-title") ? 
-                      currentItem.querySelector(".portfolio-item-title").innerHTML :
-                      currentItem.querySelector("h3").innerHTML;
+        const title = currentItem.querySelector(".portfolio-item-title") ?
+            currentItem.querySelector(".portfolio-item-title").innerHTML :
+            currentItem.querySelector("h3").innerHTML;
         popup.querySelector(".pp-title h2").innerHTML = title;
         const category = currentItem.getAttribute("data-category") || "personal-project";
         popup.querySelector(".pp-project-category").innerHTML = category.split("-").join(" ");
@@ -413,30 +413,49 @@ window.addEventListener("load", () => {
 
     const icon = themeBtn.querySelector("i");
 
-    // Check local storage for theme preference
-    if (localStorage.getItem("theme") !== null) {
-        if (localStorage.getItem("theme") === "dark") {
+    function toggleTheme(theme) {
+        if (theme === "dark") {
             document.body.classList.add("dark");
+            localStorage.setItem("theme", "dark");
             icon.classList.remove("fa-moon");
             icon.classList.add("fa-sun");
         } else {
             document.body.classList.remove("dark");
+            localStorage.setItem("theme", "light");
             icon.classList.remove("fa-sun");
             icon.classList.add("fa-moon");
         }
     }
 
-    themeBtn.addEventListener("click", () => {
-        document.body.classList.toggle("dark");
-        if (document.body.classList.contains("dark")) {
-            localStorage.setItem("theme", "dark");
-            icon.classList.remove("fa-moon");
-            icon.classList.add("fa-sun");
+    // Check local storage for theme preference
+    if (localStorage.getItem("theme") !== null) {
+        if (localStorage.getItem("theme") === "dark") {
+            toggleTheme("dark");
         } else {
-            localStorage.setItem("theme", "light");
-            icon.classList.remove("fa-sun");
-            icon.classList.add("fa-moon");
+            toggleTheme("light");
         }
+    }
+
+    themeBtn.addEventListener("click", () => {
+        const isDark = document.body.classList.contains("dark");
+        const nextTheme = isDark ? "light" : "dark";
+
+        if (!document.startViewTransition) {
+            toggleTheme(nextTheme);
+            return;
+        }
+
+        document.documentElement.classList.add(`switching-to-${nextTheme}`);
+        document.documentElement.classList.add('theme-transitioning');
+        
+        const transition = document.startViewTransition(() => {
+            toggleTheme(nextTheme);
+        });
+
+        transition.finished.finally(() => {
+            document.documentElement.classList.remove(`switching-to-${nextTheme}`);
+            document.documentElement.classList.remove('theme-transitioning');
+        });
     });
 });
 
@@ -486,7 +505,7 @@ window.addEventListener("scroll", () => {
     timelineItems.forEach((item, index) => {
         const itemCenter = item.offsetLeft + (item.offsetWidth / 2);
         const marker = markers[index];
-        
+
         // Trigger marker when its center point reaches the center of the viewport
         if (horizontalScrollPos + (viewportWidth / 2) >= itemCenter) {
             if (marker) marker.classList.add("active");
@@ -514,16 +533,16 @@ window.addEventListener("scroll", () => {
 // Side-by-Side Image Slider (Smooth Lerp Hover Effect)
 (() => {
     const sliders = document.querySelectorAll(".sbs-slider-container");
-    
+
     sliders.forEach(slider => {
         const beforeImageWrapper = slider.querySelector(".sbs-image-before");
         const handle = slider.querySelector(".sbs-handle");
-        
+
         // Target values set by mouse
         let targetPercentage = 50;
         // Current rendered values
         let currentPercentage = 50;
-        
+
         function setTarget(e) {
             let x;
             if (e.type.includes("touch")) {
@@ -531,14 +550,14 @@ window.addEventListener("scroll", () => {
             } else {
                 x = e.clientX - slider.getBoundingClientRect().left;
             }
-            
+
             const width = slider.offsetWidth;
             if (x < 0) x = 0;
             if (x > width) x = width;
-            
+
             targetPercentage = (x / width) * 100;
         }
-        
+
         slider.addEventListener("mousemove", setTarget);
         slider.addEventListener("touchmove", setTarget, { passive: true });
 
@@ -546,7 +565,7 @@ window.addEventListener("scroll", () => {
         function animate() {
             // Lerp factor (higher is sharper, lower is floatier)
             currentPercentage += (targetPercentage - currentPercentage) * 0.15;
-            
+
             // Round slightly to stop infinite floating math
             if (Math.abs(targetPercentage - currentPercentage) < 0.01) {
                 currentPercentage = targetPercentage;
@@ -557,10 +576,10 @@ window.addEventListener("scroll", () => {
             beforeImageWrapper.style.clipPath = `inset(0% ${rightInset}% 0% 0%)`;
             beforeImageWrapper.style.webkitClipPath = `inset(0% ${rightInset}% 0% 0%)`;
             handle.style.left = currentPercentage + "%";
-            
+
             requestAnimationFrame(animate);
         }
-        
+
         // Start animation loop
         animate();
 
@@ -572,14 +591,14 @@ window.addEventListener("scroll", () => {
                 }
             });
         }, { threshold: 0 }); // trigger as soon as it totally leaves the screen
-        
+
         observer.observe(slider);
     });
 })();
 /* =========================================================
    Neumorphic Clock Logic
 ========================================================= */
-(function() {
+(function () {
     function initClocks() {
         const wrappers = document.querySelectorAll('.neumorphic-clock-wrapper');
         if (wrappers.length === 0) return;
@@ -587,7 +606,7 @@ window.addEventListener("scroll", () => {
         wrappers.forEach(wrapper => {
             const ticksContainer = wrapper.querySelector('.clock-update-ticks');
             const numbersContainer = wrapper.querySelector('.clock-numbers');
-            
+
             // Generate Ticks
             if (ticksContainer) {
                 ticksContainer.innerHTML = '';
@@ -609,12 +628,12 @@ window.addEventListener("scroll", () => {
                     const num = document.createElement('div');
                     num.className = 'num';
                     num.style.transform = `rotate(${i * 30}deg)`;
-                    
+
                     const innerNum = document.createElement('span');
                     innerNum.className = 'num-inner';
                     innerNum.textContent = i;
                     innerNum.style.transform = `rotate(${-i * 30}deg)`;
-                    
+
                     num.appendChild(innerNum);
                     numbersContainer.appendChild(num);
                 }
@@ -678,7 +697,7 @@ window.addEventListener("scroll", () => {
         const wrapperTop = rect.top;
         const wrapperHeight = rect.height;
         const windowHeight = window.innerHeight;
-        
+
         // Progress goes from 0 to 1 as the sticky container scrolls
         let progress = 0;
         if (wrapperTop <= 0) {
@@ -689,7 +708,7 @@ window.addEventListener("scroll", () => {
         }
 
         const wordsToReveal = Math.floor(progress * wordSpans.length);
-        
+
         wordSpans.forEach((span, index) => {
             if (index < wordsToReveal) {
                 span.classList.add('active');
@@ -718,4 +737,26 @@ function raf(time) {
 }
 
 requestAnimationFrame(raf);
+
+/* =========================================================
+   Diamond Grid Background Animation
+========================================================= */
+(() => {
+    const gridBg = document.getElementById('diamondGridBg');
+    if (!gridBg) return;
+
+    const gridContainer = document.createElement('div');
+    gridContainer.classList.add('grid-container');
+
+    // Number of tiles to generate (enough to cover rotated 250vw/vh)
+    const numTiles = 1000;
+
+    for (let i = 0; i < numTiles; i++) {
+        const tile = document.createElement('div');
+        tile.classList.add('diamond-tile');
+        gridContainer.appendChild(tile);
+    }
+
+    gridBg.appendChild(gridContainer);
+})();
 

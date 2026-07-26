@@ -175,6 +175,90 @@ img {
     border-radius: 30px;
 }
 
+/* ---- Diamond Grid Background ---- */
+.diamond-grid-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 1; 
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1000px;
+    pointer-events: auto;
+    -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 60%);
+    mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 60%);
+}
+
+.diamond-grid-bg .grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 250vw;
+    height: 250vh;
+    transform: rotateX(60deg) rotateZ(-45deg);
+    transform-origin: center center;
+    justify-content: center;
+    align-content: center;
+    gap: 20px; 
+    pointer-events: auto;
+    margin-top: -15vh;
+    margin-left: 10vw;
+}
+
+.diamond-grid-bg .diamond-tile {
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+    background: transparent;
+    border: 2px solid var(--bg-black-100);
+    box-shadow: var(--outer-shadow);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.diamond-grid-bg .diamond-tile::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: var(--inner-shadow);
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.diamond-grid-bg .diamond-tile:hover {
+    box-shadow: var(--outer-shadow-0);
+    transform: translateY(5px);
+}
+
+.diamond-grid-bg .diamond-tile:hover::after {
+    opacity: 1;
+}
+
+/* Fix pointer events for background grid hover in home section */
+.home-section > .container,
+.home-section > .skills-slider-container,
+.home-section > .scroll-reveal-wrapper {
+    pointer-events: none;
+    position: relative;
+    z-index: 2;
+}
+.home-section > .effect-wrap {
+    pointer-events: none;
+}
+.home-section > .container .row > *,
+.home-section > .skills-slider-container *,
+.home-section > .scroll-reveal-wrapper * {
+    pointer-events: auto;
+}
+
 .effect-wrap .effect {
     position: absolute;
     z-index: -1;
@@ -2958,3 +3042,45 @@ img {
 .scroll-reveal-text .reveal-word.active {
     color: var(--text-black-900); /* Revealed color */
 }
+/* =========================================================
+   Theme Slide View Transitions
+========================================================= */
+/* Disable all CSS transitions during theme wipe to prevent extreme lag */
+html.theme-transitioning,
+html.theme-transitioning * {
+    transition: none !important;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: 0.6s;
+    animation-timing-function: cubic-bezier(0.85, 0, 0.15, 1);
+    mix-blend-mode: normal;
+}
+
+/* Switching to Dark: Slide Up */
+html.switching-to-dark::view-transition-old(root) {
+    animation: none;
+}
+html.switching-to-dark::view-transition-new(root) {
+    animation-name: wipe-up;
+    z-index: 2;
+}
+
+/* Switching to Light: Slide Down */
+html.switching-to-light::view-transition-old(root) {
+    animation: none;
+}
+html.switching-to-light::view-transition-new(root) {
+    animation-name: wipe-down;
+    z-index: 2;
+}
+
+@keyframes wipe-up {
+    from { clip-path: inset(100% 0 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+}
+@keyframes wipe-down {
+    from { clip-path: inset(0 0 100% 0); }
+    to { clip-path: inset(0 0 0 0); }
+}
