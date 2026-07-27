@@ -1,282 +1,307 @@
-@media(max-width: 990px) {
-
-    .portfolio-section .portfolio-item,
-    .service-section .service-item {
-        flex: 0 0 50%;
-        max-width: 50%;
-    }
+@media (max-width: 990px) {
+  .portfolio-section .portfolio-item,
+  .service-section .service-item {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
 }
 
-@media(max-width: 770px) {
+@media (max-width: 770px) {
+  .contact-section .w-50,
+  .contact-section .contact-item,
+  .portfolio-popup .description,
+  .portfolio-popup .info,
+  .portfolio-section .portfolio-item,
+  .service-section .service-item,
+  .about-section .skills .skill-item,
+  .about-section .about-info,
+  .about-section .about-img,
+  .home-section .home-text,
+  .home-section .home-img {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
 
-    .contact-section .w-50,
-    .contact-section .contact-item,
-    .portfolio-popup .description,
-    .portfolio-popup .info,
-    .portfolio-section .portfolio-item,
-    .service-section .service-item,
-    .about-section .skills .skill-item,
-    .about-section .about-info,
-    .about-section .about-img,
-    .home-section .home-text,
-    .home-section .home-img {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
+  .contact-section .submit-btn,
+  .home-section .home-text {
+    order: 2;
+    text-align: center;
+  }
 
-    .contact-section .submit-btn,
-    .home-section .home-text {
-        order: 2;
-        text-align: center;
-    }
+  .home-section .full-screen {
+    padding: 100px 0;
+  }
 
-    .home-section .full-screen {
-        padding: 100px 0;
-    }
+  .home-section .home-img .img-box {
+    margin-bottom: 40px;
+    max-width: 350px;
+  }
 
-    .home-section .home-img .img-box {
-        margin-bottom: 40px;
-        max-width: 350px;
-    }
+  .effect-3 {
+    margin-left: -150px;
+    /* Fix theme button overlap */
+  }
 
-    .effect-3 {
-        margin-left: -150px;
-        /* Fix theme button overlap */
-    }
+  .effect-4 {
+    left: 7%;
+  }
 
-    .effect-4 {
-        left: 7%;
-    }
+  .effect-5 {
+    right: 4%;
+  }
 
-    .effect-5 {
-        right: 4%;
-    }
+  .effect-one {
+    bottom: 35%;
+  }
 
-    .effect-one {
-        bottom: 35%;
-    }
+  .effect-two {
+    left: 24%;
+    bottom: 43%;
+  }
 
-    .effect-two {
-        left: 24%;
-        bottom: 43%;
-    }
+  .about-section .about-img {
+    padding-bottom: 30px;
+  }
 
-    .about-section .about-img {
-        padding-bottom: 30px;
-    }
+  .about-section .timeline .timeline-item:nth-child(odd) {
+    padding-right: 15px;
+    text-align: left;
+    padding-left: 75px;
+  }
 
-    .about-section .timeline .timeline-item:nth-child(odd) {
-        padding-right: 15px;
-        text-align: left;
-        padding-left: 75px;
-    }
+  .about-section .timeline .timeline-item:nth-child(even) {
+    padding-left: 75px;
+  }
 
-    .about-section .timeline .timeline-item:nth-child(even) {
-        padding-left: 75px;
-    }
+  .about-section .timeline::before {
+    left: 35px;
+  }
 
-    .about-section .timeline::before {
-        left: 35px;
-    }
+  .about-section .timeline .timeline-item:nth-child(odd) .icon {
+    right: auto;
+    left: -60px;
+  }
 
-    .about-section .timeline .timeline-item:nth-child(odd) .icon {
-        right: auto;
-        left: -60px;
-    }
+  .about-section .timeline .timeline-item:nth-child(even) .icon {
+    left: -60px;
+  }
 
-    .about-section .timeline .timeline-item:nth-child(even) .icon {
-        left: -60px;
-    }
+  .about-section .timeline .timeline-item {
+    margin-bottom: 40px;
+  }
 
-    .about-section .timeline .timeline-item {
-        margin-bottom: 40px;
-    }
+  .about-section .timeline .timeline-item:last-child {
+    margin-bottom: 0;
+  }
 
-    .about-section .timeline .timeline-item:last-child {
-        margin-bottom: 0;
-    }
-
-    .about-section .timeline .timeline-item:nth-child(odd) .timeline-item-inner::before {
-        left: -30px;
-        right: auto;
-    }
+  .about-section
+    .timeline
+    .timeline-item:nth-child(odd)
+    .timeline-item-inner::before {
+    left: -30px;
+    right: auto;
+  }
 }
 
-@media(max-width: 580px) {
-    .home-section .home-img .img-box {
-        max-width: 260px;
-    }
+@media (max-width: 580px) {
+  .home-section .home-img .img-box {
+    max-width: 260px;
+  }
 
-    .home-section .home-text h2 {
-        font-size: 40px;
-    }
+  .home-section .home-text h2 {
+    font-size: 40px;
+  }
 }
 
-@media(max-width: 991px) {
-    .horizontal-scroll-track {
-        height: 300vh !important;
-    }
+@media (max-width: 991px) {
+  .horizontal-scroll-track {
+    height: 300vh !important;
+  }
 
-    .timeline-row {
-        padding: 20px 30px 0 !important;
-    }
+  .timeline-row {
+    padding: 20px 30px 0 !important;
+  }
 }
 
 /* Fix timeline line positioning on tablets and mobile */
-@media(min-width: 768px) and (max-width: 991px) {
-    .timeline-main-line {
-        left: 255px !important;
-        /* 30px padding + 225px half-width */
-        width: 4800px !important;
-        /* same as desktop */
-    }
+@media (min-width: 768px) and (max-width: 991px) {
+  .timeline-main-line {
+    left: 255px !important;
+    /* 30px padding + 225px half-width */
+    width: 4800px !important;
+    /* same as desktop */
+  }
 }
 
-@media(max-width: 767px) {
-    .timeline-main-line {
-        left: 190px !important;
-        /* 30px padding + 160px half-width */
-        width: 2960px !important;
-        /* 8 intervals * 370px */
-    }
+@media (max-width: 767px) {
+  .timeline-main-line {
+    left: 190px !important;
+    /* 30px padding + 160px half-width */
+    width: 2960px !important;
+    /* 8 intervals * 370px */
+  }
 }
 
 /* Fix missing gap between scope cards on mobile and tablet */
-@media(max-width: 991px) {
-    .scope-column {
-        flex: 0 0 100% !important;
-        max-width: 100% !important;
-        margin-bottom: 30px !important;
-    }
+@media (max-width: 991px) {
+  .scope-column {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    margin-bottom: 30px !important;
+  }
 
-    .scope-column:last-child {
-        margin-bottom: 0 !important;
-    }
+  .scope-column:last-child {
+    margin-bottom: 0 !important;
+  }
 }
 
 /* Fix missing side padding on testimonials mobile view */
-@media(max-width: 991px) {
-    .testimonials {
-        padding: 0 15px !important;
-    }
+@media (max-width: 991px) {
+  .testimonials {
+    padding: 0 15px !important;
+  }
 }
 
 /* Home section mobile size adjustments */
-@media(max-width: 580px) {
-    .home-section .home-img .img-box {
-        max-width: 320px !important;
-        /* Make image section bigger */
-        padding: 15px !important;
-        /* Increase actual image size */
-    }
+@media (max-width: 580px) {
+  .home-section .home-img .img-box {
+    max-width: 320px !important;
+    /* Make image section bigger */
+    padding: 15px !important;
+    /* Increase actual image size */
+  }
 
-    .home-section .home-text h2 {
-        font-size: 32px !important;
-        /* Make text smaller */
-    }
+  .home-section .home-text h2 {
+    font-size: 32px !important;
+    /* Make text smaller */
+  }
 
-    .home-section .home-text h1 {
-        font-size: 16px !important;
-        line-height: 1.4;
-    }
+  .home-section .home-text h1 {
+    font-size: 16px !important;
+    line-height: 1.4;
+  }
 
-    .home-section .home-text p {
-        font-size: 14px !important;
-        margin-top: 10px;
-    }
+  .home-section .home-text p {
+    font-size: 14px !important;
+    margin-top: 10px;
+  }
 }
 
 /* Contact Section Mobile & Tablet Optimization */
-@media(max-width: 991px) {
-    .contact-section {
-        overflow-x: hidden !important;
-    }
+@media (max-width: 991px) {
+  .contact-section {
+    overflow-x: hidden !important;
+  }
 
-    .contact-section .container {
-        padding: 0 20px !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        box-sizing: border-box !important;
-    }
+  .contact-section .container {
+    padding: 0 20px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
 
-    .contact-section .row {
-        width: 100% !important;
-        margin: 0 !important;
-        justify-content: center !important;
-    }
+  .contact-section .row {
+    width: 100% !important;
+    margin: 0 !important;
+    justify-content: center !important;
+  }
 
-    .contact-section .contact-item,
-    .contact-section .w-50 {
-        flex: 0 0 100% !important;
-        max-width: 100% !important;
-        padding: 10px 0 !important;
-    }
+  .contact-section .contact-item,
+  .contact-section .w-50 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    padding: 10px 0 !important;
+  }
 
-    .contact-section .contact-item-inner {
-        width: 100% !important;
-        box-sizing: border-box !important;
-    }
+  .contact-section .contact-item-inner {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
 
-    .contact-section .contact-form {
-        margin-top: 30px !important;
-        padding: 0 !important;
-    }
+  .contact-section .contact-form {
+    margin-top: 30px !important;
+    padding: 0 !important;
+  }
 
-    .contact-section .submit-btn {
-        padding: 0 !important;
-        margin-top: 15px !important;
-        text-align: center !important;
-    }
+  .contact-section .submit-btn {
+    padding: 0 !important;
+    margin-top: 15px !important;
+    text-align: center !important;
+  }
 
-    .contact-section .input-group {
-        width: 100% !important;
-    }
+  .contact-section .input-group {
+    width: 100% !important;
+  }
 }
 
 /* Clock Mobile Optimization */
-@media(max-width: 770px) and (min-width: 581px) {
-    .clock-analog-container {
-        transform: scale(0.85);
-        margin-top: -40px;
-        margin-bottom: -40px;
-    }
+@media (max-width: 770px) and (min-width: 581px) {
+  .clock-analog-container {
+    transform: scale(0.85);
+    margin-top: -40px;
+    margin-bottom: -40px;
+  }
 }
 
-@media(max-width: 580px) {
-    .clock-analog-container {
-        transform: scale(0.6);
-        margin-top: -100px;
-        margin-bottom: -100px;
-    }
+@media (max-width: 580px) {
+  .clock-analog-container {
+    transform: scale(0.6);
+    margin-top: -100px;
+    margin-bottom: -100px;
+  }
 }
 
-@media(max-width: 767px) {
+@media (max-width: 767px) {
+  /* Reduce portfolio slider size on mobile */
+  .ps-card.ps-mobile {
+    width: 100px !important;
+    height: 180px !important;
+  }
 
-    /* Reduce portfolio slider size on mobile */
-    .ps-card.ps-mobile {
-        width: 100px !important;
-        height: 180px !important;
-    }
+  /* Optimize diamond grid for mobile */
+  .diamond-grid-bg .diamond-tile {
+    width: 40px !important;
+    height: 40px !important;
+  }
 
-    /* Optimize diamond grid for mobile */
-    .diamond-grid-bg .diamond-tile {
-        width: 40px !important;
-        height: 40px !important;
-    }
+  /* Shift the diamond grid effect to the bottom left on mobile and reduce gap */
+  .diamond-grid-bg .grid-container {
+    gap: 10px !important;
+    -webkit-mask-image: radial-gradient(
+      ellipse at 20% 80%,
+      rgba(0, 0, 0, 1) 10%,
+      rgba(0, 0, 0, 0) 75%
+    ) !important;
+    mask-image: radial-gradient(
+      ellipse at 20% 80%,
+      rgba(0, 0, 0, 1) 10%,
+      rgba(0, 0, 0, 0) 75%
+    ) !important;
+  }
 
-    /* Shift the diamond grid effect to the bottom left on mobile and reduce gap */
-    .diamond-grid-bg .grid-container {
-        gap: 10px !important;
-        -webkit-mask-image: radial-gradient(ellipse at 20% 80%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 0) 75%) !important;
-        mask-image: radial-gradient(ellipse at 20% 80%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 0) 75%) !important;
-    }
-}
-
-.ps-card.ps-web {
+  .ps-card.ps-web {
     width: 225px !important;
     height: 180px !important;
-}
+  }
 
-.port-slider-container {
+  .port-slider-container {
     padding: 10px 0 30px !important;
+  }
+
+  .whatsapp-connect-row {
+    margin: 30px 0 !important;
+    padding: 30px 15px !important;
+  }
+  .whatsapp-mockup,
+  .whatsapp-text {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    padding: 15px 0 !important;
+  }
+  .whatsapp-text {
+    text-align: center !important;
+  }
+  .whatsapp-mockup img {
+    max-width: 90% !important;
+  }
 }
