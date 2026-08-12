@@ -498,6 +498,7 @@ img {
   height: 100%;
   position: absolute;
   z-index: -1;
+  border-radius: inherit;
 }
 
 .hover-in-shadow:hover:after {
@@ -3134,6 +3135,201 @@ html.theme-transitioning * {
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation-duration: 0.6s;
+}
+
+/* ================================================
+   PORTFOLIO INFINITE MARQUEE SLIDER
+   (same technique as home skills slider)
+   ================================================ */
+
+.portfolio-slider-row {
+  width: 100%;
+  margin-bottom: 60px;
+}
+
+/* Outer container — hides overflow and adds fade edges */
+.port-slider-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  padding: 20px 0 50px;
+}
+
+/* Faded edge gradients */
+.port-slider-container::before,
+.port-slider-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.port-slider-container::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg-black-50), transparent);
+}
+
+.port-slider-container::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg-black-50), transparent);
+}
+
+/* The scrolling track — display:flex, width:max-content */
+.port-slider-track {
+  display: flex;
+  width: max-content;
+  align-items: flex-end;
+}
+
+/* Each group animates independently — same as skills-slider-group */
+.port-slider-group {
+  display: flex;
+  gap: 20px;
+  padding-right: 20px;
+  flex-shrink: 0;
+  animation: portScrollSlider 40s linear infinite;
+  will-change: transform;
+}
+
+/* Hover pauses both groups */
+.port-slider-track:hover .port-slider-group {
+  animation-play-state: paused;
+}
+
+@keyframes portScrollSlider {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* === CARD BASE === */
+.ps-card {
+  position: relative;
+  flex-shrink: 0;
+  border-radius: 16px;
+  overflow: visible;
+  box-shadow: var(--outer-shadow);
+}
+
+/* Mobile card — narrow & tall (portrait) */
+.ps-card.ps-mobile {
+  width: 132px;
+  height: 240px;
+}
+
+/* Web card — wide & same height (landscape) */
+.ps-card.ps-web {
+  width: 300px;
+  height: 240px;
+}
+
+/* Image fills the card */
+.ps-card-img-wrap {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.ps-card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+
+/* Label sits below the card */
+.ps-label {
+  display: block;
+  position: absolute;
+  bottom: -30px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-black-600);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* ================================================
+   OLD SLIDER CLASSES — hidden
+   ================================================ */
+.portfolio-slider-item {
+  display: none;
+}
+
+.portfolio-slider-container {
+  display: none;
+}
+
+.portfolio-slider-wrapper {
+  display: none;
+}
+
+.portfolio-slider-track {
+  display: none;
+}
+
+/* ================================================
+   SCROLL REVEAL TEXT
+   ================================================ */
+.scroll-reveal-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.scroll-reveal-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.scroll-reveal-text {
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--text-black-300);
+  /* Unrevealed color */
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.scroll-reveal-text .reveal-word {
+  transition: color 0.1s ease;
+}
+
+.scroll-reveal-text .reveal-word.active {
+  color: var(--text-black-900);
+  /* Revealed color */
+}
+
+/* =========================================================
+   Theme Slide View Transitions
+========================================================= */
+/* Disable all CSS transitions during theme wipe to prevent extreme lag */
+html.theme-transitioning,
+html.theme-transitioning * {
+  transition: none !important;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.6s;
   animation-timing-function: cubic-bezier(0.85, 0, 0.15, 1);
   mix-blend-mode: normal;
 }
@@ -3176,4 +3372,79 @@ html.switching-to-light::view-transition-new(root) {
   to {
     clip-path: inset(0 0 0 0);
   }
+}
+
+
+/* Country Modal Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--bg-black-100);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* =========================================================
+   Qualifying Contact Form
+========================================================= */
+.form-section {
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+.w-100 {
+  width: 100%;
+  padding: 0 15px;
+}
+
+.form-section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-black-900);
+  margin-bottom: 20px;
+}
+
+.services-checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 15px;
+}
+
+.budget-radio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 15px;
+}
+
+.custom-selection-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 15px;
+  border-radius: 12px;
+  cursor: pointer;
+  background-color: transparent;
+  color: var(--text-black-700);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  user-select: none;
+  text-align: center;
+  margin: 0;
+}
+
+.custom-selection-btn.selected {
+  color: var(--skin-color);
+  font-weight: 600;
+}
+
+.visually-hidden {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
 }

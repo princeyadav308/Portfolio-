@@ -703,82 +703,257 @@ window.addEventListener("scroll", () => {
       }
     });
 
+    let activeTimezone = "Asia/Kolkata";
+    
+    // Store accumulated degrees to prevent snapping
+    let accHourDeg = null;
+    let accMinDeg = null;
+    let accSecDeg = null;
+    
+    function getClosestDegree(current, target) {
+      let diff = (target - current) % 360;
+      if (diff > 180) diff -= 360;
+      if (diff <= -180) diff += 360;
+      return current + diff;
+    }
+
     function updateClocks() {
-      const now = new Date();
+      // Get time in target timezone
+      const nowString = new Date().toLocaleString("en-US", { timeZone: activeTimezone });
+      const now = new Date(nowString);
+      
       let hours = now.getHours();
       let minutes = now.getMinutes();
       let seconds = now.getSeconds();
 
-      // Analog Hand Rotations
-      const hourDeg = (hours % 12) * 30 + minutes * 0.5;
-      const minuteDeg = minutes * 6 + seconds * 0.1;
-      const secondDeg = seconds * 6;
+      // Calculate absolute target degrees
+      const targetHourDeg = (hours % 12) * 30 + minutes * 0.5;
+      const targetMinDeg = minutes * 6 + seconds * 0.1;
+      const targetSecDeg = seconds * 6;
+
+      // Initialize on first run
+      if (accHourDeg === null) {
+        accHourDeg = targetHourDeg;
+        accMinDeg = targetMinDeg;
+        accSecDeg = targetSecDeg;
+      } else {
+        // Find shortest path to target degrees to animate correctly
+        accHourDeg = getClosestDegree(accHourDeg, targetHourDeg);
+        accMinDeg = getClosestDegree(accMinDeg, targetMinDeg);
+        accSecDeg = getClosestDegree(accSecDeg, targetSecDeg);
+      }
 
       wrappers.forEach((wrapper) => {
         const hourHand = wrapper.querySelector(".clock-update-hour");
         const minuteHand = wrapper.querySelector(".clock-update-minute");
         const secondHand = wrapper.querySelector(".clock-update-second");
 
-        if (hourHand) hourHand.style.transform = `rotate(${hourDeg}deg)`;
-        if (minuteHand) minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
-        if (secondHand) secondHand.style.transform = `rotate(${secondDeg}deg)`;
+        // Add small transition for normal ticking, overridden by CSS class during timezone change
+        if (hourHand) {
+            hourHand.style.transform = `rotate(${accHourDeg}deg)`;
+            if(!hourHand.style.transition) hourHand.style.transition = "transform 0.5s cubic-bezier(0.4, 2.08, 0.55, 0.44)";
+        }
+        if (minuteHand) {
+            minuteHand.style.transform = `rotate(${accMinDeg}deg)`;
+            if(!minuteHand.style.transition) minuteHand.style.transition = "transform 0.5s cubic-bezier(0.4, 2.08, 0.55, 0.44)";
+        }
+        if (secondHand) {
+            secondHand.style.transform = `rotate(${accSecDeg}deg)`;
+            if(!secondHand.style.transition) secondHand.style.transition = "transform 0.5s cubic-bezier(0.4, 2.08, 0.55, 0.44)";
+        }
       });
     }
 
     updateClocks();
     setInterval(updateClocks, 1000);
+
+    /* --- Country Selector Logic --- */
+    const defaultCountries = [
+      { name: 'Afghanistan', code: 'AF', tz: 'Asia/Kabul' },
+      { name: 'Åland Islands', code: 'AX', tz: 'Europe/Mariehamn' },
+      { name: 'Albania', code: 'AL', tz: 'Europe/Tirane' },
+      { name: 'Algeria', code: 'DZ', tz: 'Africa/Algiers' },
+      { name: 'American Samoa', code: 'AS', tz: 'Pacific/Pago_Pago' },
+      { name: 'Andorra', code: 'AD', tz: 'Europe/Andorra' },
+      { name: 'Angola', code: 'AO', tz: 'Africa/Luanda' },
+      { name: 'Australia', code: 'AU', tz: 'Australia/Sydney' },
+      { name: 'Austria', code: 'AT', tz: 'Europe/Vienna' },
+      { name: 'Belarus', code: 'BY', tz: 'Europe/Minsk' },
+      { name: 'China', code: 'CN', tz: 'Asia/Shanghai' },
+      { name: 'Cyprus', code: 'CY', tz: 'Asia/Nicosia' },
+      { name: 'Egypt', code: 'EG', tz: 'Africa/Cairo' },
+      { name: 'France', code: 'FR', tz: 'Europe/Paris' },
+      { name: 'Germany', code: 'DE', tz: 'Europe/Berlin' },
+      { name: 'India', code: 'IN', tz: 'Asia/Kolkata' },
+      { name: 'Indonesia', code: 'ID', tz: 'Asia/Jakarta' },
+      { name: 'Iran', code: 'IR', tz: 'Asia/Tehran' },
+      { name: 'Israel', code: 'IL', tz: 'Asia/Jerusalem' },
+      { name: 'Italy', code: 'IT', tz: 'Europe/Rome' },
+      { name: 'Japan', code: 'JP', tz: 'Asia/Tokyo' },
+      { name: 'Malaysia', code: 'MY', tz: 'Asia/Kuala_Lumpur' },
+      { name: 'Mauritius', code: 'MU', tz: 'Indian/Mauritius' },
+      { name: 'Netherlands', code: 'NL', tz: 'Europe/Amsterdam' },
+      { name: 'Norway', code: 'NO', tz: 'Europe/Oslo' },
+      { name: 'Philippines', code: 'PH', tz: 'Asia/Manila' },
+      { name: 'Qatar', code: 'QA', tz: 'Asia/Qatar' },
+      { name: 'Russia', code: 'RU', tz: 'Europe/Moscow' },
+      { name: 'Saudi Arabia', code: 'SA', tz: 'Asia/Riyadh' },
+      { name: 'Singapore', code: 'SG', tz: 'Asia/Singapore' },
+      { name: 'South Korea', code: 'KR', tz: 'Asia/Seoul' },
+      { name: 'Spain', code: 'ES', tz: 'Europe/Madrid' },
+      { name: 'Sweden', code: 'SE', tz: 'Europe/Stockholm' },
+      { name: 'Switzerland', code: 'CH', tz: 'Europe/Zurich' },
+      { name: 'Thailand', code: 'TH', tz: 'Asia/Bangkok' },
+      { name: 'Turkey', code: 'TR', tz: 'Europe/Istanbul' },
+      { name: 'United Arab Emirates', code: 'AE', tz: 'Asia/Dubai' },
+      { name: 'United Kingdom', code: 'GB', tz: 'Europe/London' },
+      { name: 'United States', code: 'US', tz: 'America/New_York' },
+      { name: 'Vietnam', code: 'VN', tz: 'Asia/Ho_Chi_Minh' }
+    ];
+
+    const toggleBtn = document.getElementById("country-toggle-btn");
+    const modal = document.getElementById("country-select-modal");
+    const closeModalBtn = document.getElementById("close-country-modal");
+    const backdrop = document.querySelector(".country-modal-backdrop");
+    const searchInput = document.getElementById("country-search-input");
+    const listContainer = document.getElementById("country-list-container");
+    const activeFlag = document.getElementById("active-country-flag");
+
+    let activeCountry = defaultCountries.find(c => c.code === 'IN');
+
+    function renderList(searchQuery = "") {
+      listContainer.innerHTML = "";
+      const filtered = defaultCountries.filter(c => c.name.toLowerCase().includes(searchQuery.toLowerCase()));
+      
+      if (filtered.length === 0) {
+        listContainer.innerHTML = `<div style="display:flex; height:150px; align-items:center; justify-content:center; font-size:14px; color:var(--text-black-700);">No countries found</div>`;
+        return;
+      }
+
+      filtered.forEach(country => {
+        const btn = document.createElement("button");
+        const isActive = activeCountry.code === country.code;
+        
+        btn.style.cssText = `
+            width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border: none; cursor: pointer; transition: background 0.2s;
+            background: ${isActive ? 'var(--bg-black-100)' : 'transparent'};
+        `;
+        
+        btn.onmouseover = () => btn.style.background = 'var(--bg-black-100)';
+        btn.onmouseout = () => btn.style.background = isActive ? 'var(--bg-black-100)' : 'transparent';
+
+        btn.innerHTML = `
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="width:24px; height:24px; border-radius:50%; overflow:hidden; border: 1px solid var(--bg-black-100);">
+              <img src="https://flagcdn.com/w160/${country.code.toLowerCase()}.png" alt="${country.code}" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <span style="font-size:14px; font-weight:500; color:${isActive ? 'var(--text-black-900)' : 'var(--text-black-700)'};">${country.name}</span>
+          </div>
+          ${isActive ? '<i class="fas fa-check" style="color:var(--text-black-900); font-size:14px;"></i>' : ''}
+        `;
+
+        btn.addEventListener("click", () => {
+          activeCountry = country;
+          activeFlag.src = `https://flagcdn.com/w160/${country.code.toLowerCase()}.png`;
+          activeTimezone = country.tz;
+          
+          // Add transition class for smooth long spin
+          wrappers.forEach(w => {
+              w.querySelectorAll(".clock-hand").forEach(h => {
+                  h.style.transition = "transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)";
+              });
+          });
+          
+          updateClocks();
+          
+          // Reset transition back to normal tick after long spin
+          setTimeout(() => {
+              wrappers.forEach(w => {
+                  w.querySelectorAll(".clock-hand").forEach(h => {
+                      h.style.transition = "transform 0.5s cubic-bezier(0.4, 2.08, 0.55, 0.44)";
+                  });
+              });
+          }, 1500);
+
+          closeModal();
+        });
+
+        listContainer.appendChild(btn);
+      });
+    }
+
+    function openModal() {
+      modal.classList.remove("hide");
+      // Small delay to allow display:block to apply before animating opacity
+      setTimeout(() => {
+        modal.style.opacity = "1";
+        modal.style.pointerEvents = "auto";
+        const dialog = modal.querySelector(".country-modal-dialog");
+        if(dialog) dialog.style.transform = "scale(1)";
+        searchInput.focus();
+        searchInput.value = "";
+        renderList();
+      }, 10);
+    }
+
+    function closeModal() {
+      modal.style.opacity = "0";
+      modal.style.pointerEvents = "none";
+      const dialog = modal.querySelector(".country-modal-dialog");
+      if(dialog) dialog.style.transform = "scale(0.96)";
+      
+      setTimeout(() => {
+        modal.classList.add("hide");
+      }, 300);
+    }
+
+    if (toggleBtn) toggleBtn.addEventListener("click", openModal);
+    if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
+    if (backdrop) backdrop.addEventListener("click", closeModal);
+    if (searchInput) searchInput.addEventListener("input", (e) => renderList(e.target.value));
+
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    initClocks();
-  });
-})();
-
-/* =========================================================
-   Scroll Reveal Text Animation
-========================================================= */
-(() => {
-  const wrapper = document.querySelector(".scroll-reveal-wrapper");
-  const revealText = document.querySelector("#scroll-reveal-text");
-  if (!wrapper || !revealText) return;
-
-  // Split text into words
-  const text = revealText.innerText;
-  const words = text.split(" ");
-  revealText.innerHTML = "";
-  words.forEach((word) => {
-    const span = document.createElement("span");
-    span.innerText = word + " ";
-    span.classList.add("reveal-word");
-    revealText.appendChild(span);
-  });
-
-  const wordSpans = revealText.querySelectorAll(".reveal-word");
-
-  window.addEventListener("scroll", () => {
-    const rect = wrapper.getBoundingClientRect();
-    const wrapperTop = rect.top;
-    const wrapperHeight = rect.height;
-    const windowHeight = window.innerHeight;
-
-    // Progress goes from 0 to 1 as the sticky container scrolls
-    let progress = 0;
-    if (wrapperTop <= 0) {
-      const scrollDistance = -wrapperTop;
-      const totalScrollable = wrapperHeight - windowHeight;
-      progress = scrollDistance / totalScrollable;
-      progress = Math.max(0, Math.min(1, progress));
-    }
-
-    const wordsToReveal = Math.floor(progress * wordSpans.length);
-
-    wordSpans.forEach((span, index) => {
-      if (index < wordsToReveal) {
-        span.classList.add("active");
-      } else {
-        span.classList.remove("active");
+    /* Qualifying Contact Form Custom Inputs */
+    const customBtns = document.querySelectorAll('.custom-selection-btn');
+    customBtns.forEach(btn => {
+      const input = btn.querySelector('input');
+      
+      // Prevent click on input bubbling twice if clicking label
+      input.addEventListener('click', (e) => e.stopPropagation());
+      
+      // Update initial state
+      if (input.checked) {
+        btn.classList.add('inner-shadow', 'selected');
+        btn.classList.remove('outer-shadow', 'hover-in-shadow');
       }
+
+      input.addEventListener('change', () => {
+        // Handle radio buttons group reset
+        if (input.type === 'radio') {
+          const groupBtns = document.querySelectorAll(`input[name="${input.name}"]`);
+          groupBtns.forEach(radio => {
+            const parentBtn = radio.closest('.custom-selection-btn');
+            if (parentBtn && radio !== input) {
+              parentBtn.classList.remove('inner-shadow', 'selected');
+              parentBtn.classList.add('outer-shadow', 'hover-in-shadow');
+            }
+          });
+        }
+
+        // Apply state for the clicked element
+        if (input.checked) {
+          btn.classList.add('inner-shadow', 'selected');
+          btn.classList.remove('outer-shadow', 'hover-in-shadow');
+        } else {
+          btn.classList.remove('inner-shadow', 'selected');
+          btn.classList.add('outer-shadow', 'hover-in-shadow');
+        }
+      });
     });
+
+    initClocks();
   });
 })();
 
@@ -821,4 +996,62 @@ requestAnimationFrame(raf);
   }
 
   gridBg.appendChild(gridContainer);
+})();
+
+/* =========================================================
+   Scroll Reveal Text Animation (Sticky Pinning)
+========================================================= */
+(() => {
+  const scrollRevealElements = document.querySelectorAll('.scroll-reveal-text');
+  
+  if (scrollRevealElements.length === 0) return;
+
+  scrollRevealElements.forEach((el) => {
+    const text = el.innerText;
+    el.innerHTML = '';
+    const words = text.trim().split(/\s+/);
+    
+    words.forEach((word) => {
+      const span = document.createElement('span');
+      span.className = 'reveal-word';
+      span.innerText = word;
+      el.appendChild(span);
+      el.appendChild(document.createTextNode(' '));
+    });
+
+    const spans = el.querySelectorAll('.reveal-word');
+    const container = el.closest('.intro-text-section');
+
+    const updateReveal = () => {
+      let progress = 0;
+      
+      if (container) {
+        const rect = container.getBoundingClientRect();
+        const scrollableDistance = rect.height - window.innerHeight;
+        const scrolled = -rect.top;
+        progress = scrolled / scrollableDistance;
+      } else {
+        const rect = el.getBoundingClientRect();
+        const startReveal = window.innerHeight;
+        const endReveal = window.innerHeight / 2;
+        progress = (startReveal - rect.top) / (startReveal - endReveal);
+      }
+      
+      progress = Math.max(0, Math.min(1, progress));
+      
+      const numActive = Math.floor(progress * spans.length);
+      
+      spans.forEach((span, index) => {
+        if (index < numActive) {
+          span.classList.add('active');
+        } else {
+          span.classList.remove('active');
+        }
+      });
+    };
+
+    window.addEventListener('scroll', updateReveal);
+    window.addEventListener('resize', updateReveal);
+    updateReveal();
+  });
 })();

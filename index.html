@@ -39,7 +39,7 @@
     <!-- header -->
     <header class="header">
         <div class="container">
-            <div class="row justify-content-between ">
+            <div class="row justify-content-between">
                 <div class="logo">
                     <a href="index.html">P</a>
                 </div>
@@ -209,13 +209,11 @@
             </div>
         </div>
         <!-- (home section continues to hold about section) -->
-
-        <!-- Scroll Reveal Text Section -->
-        <div class="scroll-reveal-wrapper" style="height: 150vh; margin-top: 50px;">
-            <div class="scroll-reveal-sticky"
-                style="position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; z-index: 1;">
+        <!-- Introductory Text Section (Pinned) -->
+        <div class="intro-text-section" id="intro-text" style="height: 300vh; position: relative;">
+            <div class="sticky-container" style="position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 15px;">
                 <div class="container">
-                    <h2 class="scroll-reveal-text" id="scroll-reveal-text">
+                    <h2 class="scroll-reveal-text" style="font-weight: 600; max-width: 1000px; margin: 0 auto;">
                         From idea to launch. Clean, scalable digital products built to move fast, stay simple, and
                         perform in real-world use, driven by clarity, structured systems, and intentional design.
                     </h2>
@@ -1895,12 +1893,12 @@
                             img/portfolio img/large/project-13/6.webp,
                             img/portfolio img/large/project-13/7.webp,
                             img/portfolio img/large/project-13/8.webp">
-                            <span class=" view-project ">view project</span>
+                            <span class="view-project">view project</span>
                         </div>
-                        <p class="portfolio-item-title ">Furniture Website</p>
+                        <p class="portfolio-item-title">Furniture Website</p>
                         <!-- portfolio items details -->
                         <div class="portfolio-items-details">
-                            <div class="row ">
+                            <div class="row">
                                 <div class="description">
                                     <h3>Project Brief:</h3>
                                     <p>This is a Furniture website named 'Luxury Furnitures'. Located in Lonavala. They
@@ -1938,12 +1936,12 @@
                             img/portfolio img/large/project-14/7.webp,
                             img/portfolio img/large/project-14/8.webp,
                             img/portfolio img/large/project-14/9.webp">
-                            <span class=" view-project ">view project</span>
+                            <span class="view-project">view project</span>
                         </div>
-                        <p class="portfolio-item-title ">College Website</p>
+                        <p class="portfolio-item-title">College Website</p>
                         <!-- portfolio items details -->
                         <div class="portfolio-items-details">
-                            <div class="row ">
+                            <div class="row">
                                 <div class="description">
                                     <h3>Project Brief:</h3>
                                     <p>This is Online College Admission Management System Website. This is a fully
@@ -1977,12 +1975,12 @@
                             img/portfolio img/large/project-15/2.webp,
                             img/portfolio img/large/project-15/3.webp,
                             img/portfolio img/large/project-15/4.webp">
-                            <span class=" view-project ">view project</span>
+                            <span class="view-project">view project</span>
                         </div>
-                        <p class="portfolio-item-title ">Water Purifier Website</p>
+                        <p class="portfolio-item-title">Water Purifier Website</p>
                         <!-- portfolio items details -->
                         <div class="portfolio-items-details">
-                            <div class="row ">
+                            <div class="row">
                                 <div class="description">
                                     <h3>Project Brief:</h3>
                                     <p>This is a Water Purification Maintenance and Service Website. They maintain the
@@ -2014,12 +2012,12 @@
                             img/portfolio img/large/project-16/3.webp,
                             img/portfolio img/large/project-16/4.webp,
                             img/portfolio img/large/project-16/5.webp">
-                            <span class=" view-project ">view project</span>
+                            <span class="view-project">view project</span>
                         </div>
-                        <p class="portfolio-item-title ">Construction Website</p>
+                        <p class="portfolio-item-title">Construction Website</p>
                         <!-- portfolio items details -->
                         <div class="portfolio-items-details">
-                            <div class="row ">
+                            <div class="row">
                                 <div class="description">
                                     <h3>Project Brief:</h3>
                                     <p>SIDDHIVINAYAK CONSULTANTS is a Project Management Consultancy firm set up by Team
@@ -2047,23 +2045,23 @@
                 <!-- portfolit 17 -->
                 <div class="portfolio-item" data-category="web-application">
                     <div class="portfolio-item-inner outer-shadow">
-                        <div class="portfolio-item-img ">
+                        <div class="portfolio-item-img">
                             <img loading="lazy" src="img/portfolio img/thumb/20.webp " defer alt=" "
                                 data-screenshots="img/portfolio img/large/project-17/1.webp, img/portfolio img/large/project-17/2.webp, img/portfolio img/large/project-17/3.webp, img/portfolio img/large/project-17/4.webp ">
-                            <span class=" view-project ">view project</span>
+                            <span class="view-project">view project</span>
                         </div>
-                        <p class="portfolio-item-title ">GYM Website</p>
+                        <p class="portfolio-item-title">GYM Website</p>
                         <!-- portfolio items details -->
-                        <div class="portfolio-items-details ">
-                            <div class="row ">
-                                <div class="description ">
+                        <div class="portfolio-items-details">
+                            <div class="row">
+                                <div class="description">
                                     <h3>Project Brief:</h3>
                                     <p>Gymnast is a gym website in Navi-Mumbai and It is one of the best gym in this
                                         locality. They have best trainer and supporting staff. They provide them with
                                         gym schedul and workout program.
                                     </p>
                                 </div>
-                                <div class="info ">
+                                <div class="info">
                                     <h3>Project info</h3>
                                     <ul>
                                         <li>Date - <span>2022</span></li>
@@ -2093,7 +2091,38 @@
 
     <!-- contact section -->
 
-    <section class="contact-section section " id="contact" style="position: relative;">
+    <section class="contact-section section" id="contact" style="position: relative; overflow: hidden;">
+        <!-- Neumorphic Background Elements -->
+        <div class="contact-bg-decor" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;">
+            
+            <!-- 1. Top Left Circle -->
+            <div class="bg-circle" style="position: absolute; top: -5%; left: -2%; width: 350px; height: 350px; border-radius: 50%; box-shadow: var(--outer-shadow); background: var(--bg-black-50);">
+                <div style="position: absolute; top: 30px; left: 30px; right: 30px; bottom: 30px; border-radius: 50%; box-shadow: var(--inner-shadow); background: var(--bg-black-50);"></div>
+            </div>
+            
+            <!-- 2. Top Right Circle -->
+            <div class="bg-circle" style="position: absolute; top: 5%; right: -5%; width: 250px; height: 250px; border-radius: 50%; box-shadow: var(--outer-shadow); background: var(--bg-black-50);">
+                <div style="position: absolute; top: 20px; left: 20px; right: 20px; bottom: 20px; border-radius: 50%; box-shadow: var(--inner-shadow); background: var(--bg-black-50);"></div>
+            </div>
+
+            <!-- 3. Middle Left Ring -->
+            <div class="bg-circle" style="position: absolute; top: 40%; left: 5%; width: 150px; height: 150px; border-radius: 50%; box-shadow: var(--outer-shadow); background: var(--bg-black-50);">
+                <div style="position: absolute; top: 20px; left: 20px; right: 20px; bottom: 20px; border-radius: 50%; box-shadow: var(--inner-shadow); background: var(--bg-black-50);"></div>
+            </div>
+
+            <!-- 4. Medium Floating Circle behind form -->
+            <div class="bg-circle" style="position: absolute; top: 60%; right: 15%; width: 200px; height: 200px; border-radius: 50%; box-shadow: var(--inner-shadow); background: var(--bg-black-50);"></div>
+
+            <!-- 5. Small Circles Scattered -->
+            <div class="bg-circle" style="position: absolute; top: 20%; left: 30%; width: 40px; height: 40px; border-radius: 50%; box-shadow: var(--outer-shadow); background: var(--bg-black-50);"></div>
+            <div class="bg-circle" style="position: absolute; top: 75%; left: 20%; width: 60px; height: 60px; border-radius: 50%; box-shadow: var(--outer-shadow); background: var(--bg-black-50);">
+                 <div style="position: absolute; top: 15px; left: 15px; right: 15px; bottom: 15px; border-radius: 50%; box-shadow: var(--outer-shadow); background: var(--bg-black-50);"></div>
+            </div>
+            <div class="bg-circle" style="position: absolute; top: 35%; right: 10%; width: 30px; height: 30px; border-radius: 50%; box-shadow: var(--inner-shadow); background: var(--bg-black-50);"></div>
+
+
+
+        </div>
         <div class="container">
             <div class="row">
                 <div class="section-title">
@@ -2103,8 +2132,8 @@
             <div class="row">
                 <!-- contact items -->
                 <div class="contact-item">
-                    <div class="contact-item-inner outer-shadow ">
-                        <i class="fas fa-phone "></i>
+                    <div class="contact-item-inner outer-shadow">
+                        <i class="fas fa-phone"></i>
                         <span>Phone</span>
                         <p>+91 84220 90696</p>
                     </div>
@@ -2112,8 +2141,8 @@
                 <!-- contact item end -->
                 <!-- contact items -->
                 <div class="contact-item">
-                    <div class="contact-item-inner outer-shadow ">
-                        <i class="fas fa-envelope "></i>
+                    <div class="contact-item-inner outer-shadow">
+                        <i class="fas fa-envelope"></i>
                         <span>Email</span>
                         <p>princeyadav308@gmail.com</p>
                     </div>
@@ -2121,8 +2150,8 @@
                 <!-- contact item end -->
                 <!-- contact items -->
                 <div class="contact-item">
-                    <div class="contact-item-inner outer-shadow ">
-                        <i class="fas fa-map-marker-alt "></i> <span>Address</span>
+                    <div class="contact-item-inner outer-shadow">
+                        <i class="fas fa-map-marker-alt"></i> <span>Address</span>
                         <p>Bhoomi Lawns, Kalyan Shilphata-Road, 421203, Mumbai, Maharashtra</p>
                     </div>
                 </div>
@@ -2158,29 +2187,113 @@
 
             <div class="row">
                 <div class="contact-form">
-                    <form name="submit-to-google-sheet">
+                    <form name="submit-to-google-sheet" id="qualifying-contact-form">
                         <div class="row">
-                            <div class="w-50 ">
-                                <div class="input-group outer-shadow hover-in-shadow">
-                                    <input type="text" required name="Name" placeholder="Name" class="input-control">
-                                </div>
-                                <div class="input-group outer-shadow hover-in-shadow">
-                                    <input type="email" required name="Email" placeholder="Email" class="input-control">
-                                </div>
-                                <div class="input-group outer-shadow hover-in-shadow">
-                                    <input type="number" required name="Number" placeholder="Number"
-                                        class="input-control">
+                            <!-- Step 1: Services (Checkboxes) -->
+                            <div class="w-100 form-section">
+                                <h3 class="form-section-title">What services are you looking for?</h3>
+                                <div class="services-checkbox-grid">
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="checkbox" name="Service_WebDev" value="Web Dev" class="visually-hidden">
+                                        <span>Web Dev</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="checkbox" name="Service_UIUX" value="UI/UX Design" class="visually-hidden">
+                                        <span>UI/UX Design</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="checkbox" name="Service_SaaS" value="SaaS Architecture" class="visually-hidden">
+                                        <span>SaaS Architecture</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="checkbox" name="Service_AI" value="AI Integration" class="visually-hidden">
+                                        <span>AI Integration</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="checkbox" name="Service_MVP" value="MVP Creation" class="visually-hidden">
+                                        <span>MVP Creation</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="checkbox" name="Service_Redesign" value="Website Redesign" class="visually-hidden">
+                                        <span>Website Redesign</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="checkbox" name="Service_Cloud" value="Cloud Infrastructure" class="visually-hidden">
+                                        <span>Cloud Infrastructure</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="checkbox" name="Service_Cyber" value="Cyber Resilience" class="visually-hidden">
+                                        <span>Cyber Resilience</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="checkbox" name="Service_Data" value="Data Orchestration" class="visually-hidden">
+                                        <span>Data Orchestration</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="checkbox" name="Service_Automation" value="Process Automation" class="visually-hidden">
+                                        <span>Process Automation</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="checkbox" name="Service_Performance" value="Performance Evolution" class="visually-hidden">
+                                        <span>Performance Evolution</span>
+                                    </label>
                                 </div>
                             </div>
-                            <div class="w-50 ">
-                                <div class="input-group outer-shadow hover-in-shadow">
-                                    <textarea name="Message" placeholder="Message" class="input-control"></textarea>
+
+                            <!-- Step 2: Budget (Radios) -->
+                            <div class="w-100 form-section">
+                                <h3 class="form-section-title">What is your project budget?</h3>
+                                <div class="budget-radio-grid">
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="radio" name="Budget" value="< $1k" class="visually-hidden" required>
+                                        <span>&lt; $1k</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="radio" name="Budget" value="$1k - $5k" class="visually-hidden">
+                                        <span>$1k - $5k</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="radio" name="Budget" value="$5k - $10k" class="visually-hidden">
+                                        <span>$5k - $10k</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="radio" name="Budget" value="$10k - $25k" class="visually-hidden">
+                                        <span>$10k - $25k</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="radio" name="Budget" value="$25k+" class="visually-hidden">
+                                        <span>$25k+</span>
+                                    </label>
                                 </div>
                             </div>
+
+                            <!-- Step 3: Contact Details -->
+                            <div class="w-100 form-section">
+                                <h3 class="form-section-title">Tell me about yourself & the project</h3>
+                                <div class="row">
+                                    <div class="w-50">
+                                        <div class="input-group outer-shadow hover-in-shadow">
+                                            <input type="text" required name="Name" placeholder="Full Name" class="input-control">
+                                        </div>
+                                        <div class="input-group outer-shadow hover-in-shadow">
+                                            <input type="email" required name="Email" placeholder="Email Address" class="input-control">
+                                        </div>
+                                        <div class="input-group outer-shadow hover-in-shadow">
+                                            <input type="text" required name="Location" placeholder="Project Location (City, Country)" class="input-control">
+                                        </div>
+                                    </div>
+                                    <div class="w-50">
+                                        <div class="input-group outer-shadow hover-in-shadow" style="height: 100%;">
+                                            <textarea required name="Message" placeholder="Tell me a little bit about your project... What are the goals? Who is it for?" class="input-control" style="height: calc(100% - 30px); resize: none;"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
                         <div class="row">
-                            <div class="submit-btn">
-                                <button class="btn-1 outer-shadow hover-in-shadow" type="submit">Send Message</button>
+                            <div class="submit-btn" style="width: 100%; text-align: center; margin-top: 20px;">
+                                <button class="btn-1 outer-shadow hover-in-shadow" type="submit" style="padding: 15px 40px; font-size: 18px;">Submit Inquiry</button>
                             </div>
                         </div>
                         <span id="msg"></span>
@@ -2219,6 +2332,44 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Country Selection Toggle -->
+                    <div class="country-toggle-container" style="display: flex; justify-content: center; margin-top: 30px;">
+                        <button id="country-toggle-btn" class="country-toggle-btn outer-shadow hover-in-shadow" style="display: flex; items-center; gap: 8px; border-radius: 50px; padding: 6px 12px; border: none; background: transparent; cursor: pointer; align-items: center; justify-content: center;">
+                            <div class="country-flag-wrapper" style="width: 24px; height: 24px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                                <img src="https://flagcdn.com/w160/in.png" alt="IN" id="active-country-flag" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <i class="fas fa-chevron-down toggle-chevron" style="font-size: 14px; color: var(--text-black-700);"></i>
+                        </button>
+                    </div>
+
+                    <!-- Country Select Modal -->
+                    <div id="country-select-modal" class="country-modal-overlay hide" style="position: fixed; inset: 0; z-index: 998; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;">
+                        <!-- Backdrop -->
+                        <div class="country-modal-backdrop" style="position: absolute; inset: 0; background: rgba(0,0,0,0.2); backdrop-filter: blur(2px);"></div>
+                        
+                        <!-- Dialog -->
+                        <div class="country-modal-dialog" style="position: relative; z-index: 999; width: 100%; max-width: 400px; max-height: 520px; height: fit-content; background: var(--bg-black-50); border-radius: 28px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); transform: scale(0.96); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); border: 1px solid var(--bg-black-100);">
+                            <!-- Header -->
+                            <div class="country-modal-header" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 16px 8px 16px;">
+                                <h2 style="font-size: 14px; font-weight: 500; color: var(--text-black-900); margin: 0; padding-left: 4px;">Select your region</h2>
+                                <button id="close-country-modal" class="close-modal-btn" style="background: transparent; border: none; cursor: pointer; padding: 4px; color: var(--text-black-700); transition: color 0.2s;">
+                                    <i class="fas fa-times" style="font-size: 18px;"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Search -->
+                            <div class="country-modal-search" style="padding: 0 16px 12px 16px; position: relative;">
+                                <i class="fas fa-search search-icon" style="position: absolute; left: 28px; top: 12px; font-size: 14px; color: var(--text-black-700);"></i>
+                                <input type="text" id="country-search-input" placeholder="Search by country or region" style="width: 100%; border-radius: 12px; border: 1px solid var(--bg-black-100); background: var(--bg-black-50); padding: 10px 16px 10px 40px; font-size: 14px; color: var(--text-black-900); outline: none; transition: border-color 0.2s;">
+                            </div>
+                            
+                            <!-- List -->
+                            <div class="country-modal-list custom-scrollbar" id="country-list-container" data-lenis-prevent style="flex: 1; overflow-y: auto; padding-bottom: 16px; display: flex; flex-direction: column;">
+                                <!-- Countries will be populated by JS -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2238,16 +2389,16 @@
 
 
     <!-- portfolio popup -->
-    <div class="portfolio-popup " data-lenis-prevent>
-        <div class="pp-details ">
-            <div class="pp-details-inner ">
-                <div class="pp-title ">
+    <div class="portfolio-popup" data-lenis-prevent>
+        <div class="pp-details">
+            <div class="pp-details-inner">
+                <div class="pp-title">
                     <h2>personal protfolio</h2>
-                    <p>Category - <span class="pp-project-category ">Web Application</span></p>
+                    <p>Category - <span class="pp-project-category">Web Application</span></p>
                 </div>
-                <div class="pp-project-details ">
-                    <div class="row ">
-                        <div class="description ">
+                <div class="pp-project-details">
+                    <div class="row">
+                        <div class="description">
                             <h3>Project Brief:</h3>
                             <p>This is a restaurant website name foodies. They have every day special seciton which they
                                 daily update with special food items from this website you can order the best food in
@@ -2255,7 +2406,7 @@
                                 services by providing you healthy and delicious food in cheap price. They offer you door
                                 to door serives which is 100% free.</p>
                         </div>
-                        <div class="info ">
+                        <div class="info">
                             <h3>Project info</h3>
                             <ul>
                                 <li>Date - <span>2020</span></li>
@@ -2268,25 +2419,25 @@
             </div>
         </div>
 
-        <div class="separator "></div>
+        <div class="separator"></div>
 
-        <div class="pp-main ">
-            <div class="pp-main-inner ">
-                <div class="pp-project-details-btn outer-shadow hover-in-shadow ">
-                    Project Details <i class="fas fa-plus "></i>
+        <div class="pp-main">
+            <div class="pp-main-inner">
+                <div class="pp-project-details-btn outer-shadow hover-in-shadow">
+                    Project Details <i class="fas fa-plus"></i>
                 </div>
-                <div class="pp-close outer-shadow hover-in-shadow ">&times</div>
+                <div class="pp-close outer-shadow hover-in-shadow">&times</div>
                 <img loading="lazy" src="img/portfolio img/large/project-2/1.png " alt="img "
-                    class="pp-img outer-shadow ">
-                <div class="pp-counter ">1 of 5</div>
+                    class="pp-img outer-shadow">
+                <div class="pp-counter">1 of 5</div>
             </div>
 
-            <div class="pp-loader ">
+            <div class="pp-loader">
                 <div></div>
             </div>
             <!-- pp navigation -->
-            <div class="pp-prev "><i class="fas fa-play "></i></div>
-            <div class="pp-next "><i class="fas fa-play "></i></div>
+            <div class="pp-prev"><i class="fas fa-play"></i></div>
+            <div class="pp-next"><i class="fas fa-play"></i></div>
         </div>
     </div>
 
