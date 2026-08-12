@@ -434,12 +434,12 @@ if (form) {
 
     // Validate inputs to prevent code injection
     const formData = new FormData(form);
-    const badRegex = /[<>$;&|\\`]/;
+    const badRegex = /[>;&|\\`]/;
     for (let [key, value] of formData.entries()) {
       if (badRegex.test(value)) {
         msg.style.color = "#ff4a4a";
         msg.innerHTML =
-          "Error: Invalid characters (< > $ ; & | \\ \`) are not allowed.";
+          "Error: Invalid characters (> ; & | \\ \`) are not allowed.";
         setTimeout(() => {
           msg.innerHTML = "";
         }, 5000);
@@ -450,18 +450,62 @@ if (form) {
     // Reset color on success
     msg.style.color = "";
 
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn.innerHTML;
+    
+    // Set loading state
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    submitBtn.style.pointerEvents = 'none';
+    submitBtn.style.opacity = '0.7';
+
     fetch(scriptURL, {
       method: "POST",
       body: formData,
+      mode: "no-cors"
     })
       .then((response) => {
-        msg.innerHTML = "Thank you for Submitting!";
+        // Button Success State
+        submitBtn.innerHTML = '<i class="fas fa-check"></i> Sent Successfully';
+        submitBtn.style.color = '#10b981';
+        submitBtn.style.opacity = '1';
+        
+        // Beautiful Neumorphic Alert message
+        msg.innerHTML = "Your details have been successfully submitted. I will get back to you shortly!";
+        msg.className = "outer-shadow"; 
+        msg.style.display = "block";
+        msg.style.padding = "20px";
+        msg.style.marginTop = "30px";
+        msg.style.borderRadius = "10px";
+        msg.style.color = "#10b981";
+        msg.style.fontWeight = "600";
+        msg.style.textAlign = "center";
+        
         setTimeout(() => {
-          msg.innerHTML = "";
-        }, 5000);
+          msg.style.display = "none";
+          submitBtn.innerHTML = originalBtnText;
+          submitBtn.style.color = '';
+          submitBtn.style.pointerEvents = 'auto';
+        }, 6000);
+        
         form.reset();
+        
+        // Reset our custom Neumorphic selection buttons
+        document.querySelectorAll('.custom-selection-btn').forEach(btn => {
+            btn.classList.remove('selected', 'inner-shadow');
+            btn.classList.add('outer-shadow', 'hover-in-shadow');
+        });
       })
-      .catch((error) => console.error("Error!", error.message));
+      .catch((error) => {
+        console.error("Error!", error.message);
+        submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error';
+        submitBtn.style.color = '#ff4a4a';
+        setTimeout(() => {
+          submitBtn.innerHTML = originalBtnText;
+          submitBtn.style.color = '';
+          submitBtn.style.pointerEvents = 'auto';
+          submitBtn.style.opacity = '1';
+        }, 4000);
+      });
   });
 }
 
@@ -940,6 +984,35 @@ window.addEventListener("scroll", () => {
               parentBtn.classList.add('outer-shadow', 'hover-in-shadow');
             }
           });
+        }
+        
+        // Mutual exclusivity for Custom/Other service checkbox
+        if (input.type === 'checkbox' && input.name && input.name.startsWith('Service_')) {
+            if (input.name === 'Service_Custom' && input.checked) {
+                // Uncheck all other services
+                const otherServices = document.querySelectorAll('input[type="checkbox"][name^="Service_"]:not([name="Service_Custom"])');
+                otherServices.forEach(cb => {
+                    if (cb.checked) {
+                        cb.checked = false;
+                        const parent = cb.closest('.custom-selection-btn');
+                        if (parent) {
+                            parent.classList.remove('inner-shadow', 'selected');
+                            parent.classList.add('outer-shadow', 'hover-in-shadow');
+                        }
+                    }
+                });
+            } else if (input.name !== 'Service_Custom' && input.checked) {
+                // Uncheck Custom if another service is selected
+                const customCb = document.querySelector('input[type="checkbox"][name="Service_Custom"]');
+                if (customCb && customCb.checked) {
+                    customCb.checked = false;
+                    const parent = customCb.closest('.custom-selection-btn');
+                    if (parent) {
+                        parent.classList.remove('inner-shadow', 'selected');
+                        parent.classList.add('outer-shadow', 'hover-in-shadow');
+                    }
+                }
+            }
         }
 
         // Apply state for the clicked element
