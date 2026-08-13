@@ -531,6 +531,7 @@ window.addEventListener("load", () => {
   }
 
   // Check local storage for theme preference
+  /*
   if (localStorage.getItem("theme") !== null) {
     if (localStorage.getItem("theme") === "dark") {
       toggleTheme("dark");
@@ -538,6 +539,8 @@ window.addEventListener("load", () => {
       toggleTheme("light");
     }
   }
+  */
+  toggleTheme("light");
 
   themeBtn.addEventListener("click", () => {
     const isDark = document.body.classList.contains("dark");

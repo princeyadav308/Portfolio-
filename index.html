@@ -45,7 +45,7 @@
                 </div>
                 <div class="header-right" style="display: flex; align-items: center; gap: 15px;">
                     <div class="theme-btn outer-shadow hover-in-shadow"
-                        style="height: 40px; width: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; border-radius: 50%; font-size: 16px; color: var(--skin-color); transition: all 0.3s ease;">
+                        style="display: none; height: 40px; width: 40px; align-items: center; justify-content: center; cursor: pointer; border-radius: 50%; font-size: 16px; color: var(--skin-color); transition: all 0.3s ease;">
                         <i class="fas fa-moon"></i>
                     </div>
                     <div class="hamburger-btn outer-shadow hover-in-shadow">
@@ -75,9 +75,11 @@
     </div>
 
     <!-- home section -->
-    <section class="home-section section active" id="home">
+    <section class="home-section section active" id="home" style="position: relative;">
+        <!-- Wrap hero and slider to give them a solid background -->
+        <div class="hero-top-wrapper" style="background-color: var(--bg-black-50); position: relative; z-index: 1;">
         <!-- diamond grid background start -->
-        <div class="diamond-grid-bg" id="diamondGridBg"></div>
+        <div class="diamond-grid-bg" id="diamondGridBg" style="z-index: 0;"></div>
         <!-- diamond grid background end -->
         <!-- effect wrap start -->
         <div class="effect-wrap">
@@ -159,7 +161,7 @@
             </div>
         </div>
         <!-- effect wrap end -->
-        <div class="container">
+        <div class="container" style="position: relative; z-index: 2;">
             <div class="row full-screen align-items-center">
                 <div class="home-text">
                     <p style="margin-top: 10px; color: var(--text-black-600); font-weight: 500;">Hello,</p>
@@ -179,7 +181,7 @@
         </div>
 
         <!-- Skills Slider -->
-        <div class="skills-slider-container">
+        <div class="skills-slider-container" style="position: relative; z-index: 2;">
             <div class="skills-slider-track">
                 <div class="skills-slider-group">
                     <div class="skill-tag-slide"><i class="fas fa-check-circle"></i> UI UX</div>
@@ -207,6 +209,9 @@
                     <div class="skill-tag-slide"><i class="fas fa-check-circle"></i> MVP Development</div>
                 </div>
             </div>
+        </div>
+        <!-- Smooth fade into the shader background -->
+        <div class="hero-fade-out" style="position: absolute; top: 100%; left: 0; width: 100%; height: 250px; background: linear-gradient(to bottom, var(--bg-black-50) 0%, transparent 100%); pointer-events: none; z-index: 1;"></div>
         </div>
         <!-- (home section continues to hold about section) -->
         <!-- Introductory Text Section (Pinned) -->
@@ -1367,9 +1372,10 @@
 
 
     <!-- portfolio  -->
-    <section class="portfolio-section section" id="portfolio">
-        <div class="container">
-            <div class="row">
+    <section class="portfolio-section section" id="portfolio" style="position: relative; padding-top: 0;">
+        <div class="portfolio-top-wrapper" style="background-color: var(--bg-black-50); position: relative; z-index: 1; padding-top: 80px; padding-bottom: 20px;">
+            <div class="container">
+                <div class="row">
                 <div class="section-title">
                     <h2 data-heading="portfolio">Latest Works</h2>
                 </div>
@@ -1449,6 +1455,13 @@
                     </div>
                 </div>
             </div>
+            <!-- Close the container -->
+            </div>
+            <!-- Smooth fade into the shader background -->
+            <div class="portfolio-fade-out" style="position: absolute; top: 100%; left: 0; width: 100%; height: 250px; background: linear-gradient(to bottom, var(--bg-black-50) 0%, transparent 100%); pointer-events: none; z-index: 1;"></div>
+        </div>
+        
+        <div class="container" style="position: relative; z-index: 2; margin-top: 50px;">
             <!-- portfoilo filter -->
             <div class="row">
                 <div class="portfolio-filter">
@@ -2339,7 +2352,7 @@
                     
                     <!-- Country Selection Toggle -->
                     <div class="country-toggle-container" style="display: flex; justify-content: center; margin-top: 30px;">
-                        <button id="country-toggle-btn" class="country-toggle-btn outer-shadow hover-in-shadow" style="display: flex; items-center; gap: 8px; border-radius: 50px; padding: 6px 12px; border: none; background: transparent; cursor: pointer; align-items: center; justify-content: center;">
+                        <button id="country-toggle-btn" class="country-toggle-btn outer-shadow hover-in-shadow" style="display: flex; gap: 8px; border-radius: 50px; padding: 6px 12px; border: none; background: transparent; cursor: pointer; align-items: center; justify-content: center;">
                             <div class="country-flag-wrapper" style="width: 24px; height: 24px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center;">
                                 <img src="https://flagcdn.com/w160/in.png" alt="IN" id="active-country-flag" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
@@ -2545,6 +2558,7 @@
 
     <!-- main js -->
     <script src="js/main.js"></script>
+    <script src="js/axion-shader-bundle.iife.js"></script>
 </body>
 
 </html>
