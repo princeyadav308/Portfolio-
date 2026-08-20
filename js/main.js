@@ -1,7 +1,8 @@
 // navigation menu
 (() => {
-  const hamburgerBtn = document.querySelector(".hamburger-btn"),
-    navMenu = document.querySelector(".nav-menu"),
+  const hamburgerBtn = document.querySelector(".hamburger-btn");
+  if (!hamburgerBtn) return;
+  const navMenu = document.querySelector(".nav-menu"),
     closeNavBtn = navMenu.querySelector(".close-nav-menu");
 
   hamburgerBtn.addEventListener("click", showNavMenu);
@@ -75,6 +76,8 @@
   const aboutSection = document.querySelector(".about-section");
   tabsContainer = document.querySelector(".about-tab");
 
+  if (!tabsContainer) return;
+
   tabsContainer.addEventListener("click", (event) => {
     // if event.target contains 'tab-items'class and not contains 'active' class
 
@@ -108,8 +111,9 @@ function bodyScrollingToggle() {
 
 // portfolio
 (() => {
-  const filterContainer = document.querySelector(".portfolio-filter"),
-    portfolioItemsContainer = document.querySelector(".portfolio-items"),
+  const filterContainer = document.querySelector(".portfolio-filter");
+  if (!filterContainer) return;
+  const portfolioItemsContainer = document.querySelector(".portfolio-items"),
     portfolioItems = document.querySelectorAll(".portfolio-item");
   ((popup = document.querySelector(".portfolio-popup")),
     (prevBtn = popup.querySelector(".pp-prev")),
@@ -186,9 +190,9 @@ function bodyScrollingToggle() {
     });
   }
 
-  document
-    .querySelector(".personal-projects")
-    .addEventListener("click", (event) => {
+  const personalProjects = document.querySelector(".personal-projects");
+  if (personalProjects) {
+    personalProjects.addEventListener("click", (event) => {
       if (
         event.target.closest(".timeline-item-inner") &&
         (event.target.closest(".portfolio-item-img") ||
@@ -206,6 +210,12 @@ function bodyScrollingToggle() {
         const design =
           item.getAttribute("data-design") ||
           "Details about the design process go here.";
+        const goals =
+          item.getAttribute("data-goals") ||
+          "Details about the goals go here.";
+        const challenges =
+          item.getAttribute("data-challenges") ||
+          "Details about the challenges go here.";
         const performance =
           item.getAttribute("data-performance") ||
           "Details about the final performance go here.";
@@ -228,6 +238,8 @@ function bodyScrollingToggle() {
 
           ppPopup.querySelector(".ppp-intro-text").innerText = intro;
           ppPopup.querySelector(".ppp-design-text").innerText = design;
+          ppPopup.querySelector(".ppp-goals-text").innerHTML = goals;
+          ppPopup.querySelector(".ppp-challenges-text").innerHTML = challenges;
           ppPopup.querySelector(".ppp-performance-text").innerText =
             performance;
 
@@ -236,6 +248,16 @@ function bodyScrollingToggle() {
             ppPopup.querySelector(".ppp-live-link").classList.remove("hide");
           } else {
             ppPopup.querySelector(".ppp-live-link").classList.add("hide");
+          }
+
+          // Show slider only for Elite Gym
+          const sliderContainer = ppPopup.querySelector(".ppp-slider-container");
+          if (sliderContainer) {
+            if (title.toLowerCase().includes("elite gym")) {
+              sliderContainer.style.display = "block";
+            } else {
+              sliderContainer.style.display = "none";
+            }
           }
 
           // Populate featured image (Side-by-Side)
@@ -250,20 +272,47 @@ function bodyScrollingToggle() {
             featuredImage.classList.add("hide");
           }
 
-          // Populate images grid
+          // Dynamic image mapping for inline images and grid
           const gridItems = ppPopup.querySelectorAll(".ppp-grid-item");
           const imageGrid = ppPopup.querySelector(".ppp-image-grid");
+          const inlineImg1 = ppPopup.querySelector(".ppp-inline-img-1");
+          const inlineImg2 = ppPopup.querySelector(".ppp-inline-img-2");
 
-          if (screenshots && screenshots.length > 0) {
+          if (screenshots && screenshots.length > 2) {
             imageGrid.classList.remove("hide");
-            gridItems.forEach((item, index) => {
-              // Cycle through screenshots if there are fewer screenshots than grid items
-              const screenshotIndex = index % screenshots.length;
-              item.querySelector("img").src = screenshots[screenshotIndex];
-              item.classList.remove("hide");
-            });
+            const y = screenshots.slice(2);
+            
+            if (y.length >= 8) {
+              // We have enough images for 2 inline + 6 grid
+              if (inlineImg1) {
+                inlineImg1.querySelector("img").src = y[0];
+                inlineImg1.style.display = "block";
+              }
+              if (inlineImg2) {
+                inlineImg2.querySelector("img").src = y[1];
+                inlineImg2.style.display = "block";
+              }
+              
+              gridItems.forEach((item, index) => {
+                const imgIndex = 2 + (index % (y.length - 2));
+                item.querySelector("img").src = y[imgIndex];
+                item.classList.remove("hide");
+              });
+            } else {
+              // Not enough images, hide inline images, use all for grid
+              if (inlineImg1) inlineImg1.style.display = "none";
+              if (inlineImg2) inlineImg2.style.display = "none";
+              
+              gridItems.forEach((item, index) => {
+                const imgIndex = index % y.length;
+                item.querySelector("img").src = y[imgIndex];
+                item.classList.remove("hide");
+              });
+            }
           } else {
             imageGrid.classList.add("hide");
+            if (inlineImg1) inlineImg1.style.display = "none";
+            if (inlineImg2) inlineImg2.style.display = "none";
           }
 
           // Reset image scales
@@ -278,6 +327,7 @@ function bodyScrollingToggle() {
         }
       }
     });
+  }
 
   // Smooth scroll zoom effect inside the popup
   if (ppPopup) {

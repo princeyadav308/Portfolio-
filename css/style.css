@@ -2201,7 +2201,6 @@ body.loading .home-section .home-img .img-box {
   margin: 20px 0 60px;
   border-radius: 10px;
   padding: 15px;
-  background-color: var(--bg-black-50);
 }
 
 .personal-project-popup .ppp-featured-image.hide {
@@ -2219,7 +2218,6 @@ body.loading .home-section .home-img .img-box {
 .personal-project-popup .ppp-grid-item {
   border-radius: 10px;
   padding: 15px;
-  background-color: var(--bg-black-50);
 }
 
 .personal-project-popup .ppp-grid-item.hide {
@@ -2483,7 +2481,6 @@ body.loading .home-section .home-img .img-box {
   margin: 0 auto;
   border-radius: 10px;
   padding: 15px;
-  background-color: var(--bg-black-50);
   overflow: hidden;
   aspect-ratio: 16 / 9;
   max-height: 100vh;
