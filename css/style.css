@@ -1818,14 +1818,14 @@ body.loading .home-section .home-img .img-box {
 
 .sticky-title-wrapper {
   z-index: 10;
-  padding: 30px 0 0;
+  padding: 10px 0 0;
   /* Reduced top/bottom padding */
   width: 100%;
 }
 
 .sticky-title-wrapper .section-title {
-  margin-bottom: 60px;
-  margin-top: 80px;
+  margin-bottom: 30px;
+  margin-top: 30px;
 }
 
 .horizontal-timeline-container {
@@ -1855,12 +1855,12 @@ body.loading .home-section .home-img .img-box {
 
 .timeline-main-line {
   position: absolute;
-  top: 507px;
-  /* Vertically centered behind 60px markers (520px height - 30px radius) */
-  left: 570px;
+  top: 607px;
+  /* Vertically centered behind 60px markers */
+  left: 520px;
   /* Starts at the center of the first item (345px padding + 225px half-width) */
-  width: 4800px;
-  /* Spans to the center of the 9th item (8 intervals * 600px) */
+  width: 3150px;
+  /* Spans to the center of the 8th item (7 intervals * 450px) */
   height: 6px;
   background-color: var(--bg-black-100);
   box-shadow: var(--inner-shadow);
@@ -1884,9 +1884,9 @@ body.loading .home-section .home-img .img-box {
   /* Cards/Content at top */
   align-items: center;
   position: relative;
-  width: 450px;
-  margin-right: 150px;
-  height: 520px;
+  width: 350px;
+  margin-right: 100px;
+  height: 620px;
   /* Fixed height to keep line alignment consistent */
   justify-content: flex-end;
   /* Pushes content to the top (in reverse, start is bottom) */
@@ -1931,20 +1931,18 @@ body.loading .home-section .home-img .img-box {
   background-color: var(--glass-bg);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  padding: 50px 30px;
-  /* Matched service-item padding */
-  border-radius: 20px;
+  padding: 50px 15px;
+  border-radius: 5px;
   box-shadow: var(--outer-shadow), inset 0 0 0 1px var(--glass-border);
   width: 100%;
+  height: 540px; /* Set fixed height to make all cards perfectly even */
   margin-bottom: 30px;
   transition: all 0.3s ease;
   text-align: center;
-  /* Centered content like service items */
 }
 
 .timeline-content:hover {
-  box-shadow: var(--outer-shadow);
-  /* Keep outer shadow on hover but inner for icon */
+  /* Match service item which has no hover change for the container */
 }
 
 .timeline-content .icon {
@@ -1991,23 +1989,22 @@ body.loading .home-section .home-img .img-box {
 }
 
 .timeline-content h3 {
-  font-size: 22px;
-  color: var(--text-black-900);
-  margin-bottom: 10px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-black-700);
+  margin: 0 0 10px;
+  text-transform: capitalize;
 }
 
 .timeline-content p {
-  font-size: 15px;
+  font-size: 16px;
   color: var(--text-black-600);
-  line-height: 1.6;
+  margin: 0;
+  line-height: 26px;
 }
 
 .timeline-phase-card-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
+  display: none;
 }
 
 .timeline-phase-card {
@@ -2583,9 +2580,9 @@ body.loading .home-section .home-img .img-box {
 
 .engagement-item-inner,
 .commitment-item-inner {
-  padding: 40px 30px;
-  border-radius: 10px;
-  text-align: left;
+  padding: 50px 15px;
+  border-radius: 5px;
+  text-align: center;
   height: 100%;
   position: relative;
   overflow: hidden;
@@ -2610,22 +2607,19 @@ body.loading .home-section .home-img .img-box {
 
 .engagement-item-inner h3,
 .commitment-item-inner h3 {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--text-black-900);
-  margin-bottom: 15px;
-}
-
-.commitment-item-inner h3 {
   font-size: 20px;
+  font-weight: 600;
+  color: var(--text-black-700);
+  margin: 0 0 10px;
+  text-transform: capitalize;
 }
 
 .engagement-item-inner p,
 .commitment-item-inner p {
   font-size: 16px;
   color: var(--text-black-600);
+  margin: 0;
   line-height: 26px;
-  margin-bottom: 25px;
 }
 
 .engagement-tags {
@@ -2660,16 +2654,18 @@ body.loading .home-section .home-img .img-box {
 }
 
 .scope-box {
-  padding: 40px;
-  border-radius: 10px;
+  padding: 50px 15px;
+  border-radius: 5px;
   height: 100%;
+  text-align: center;
 }
 
 .scope-box h3 {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
-  color: var(--text-black-900);
-  margin-bottom: 25px;
+  color: var(--text-black-700);
+  margin: 0 0 10px;
+  text-transform: capitalize;
 }
 
 .scope-list {
@@ -3468,4 +3464,29 @@ body:has(.nav-menu.open) .fade-out-effect {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0s 0.3s;
+}
+
+/* Override inline styles for testimonials and process steps */
+.testimonial-item,
+.process-step {
+  padding: 50px 15px !important;
+  border-radius: 5px !important;
+  text-align: center !important;
+}
+
+.testimonial-item h3,
+.process-step h3 {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  color: var(--text-black-700) !important;
+  margin: 0 0 10px !important;
+  text-transform: capitalize !important;
+}
+
+.testimonial-item p,
+.process-step p {
+  font-size: 16px !important;
+  color: var(--text-black-600) !important;
+  margin: 0 !important;
+  line-height: 26px !important;
 }
