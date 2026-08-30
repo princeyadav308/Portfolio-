@@ -1818,14 +1818,14 @@ body.loading .home-section .home-img .img-box {
 
 .sticky-title-wrapper {
   z-index: 10;
-  padding: 10px 0 0;
-  /* Reduced top/bottom padding */
+  padding: 60px 0 0;
+  /* Increased top padding for better breathing room */
   width: 100%;
 }
 
 .sticky-title-wrapper .section-title {
-  margin-bottom: 30px;
-  margin-top: 30px;
+  margin-bottom: 50px; /* More space between title and timeline cards */
+  margin-top: 10px;
 }
 
 .horizontal-timeline-container {
@@ -1878,13 +1878,14 @@ body.loading .home-section .home-img .img-box {
   transition: width 0.1s linear;
 }
 
-#blueprint-timeline .timeline-item {
+.timeline-row .timeline-item {
   display: flex;
   flex-direction: column-reverse;
   /* Cards/Content at top */
   align-items: center;
   position: relative;
   width: 350px;
+  flex-shrink: 0;
   margin-right: 100px;
   height: 620px;
   /* Fixed height to keep line alignment consistent */
@@ -1894,7 +1895,7 @@ body.loading .home-section .home-img .img-box {
   /* Leave space for bottom-anchored marker */
 }
 
-#blueprint-timeline .timeline-item:last-child {
+.timeline-row .timeline-item:last-child {
   margin-right: 10vw;
 }
 
@@ -2040,7 +2041,7 @@ body.loading .home-section .home-img .img-box {
 
 /* Responsive Adjustments */
 @media (max-width: 767px) {
-  #blueprint-timeline .timeline-item {
+  .timeline-row .timeline-item {
     width: 320px;
     margin-right: 50px;
   }
@@ -3466,16 +3467,14 @@ body:has(.nav-menu.open) .fade-out-effect {
   transition: opacity 0.3s ease, visibility 0s 0.3s;
 }
 
-/* Override inline styles for testimonials and process steps */
-.testimonial-item,
-.process-step {
+/* Override inline styles for testimonials */
+.testimonial-item {
   padding: 50px 15px !important;
   border-radius: 5px !important;
   text-align: center !important;
 }
 
-.testimonial-item h3,
-.process-step h3 {
+.testimonial-item h3 {
   font-size: 20px !important;
   font-weight: 600 !important;
   color: var(--text-black-700) !important;
@@ -3483,8 +3482,29 @@ body:has(.nav-menu.open) .fade-out-effect {
   text-transform: capitalize !important;
 }
 
-.testimonial-item p,
-.process-step p {
+.testimonial-item p {
+  font-size: 16px !important;
+  color: var(--text-black-600) !important;
+  margin: 0 !important;
+  line-height: 26px !important;
+}
+
+/* Override inline styles for testimonials */
+.testimonial-item {
+  padding: 50px 15px !important;
+  border-radius: 5px !important;
+  text-align: center !important;
+}
+
+.testimonial-item h3 {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  color: var(--text-black-700) !important;
+  margin: 0 0 10px !important;
+  text-transform: capitalize !important;
+}
+
+.testimonial-item p {
   font-size: 16px !important;
   color: var(--text-black-600) !important;
   margin: 0 !important;

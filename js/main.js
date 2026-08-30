@@ -627,63 +627,66 @@ window.addEventListener("scroll", () => {
 
 // Timeline Progress Scroll Effect (Horizontal)
 window.addEventListener("scroll", () => {
-  const scrollTrack = document.querySelector(".horizontal-scroll-track");
-  const scrollSticky = document.querySelector(".horizontal-scroll-sticky");
-  const blueprintTimeline = document.querySelector("#blueprint-timeline");
-  if (!scrollTrack || !scrollSticky || !blueprintTimeline) return;
+  const scrollTracks = document.querySelectorAll(".horizontal-scroll-track");
+  
+  scrollTracks.forEach((scrollTrack) => {
+    const scrollSticky = scrollTrack.querySelector(".horizontal-scroll-sticky");
+    const timelineRow = scrollTrack.querySelector(".timeline-row");
+    if (!scrollSticky || !timelineRow) return;
 
-  const progressLine = document.querySelector(".timeline-progress-line");
-  const markers = document.querySelectorAll(".timeline-marker");
-  const timelineItems = document.querySelectorAll(".timeline-item");
+    const progressLine = scrollTrack.querySelector(".timeline-progress-line");
+    const markers = scrollTrack.querySelectorAll(".timeline-marker");
+    const timelineItems = scrollTrack.querySelectorAll(".timeline-item");
 
-  const trackBounds = scrollTrack.getBoundingClientRect();
-  const stickyHeight = scrollSticky.offsetHeight;
-  const scrollContentWidth = blueprintTimeline.scrollWidth;
-  const viewportWidth = window.innerWidth < 1140 ? window.innerWidth : 1140; // Dynamically calculate for mobile
+    const trackBounds = scrollTrack.getBoundingClientRect();
+    const stickyHeight = scrollSticky.offsetHeight;
+    const scrollContentWidth = timelineRow.scrollWidth;
+    const viewportWidth = window.innerWidth < 1140 ? window.innerWidth : 1140; // Dynamically calculate for mobile
 
-  // Calculate progress (0 to 1) based on vertical scroll within the track
-  let progress = -trackBounds.top / (trackBounds.height - stickyHeight);
-  progress = Math.max(0, Math.min(1, progress));
+    // Calculate progress (0 to 1) based on vertical scroll within the track
+    let progress = -trackBounds.top / (trackBounds.height - stickyHeight);
+    progress = Math.max(0, Math.min(1, progress));
 
-  // Horizontal translation of the timeline row
-  const maxTranslate = scrollContentWidth - viewportWidth;
-  if (maxTranslate > 0) {
-    blueprintTimeline.style.transform = `translateX(${-progress * maxTranslate}px)`;
-  }
-
-  // Update horizontal progress line width
-  if (progressLine) {
-    progressLine.style.width = progress * 100 + "%";
-  }
-
-  // Highlight markers and items based on horizontal scroll position
-  const horizontalScrollPos = progress * maxTranslate;
-  timelineItems.forEach((item, index) => {
-    const itemCenter = item.offsetLeft + item.offsetWidth / 2;
-    const marker = markers[index];
-
-    // Trigger marker when its center point reaches the center of the viewport
-    if (horizontalScrollPos + viewportWidth / 2 >= itemCenter) {
-      if (marker) marker.classList.add("active");
-      item.classList.add("in-view");
-    } else {
-      if (marker) marker.classList.remove("active");
-      item.classList.remove("in-view");
+    // Horizontal translation of the timeline row
+    const maxTranslate = scrollContentWidth - viewportWidth;
+    if (maxTranslate > 0) {
+      timelineRow.style.transform = `translateX(${-progress * maxTranslate}px)`;
     }
-  });
 
-  // Handle phase card scale/emphasis based on focus
-  const cards = document.querySelectorAll(".timeline-phase-card");
-  cards.forEach((card) => {
-    const bounds = card.getBoundingClientRect();
-    const center = viewportWidth / 2;
-    if (bounds.left < center + 100 && bounds.right > center - 100) {
-      card.style.transform = "scale(1.15)";
-      card.style.transition =
-        "transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
-    } else {
-      card.style.transform = "scale(1)";
+    // Update horizontal progress line width
+    if (progressLine) {
+      progressLine.style.width = progress * 100 + "%";
     }
+
+    // Highlight markers and items based on horizontal scroll position
+    const horizontalScrollPos = progress * maxTranslate;
+    timelineItems.forEach((item, index) => {
+      const itemCenter = item.offsetLeft + item.offsetWidth / 2;
+      const marker = markers[index];
+
+      // Trigger marker when its center point reaches the center of the viewport
+      if (horizontalScrollPos + viewportWidth / 2 >= itemCenter) {
+        if (marker) marker.classList.add("active");
+        item.classList.add("in-view");
+      } else {
+        if (marker) marker.classList.remove("active");
+        item.classList.remove("in-view");
+      }
+    });
+
+    // Handle phase card scale/emphasis based on focus
+    const cards = scrollTrack.querySelectorAll(".timeline-phase-card");
+    cards.forEach((card) => {
+      const bounds = card.getBoundingClientRect();
+      const center = viewportWidth / 2;
+      if (bounds.left < center + 100 && bounds.right > center - 100) {
+        card.style.transform = "scale(1.15)";
+        card.style.transition =
+          "transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
+      } else {
+        card.style.transform = "scale(1)";
+      }
+    });
   });
 });
 
