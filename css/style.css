@@ -3510,3 +3510,14 @@ body:has(.nav-menu.open) .fade-out-effect {
   margin: 0 !important;
   line-height: 26px !important;
 }
+
+/* Hide scrollbar completely for the RGB border effect */
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+* {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
