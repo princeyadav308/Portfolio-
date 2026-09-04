@@ -12,8 +12,8 @@
   --outer-shadow-0: 0 0 0 rgba(0, 0, 0, 0.15), 0 0 0 rgba(255, 255, 255, 0.8);
   --inner-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.15), inset -5px -5px 10px rgba(255, 255, 255, 0.8);
   --inner-shadow-0: inset 0 0 0 rgba(0, 0, 0, 0.15), inset 0 0 0 rgba(255, 255, 255, 0.8);
-  --glass-bg: rgba(255, 255, 255, 0.15);
-  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.02));
+  --glass-border: rgba(255, 255, 255, 0.18);
 }
 
 /* ---- Custom Scrollbar ---- */
@@ -108,6 +108,8 @@ body.dark {
   --outer-shadow-0: 0 0 0 #1d1f21, 0 0 0 #3d4347;
   --inner-shadow: inset 6px 6px 12px #1d1f21, inset -6px -6px 12px #3d4347;
   --inner-shadow-0: inset 0 0 0 #1d1f21, inset 0 0 0 #3d4347;
+  --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.01));
+  --glass-border: rgba(255, 255, 255, 0.1);
 }
 
 body {
@@ -175,16 +177,16 @@ img {
 
 .inner-shadow {
   box-shadow: var(--inner-shadow), inset 0 0 0 1px var(--glass-border);
-  background-color: var(--glass-bg);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: var(--glass-bg);
+  backdrop-filter: url(#lg) blur(10px) saturate(150%);
+  -webkit-backdrop-filter: url(#lg) blur(10px) saturate(150%);
 }
 
 .outer-shadow {
   box-shadow: var(--outer-shadow), inset 0 0 0 1px var(--glass-border);
-  background-color: var(--glass-bg);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: var(--glass-bg);
+  backdrop-filter: url(#lg) blur(10px) saturate(150%);
+  -webkit-backdrop-filter: url(#lg) blur(10px) saturate(150%);
 }
 
 .hover-in-shadow {
@@ -1929,9 +1931,9 @@ body.loading .home-section .home-img .img-box {
 }
 
 .timeline-content {
-  background-color: var(--glass-bg);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: var(--glass-bg);
+  backdrop-filter: url(#lg) blur(10px) saturate(150%);
+  -webkit-backdrop-filter: url(#lg) blur(10px) saturate(150%);
   padding: 50px 15px;
   border-radius: 5px;
   box-shadow: var(--outer-shadow), inset 0 0 0 1px var(--glass-border);
@@ -2009,9 +2011,9 @@ body.loading .home-section .home-img .img-box {
 }
 
 .timeline-phase-card {
-  background-color: var(--glass-bg);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: var(--glass-bg);
+  backdrop-filter: url(#lg) blur(10px) saturate(150%);
+  -webkit-backdrop-filter: url(#lg) blur(10px) saturate(150%);
   padding: 20px 30px;
   border-radius: 30px;
   box-shadow: var(--inner-shadow), inset 0 0 0 1px var(--glass-border);
@@ -3520,4 +3522,155 @@ body:has(.nav-menu.open) .fade-out-effect {
 * {
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
+}
+
+/* ---------------- Pricing Section (Discrete Carousel) ---------------- */
+.pricing-row {
+    justify-content: center;
+    gap: 32px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.pricing-item {
+    flex: 0 0 30%;
+    max-width: 380px;
+    margin-bottom: 30px;
+}
+.pricing-item-inner {
+    display: flex;
+    flex-direction: column;
+    padding: 40px 32px;
+    height: 100%;
+    border-radius: 12px;
+}
+.pricing-badge {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--skin-color);
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    z-index: 1;
+}
+.pricing-item-inner.popular {
+    position: relative;
+}
+.pricing-header h3 {
+    font-size: 24px;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+.pricing-header p {
+    font-size: 14px;
+    color: var(--text-black-600);
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+.pricing-price {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--bg-black-100);
+}
+.pricing-price h4 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--skin-color);
+    margin-bottom: 4px;
+}
+.pricing-price span {
+    font-size: 16px;
+    color: var(--text-black-600);
+    font-weight: 500;
+}
+.pricing-price .timeline {
+    font-size: 14px;
+    font-weight: 600;
+    display: block;
+    margin-top: 8px;
+    color: var(--text-black-700);
+}
+.pricing-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 32px 0;
+    flex-grow: 1;
+    text-align: left;
+}
+.pricing-features li {
+    margin-bottom: 12px;
+    font-size: 14px;
+    line-height: 1.5;
+    position: relative;
+    padding-left: 20px;
+    color: var(--text-black-700);
+}
+.pricing-features li::before {
+    content: "•";
+    color: var(--skin-color);
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.pricing-cta {
+    text-align: center;
+    margin-top: auto;
+}
+.pricing-note {
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-black-600);
+    font-style: italic;
+}
+
+/* Carousel Styles */
+.pricing-carousel-track {
+    position: relative;
+    height: 250vh; /* Perfectly balanced track height */
+    width: 100%;
+}
+.pricing-carousel-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    background: transparent;
+}
+.pricing-carousel {
+    display: flex;
+    width: 300%; 
+    flex-shrink: 0;
+    margin-left: 0;
+    transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+}
+.pricing-slide {
+    flex: 0 0 33.333333%;
+    width: 33.333333%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+.pricing-slide-content {
+    width: 100%;
+    max-width: 1200px;
+}
+
+@media (max-width: 991px) {
+    .pricing-item { flex: 0 0 45%; max-width: 480px; }
+}
+@media (max-width: 767px) {
+    .pricing-item { flex: 0 0 100%; max-width: 100%; }
 }

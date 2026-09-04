@@ -1184,3 +1184,37 @@ requestAnimationFrame(raf);
     updateReveal();
   });
 })();
+
+/* ---------------- Pricing Carousel ---------------- */
+document.addEventListener("DOMContentLoaded", () => {
+    const track = document.getElementById("pricing-track");
+    const carousel = document.getElementById("pricing-carousel");
+    
+    if (track && carousel) {
+        const handleScroll = () => {
+            const bounds = track.getBoundingClientRect();
+            const stickyHeight = window.innerHeight;
+            
+            // Calculate progress (0 to 1) based on vertical scroll within the track
+            let progress = -bounds.top / (bounds.height - stickyHeight);
+            progress = Math.max(0, Math.min(1, progress));
+            
+            // Discrete snapping logic: 
+            // First 1/3rd of the scroll = Slide 1
+            // Middle 1/3rd = Slide 2
+            // Last 1/3rd = Slide 3
+            let slideIndex = 0;
+            if (progress > 0.33 && progress <= 0.66) {
+                slideIndex = 1;
+            } else if (progress > 0.66) {
+                slideIndex = 2;
+            }
+            
+            carousel.style.transform = `translateX(-${slideIndex * 33.333333}%)`;
+        };
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        window.addEventListener("resize", handleScroll, { passive: true });
+        handleScroll();
+    }
+});

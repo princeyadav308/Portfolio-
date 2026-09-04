@@ -1177,7 +1177,7 @@
                     <div class="discovery-cta-strip">
                         <p style="font-size: 16px; color: var(--text-black-600); font-weight: 500; margin: 0;">Not sure
                             which fits your project?</p>
-                        <a href="#contact" class="btn-1 outer-shadow hover-in-shadow">Book a free 30-min Discovery Call
+                        <a href="#contact" class="link-item btn-1 outer-shadow hover-in-shadow">Book a free 30-min Discovery Call
                             &rarr;</a>
                     </div>
                 </div>
@@ -1323,108 +1323,438 @@
                 </div>
             </div>
 
-            <!-- Commitments Section -->
-            <div class="container services-subsection">
-                <div class="row">
-                    <div class="services-subsection-title">
-                        <h2 data-heading="Commitments">What you can count on</h2>
-                        <p>Concrete turnarounds so you're never left guessing on timelines or next steps.</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="commitment-item">
-                        <div class="commitment-item-inner outer-shadow">
-                            <h3>Design handoff</h3>
-                            <p>Figma files, component notes, and assets delivered with every milestone.</p>
-                            <span class="commitment-pill inner-shadow">Within 3 business days</span>
+            <!-- Pricing Section (Discrete Carousel) -->
+            <style>
+                .pricing-row {
+                    justify-content: center;
+                    gap: 32px;
+                    display: flex;
+                    flex-wrap: wrap;
+                }
+                .pricing-item {
+                    flex: 0 0 30%;
+                    max-width: 380px;
+                    margin-bottom: 30px;
+                }
+                .pricing-item-inner {
+                    display: flex;
+                    flex-direction: column;
+                    padding: 40px 32px;
+                    height: 100%;
+                    border-radius: 12px;
+                }
+                .pricing-badge {
+                    position: absolute;
+                    top: -15px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: var(--skin-color);
+                    color: #fff;
+                    padding: 5px 15px;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    z-index: 1;
+                }
+                .pricing-item-inner.popular {
+                    position: relative;
+                }
+                .pricing-header h3 {
+                    font-size: 24px;
+                    margin-bottom: 8px;
+                    font-weight: 700;
+                }
+                .pricing-header p {
+                    font-size: 14px;
+                    color: var(--text-black-600);
+                    margin-bottom: 24px;
+                    line-height: 1.5;
+                }
+                .pricing-price {
+                    margin-bottom: 24px;
+                    padding-bottom: 24px;
+                    border-bottom: 1px solid var(--bg-black-100);
+                }
+                .pricing-price h4 {
+                    font-size: 28px;
+                    font-weight: 700;
+                    color: var(--skin-color);
+                    margin-bottom: 4px;
+                }
+                .pricing-price span {
+                    font-size: 16px;
+                    color: var(--text-black-600);
+                    font-weight: 500;
+                }
+                .pricing-price .timeline {
+                    font-size: 14px;
+                    font-weight: 600;
+                    display: block;
+                    margin-top: 8px;
+                    color: var(--text-black-700);
+                }
+                .pricing-features {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0 0 32px 0;
+                    flex-grow: 1;
+                    text-align: left;
+                }
+                .pricing-features li {
+                    margin-bottom: 12px;
+                    font-size: 14px;
+                    line-height: 1.5;
+                    position: relative;
+                    padding-left: 20px;
+                    color: var(--text-black-700);
+                }
+                .pricing-features li::before {
+                    content: "•";
+                    color: var(--skin-color);
+                    font-weight: bold;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                }
+                .pricing-cta {
+                    text-align: center;
+                    margin-top: auto;
+                }
+                .pricing-note {
+                    width: 100%;
+                    text-align: center;
+                    font-size: 14px;
+                    color: var(--text-black-600);
+                    font-style: italic;
+                }
+
+                /* Carousel Styles */
+                .pricing-carousel-track {
+                    position: relative;
+                    height: 250vh; /* Perfectly balanced track height */
+                    width: 100%;
+                }
+                .pricing-carousel-sticky {
+                    position: sticky;
+                    top: 0;
+                    height: 100vh;
+                    width: 100%;
+                    overflow: hidden;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: flex-start;
+                    background: transparent;
+                }
+                .pricing-carousel {
+                    display: flex;
+                    width: 300%; 
+                    flex-shrink: 0;
+                    margin-left: 0;
+                    transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+                    will-change: transform;
+                }
+                .pricing-slide {
+                    flex: 0 0 33.333333%;
+                    width: 33.333333%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 0;
+                }
+                .pricing-slide-content {
+                    width: 100%;
+                    max-width: 1200px;
+                }
+                
+                @media (max-width: 991px) {
+                    .pricing-item { flex: 0 0 45%; max-width: 480px; }
+                }
+                @media (max-width: 767px) {
+                    .pricing-item { flex: 0 0 100%; max-width: 100%; }
+                }
+            </style>
+
+            <div class="pricing-carousel-track" id="pricing-track">
+                <div class="pricing-carousel-sticky">
+                    <!-- Main Section Title -->
+                    <div style="width: 100%; z-index: 10;">
+                        <div class="row">
+                            <div class="section-title">
+                                <h2 data-heading="Pricing">Web, MVP & Retainers</h2>
+                            </div>
                         </div>
                     </div>
-                    <div class="commitment-item">
-                        <div class="commitment-item-inner outer-shadow">
-                            <h3>Bug fixes (post-launch)</h3>
-                            <p>Critical issues triaged and patched promptly after delivery.</p>
-                            <span class="commitment-pill inner-shadow">Within 24 hours</span>
+
+                    <div class="pricing-carousel" id="pricing-carousel">
+                        <!-- Chart 1: Websites & Web Apps -->
+                        <div class="pricing-slide">
+                            <div class="pricing-slide-content container services-subsection pricing-section" style="padding-top: 0; padding-bottom: 0;">
+                                <div class="row pricing-row">
+                                    <div class="pricing-item">
+                                        <div class="pricing-item-inner outer-shadow">
+                                            <div class="pricing-header">
+                                                <h3>Basic</h3>
+                                                <p>Freelancers, early startups needing online presence</p>
+                                            </div>
+                                            <div class="pricing-price">
+                                                <h4>₹25k – ₹50k</h4>
+                                                <span>$500 – $1k</span>
+                                                <span class="timeline">Timeline: 1–2 weeks</span>
+                                            </div>
+                                            <ul class="pricing-features">
+                                                <li>Up to 5 pages</li>
+                                                <li>Responsive design</li>
+                                                <li>Contact form</li>
+                                                <li>Basic SEO setup</li>
+                                                <li>1 revision round</li>
+                                                <li>Support: 15 days post-launch</li>
+                                                <li>Payment: 50% upfront, 50% delivery</li>
+                                            </ul>
+                                            <div class="pricing-cta">
+                                                <a href="#contact" class="link-item btn-1 outer-shadow hover-in-shadow">Get a Quote</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="pricing-item">
+                                        <div class="pricing-item-inner outer-shadow popular">
+                                            <div class="pricing-badge">Popular</div>
+                                            <div class="pricing-header">
+                                                <h3>Pro</h3>
+                                                <p>SMBs, growing startups needing custom functionality</p>
+                                            </div>
+                                            <div class="pricing-price">
+                                                <h4>₹50k – ₹1.2L</h4>
+                                                <span>$1k – $2.5k</span>
+                                                <span class="timeline">Timeline: 2–4 weeks</span>
+                                            </div>
+                                            <ul class="pricing-features">
+                                                <li>Up to 10 pages</li>
+                                                <li>Custom UI/UX design</li>
+                                                <li>CMS integration</li>
+                                                <li>Animations & transitions</li>
+                                                <li>Performance optimization</li>
+                                                <li>2 revision rounds</li>
+                                                <li>Support: 30 days post-launch</li>
+                                                <li>Payment: 40/30/30 milestone</li>
+                                            </ul>
+                                            <div class="pricing-cta">
+                                                <a href="#contact" class="link-item btn-1 outer-shadow hover-in-shadow">Get a Quote</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="pricing-item">
+                                        <div class="pricing-item-inner outer-shadow">
+                                            <div class="pricing-header">
+                                                <h3>Enterprise</h3>
+                                                <p>Funded startups, companies needing full web ecosystem</p>
+                                            </div>
+                                            <div class="pricing-price">
+                                                <h4>₹1.2L – ₹2.5L</h4>
+                                                <span>$2.5k – $5k</span>
+                                                <span class="timeline">Timeline: 4–8 weeks</span>
+                                            </div>
+                                            <ul class="pricing-features">
+                                                <li>Unlimited pages</li>
+                                                <li>Full custom design system</li>
+                                                <li>API integrations</li>
+                                                <li>Advanced animations</li>
+                                                <li>A/B testing setup</li>
+                                                <li>3 revision rounds</li>
+                                                <li>Support: 60 days post-launch</li>
+                                                <li>Payment: 40/30/30 milestone</li>
+                                            </ul>
+                                            <div class="pricing-cta">
+                                                <a href="#contact" class="link-item btn-1 outer-shadow hover-in-shadow">Get a Quote</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="commitment-item">
-                        <div class="commitment-item-inner outer-shadow">
-                            <h3>Response time</h3>
-                            <p>All messages and requests acknowledged during business hours.</p>
-                            <span class="commitment-pill inner-shadow">Under 4 hours (Mon–Fri)</span>
+
+                        <!-- Chart 2: MVP Development -->
+                        <div class="pricing-slide">
+                            <div class="pricing-slide-content container services-subsection pricing-section" style="padding-top: 0; padding-bottom: 0;">
+                                <div class="row pricing-row">
+                                    <div class="pricing-item">
+                                        <div class="pricing-item-inner outer-shadow">
+                                            <div class="pricing-header">
+                                                <h3>Foundation MVP</h3>
+                                                <p>Pre-seed founders validating an idea fast</p>
+                                            </div>
+                                            <div class="pricing-price">
+                                                <h4>₹80k – ₹1.5L</h4>
+                                                <span>$1.5k – $3k</span>
+                                                <span class="timeline">Timeline: 3–4 weeks</span>
+                                            </div>
+                                            <ul class="pricing-features">
+                                                <li>Core feature set only</li>
+                                                <li>Basic UI & User auth</li>
+                                                <li>Database & 1 integration</li>
+                                                <li>Deployment</li>
+                                                <li>AI Integration: None</li>
+                                                <li>Support: 30-day bug fix SLA</li>
+                                                <li>Payment: 40/30/30 milestone</li>
+                                            </ul>
+                                            <div class="pricing-cta">
+                                                <a href="#contact" class="link-item btn-1 outer-shadow hover-in-shadow">Book a Discovery Call</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="pricing-item">
+                                        <div class="pricing-item-inner outer-shadow popular">
+                                            <div class="pricing-badge">Popular</div>
+                                            <div class="pricing-header">
+                                                <h3>Growth MVP</h3>
+                                                <p>Seed-stage startups building a real product</p>
+                                            </div>
+                                            <div class="pricing-price">
+                                                <h4>₹1.5L – ₹3.5L</h4>
+                                                <span>$3k – $7k</span>
+                                                <span class="timeline">Timeline: 6–8 weeks</span>
+                                            </div>
+                                            <ul class="pricing-features">
+                                                <li>Full feature set</li>
+                                                <li>Polished UI/UX</li>
+                                                <li>Multiple integrations</li>
+                                                <li>Admin dashboard</li>
+                                                <li>Analytics setup</li>
+                                                <li>AI Integration: Basic</li>
+                                                <li>Support: 45-day bug fix SLA</li>
+                                                <li>Payment: 40/30/30 milestone</li>
+                                            </ul>
+                                            <div class="pricing-cta">
+                                                <a href="#contact" class="link-item btn-1 outer-shadow hover-in-shadow">Book a Discovery Call</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="pricing-item">
+                                        <div class="pricing-item-inner outer-shadow">
+                                            <div class="pricing-header">
+                                                <h3>Scale MVP</h3>
+                                                <p>Series A companies scaling an existing product</p>
+                                            </div>
+                                            <div class="pricing-price">
+                                                <h4>₹3.5L – ₹6L</h4>
+                                                <span>$7k – $15k</span>
+                                                <span class="timeline">Timeline: 10–14 weeks</span>
+                                            </div>
+                                            <ul class="pricing-features">
+                                                <li>Full product + AI features</li>
+                                                <li>Advanced architecture</li>
+                                                <li>Performance optimization</li>
+                                                <li>Team handover documentation</li>
+                                                <li>AI Integration: Advanced</li>
+                                                <li>Support: 60-day bug fix + 1 month retainer</li>
+                                                <li>Payment: 30/30/20/20 milestone</li>
+                                            </ul>
+                                            <div class="pricing-cta">
+                                                <a href="#contact" class="link-item btn-1 outer-shadow hover-in-shadow">Book a Discovery Call</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <p class="pricing-note">All MVP projects start with a paid Discovery & Architecture session (₹8,000 / $150) which is deducted from the project total if you proceed.</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="commitment-item">
-                        <div class="commitment-item-inner outer-shadow">
-                            <h3>Project kickoff</h3>
-                            <p>Onboarding, scope doc, and first milestone locked in after contract signing.</p>
-                            <span class="commitment-pill inner-shadow">Within 3 days of signing</span>
-                        </div>
-                    </div>
-                    <div class="commitment-item">
-                        <div class="commitment-item-inner outer-shadow">
-                            <h3>Revision rounds</h3>
-                            <p>Every deliverable includes structured feedback rounds — no surprise charges.</p>
-                            <span class="commitment-pill inner-shadow">2 rounds included</span>
-                        </div>
-                    </div>
-                    <div class="commitment-item">
-                        <div class="commitment-item-inner outer-shadow">
-                            <h3>Progress updates</h3>
-                            <p>Regular async updates so you always know where things stand.</p>
-                            <span class="commitment-pill inner-shadow">Twice a week</span>
+
+                        <!-- Chart 3: Monthly Retainer -->
+                        <div class="pricing-slide">
+                            <div class="pricing-slide-content container services-subsection pricing-section" style="padding-top: 0; padding-bottom: 0;">
+                                <div class="row pricing-row">
+                                    <div class="pricing-item">
+                                        <div class="pricing-item-inner outer-shadow">
+                                            <div class="pricing-header">
+                                                <h3>Maintenance</h3>
+                                                <p>Clients with a live product needing upkeep</p>
+                                            </div>
+                                            <div class="pricing-price">
+                                                <h4>₹18k – ₹25k</h4>
+                                                <span>$350 – $500 / month</span>
+                                                <span class="timeline">10 hours / month</span>
+                                            </div>
+                                            <ul class="pricing-features">
+                                                <li>Bug fixes & minor updates</li>
+                                                <li>Security patches</li>
+                                                <li>Monthly performance report</li>
+                                                <li>Response time: 48 hours</li>
+                                                <li>Rollover hours: None</li>
+                                                <li>Unused hours: Forfeited</li>
+                                                <li>Minimum term: 1 month</li>
+                                            </ul>
+                                            <div class="pricing-cta">
+                                                <a href="#contact" class="link-item btn-1 outer-shadow hover-in-shadow">Start a Retainer</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="pricing-item">
+                                        <div class="pricing-item-inner outer-shadow popular">
+                                            <div class="pricing-badge">Popular</div>
+                                            <div class="pricing-header">
+                                                <h3>Growth Partner</h3>
+                                                <p>Startups actively iterating their product</p>
+                                            </div>
+                                            <div class="pricing-price">
+                                                <h4>₹40k – ₹60k</h4>
+                                                <span>$800 – $1.2k / month</span>
+                                                <span class="timeline">25 hours / month</span>
+                                            </div>
+                                            <ul class="pricing-features">
+                                                <li>Everything in Maintenance</li>
+                                                <li>New feature development</li>
+                                                <li>Design updates</li>
+                                                <li>Third-party integrations</li>
+                                                <li>Response time: 24 hours</li>
+                                                <li>Rollover hours: Up to 5 hrs</li>
+                                                <li>Unused hours: Forfeited</li>
+                                                <li>Minimum term: 2 months</li>
+                                            </ul>
+                                            <div class="pricing-cta">
+                                                <a href="#contact" class="link-item btn-1 outer-shadow hover-in-shadow">Start a Retainer</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="pricing-item">
+                                        <div class="pricing-item-inner outer-shadow">
+                                            <div class="pricing-header">
+                                                <h3>Dedicated</h3>
+                                                <p>Companies that need a developer on-call</p>
+                                            </div>
+                                            <div class="pricing-price">
+                                                <h4>₹80k – ₹1.2L</h4>
+                                                <span>$1.5k – $2.5k / month</span>
+                                                <span class="timeline">50 hours / month</span>
+                                            </div>
+                                            <ul class="pricing-features">
+                                                <li>Everything in Growth</li>
+                                                <li>Priority response</li>
+                                                <li>Architecture reviews</li>
+                                                <li>Team calls & feature planning</li>
+                                                <li>Response time: 4 hours</li>
+                                                <li>Rollover hours: Up to 15 hrs</li>
+                                                <li>Unused hours: 50% rollover</li>
+                                                <li>Minimum term: 3 months</li>
+                                            </ul>
+                                            <div class="pricing-cta">
+                                                <a href="#contact" class="link-item btn-1 outer-shadow hover-in-shadow">Start a Retainer</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <p class="pricing-note">Retainer clients get priority scheduling over new project clients. Spots are limited to 3 active retainers at a time.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Scope Section -->
-            <div class="container services-subsection" style="padding-bottom: 80px;">
-                <div class="row">
-                    <div class="services-subsection-title">
-                        <h2 data-heading="Scope">What's included vs. not</h2>
-                        <p>Full transparency before we start — so we stay aligned throughout.</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="scope-column">
-                        <div class="scope-box outer-shadow">
-                            <h3>What I handle</h3>
-                            <ul class="scope-list included">
-                                <li><i class="fas fa-check-circle"></i> End-to-end UI/UX design with Figma handoff</li>
-                                <li><i class="fas fa-check-circle"></i> Frontend development (React, Next.js,
-                                    TypeScript)</li>
-                                <li><i class="fas fa-check-circle"></i> Backend APIs, databases, and third-party
-                                    integrations</li>
-                                <li><i class="fas fa-check-circle"></i> Cloud deployment and CI/CD setup (AWS / GCP)
-                                </li>
-                                <li><i class="fas fa-check-circle"></i> Performance audits and Core Web Vitals fixes
-                                </li>
-                                <li><i class="fas fa-check-circle"></i> Post-launch bug fixes within the agreed SLA</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="scope-column">
-                        <div class="scope-box outer-shadow">
-                            <h3>Outside this scope</h3>
-                            <ul class="scope-list excluded">
-                                <li><i class="fas fa-times-circle"></i> Printed or physical design assets (brochures,
-                                    banners, etc.)</li>
-                                <li><i class="fas fa-times-circle"></i> Native mobile apps (iOS Swift / Android Kotlin)
-                                </li>
-                                <li><i class="fas fa-times-circle"></i> Ongoing hosting or domain management</li>
-                                <li><i class="fas fa-times-circle"></i> Content writing or SEO copywriting</li>
-                                <li><i class="fas fa-times-circle"></i> Legal, compliance, or GDPR advisory</li>
-                                <li><i class="fas fa-times-circle"></i> Work outside the agreed project scope without a
-                                    change order</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="scope-footer" style="text-align: center; margin-top: 30px; width: 100%;">
-                        <p>Need something outside this list? Let's talk — custom scope documents are always an option.
-                        </p>
-                    </div>
-                </div>
-            </div>
+
 
             <!-- Stat Strip Section -->
             <div class="container services-subsection stat-strip" style="padding-bottom: 60px; padding-top: 20px;">
@@ -1658,24 +1988,20 @@
                             img/portfolio-img/large/project-2/5.webp">
                             <span class="view-project">view project</span>
                         </div>
-                        <p class="portfolio-item-title">Restaurant Website</p>
+                        <p class="portfolio-item-title">Epicurean – Fine Dining & Reservation Platform</p>
                         <!-- portfolio items details -->
                         <div class="portfolio-items-details">
                             <div class="row">
                                 <div class="description">
                                     <h3>Project Brief:</h3>
-                                    <p>This is a restaurant website name foodies. They have an everyday special section
-                                        which they daily update with special food items from this website you can order
-                                        the best food in the market. They offer you the best Restaurant
-                                        services by providing you healthy and delicious food at a cheap price. They
-                                        offer you door-to-door services which are 100% free.</p>
+                                    <p> A premium digital dining experience designed for high-end restaurants. The platform features an interactive dynamic menu, a real-time table reservation system, and a seamless online ordering flow, all managed through a comprehensive admin dashboard. </p>
                                 </div>
                                 <div class="info">
                                     <h3>Project info</h3>
                                     <ul>
                                         <li>Date - <span>2020</span></li>
                                         <li>client - <span>Shivam Gupta</span></li>
-                                        <li>Tools - <span>Html, css , Javascript</span></li>
+                                        <li>Tools - <span>Next.js, TypeScript, TailwindCSS, Supabase</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -1694,7 +2020,7 @@
                             img/portfolio-img/large/project-3/6.webp">
                             <span class="view-project">view project</span>
                         </div>
-                        <p class="portfolio-item-title">Educational Website</p>
+                        <p class="portfolio-item-title">EduCore – E-Learning Management System (LMS)</p>
                         <!-- portfolio items details -->
                         <div class="portfolio-items-details">
                             <div class="row">
@@ -1727,29 +2053,20 @@
                             img/portfolio-img/large/project-4/4.webp">
                             <span class="view-project">view project</span>
                         </div>
-                        <p class="portfolio-item-title">Transoprtation Website</p>
+                        <p class="portfolio-item-title">TransitFlow – Logistics & Fleet Tracking</p>
                         <!-- portfolio items details -->
                         <div class="portfolio-items-details">
                             <div class="row">
                                 <div class="description">
                                     <h3>Project Brief:</h3>
-                                    <p>This is a transportation website named 'Priya logistics Services'. It offers you
-                                        the best land transport all over India at and reasonable price. A company
-                                        dedicated to finding cutting-edge solutions and providing great
-                                        services. Priya Logistics Services provides a service module, fully functional
-                                        at major locations. From small parcel bookings at godowns or to the door
-                                        collections & Door Deliveries, from dedicated trucks & tempo
-                                        movements to the express deliveries, we always stand ahead in the Market. Priya
-                                        Logistics services can provide its customers a time and cost-efficient logistic
-                                        process.
-                                    </p>
+                                    <p> A modern logistics dashboard built to streamline transportation management. The application offers real-time fleet tracking, automated route optimization, and detailed analytics for operational efficiency and cost reduction. </p>
                                 </div>
                                 <div class="info">
                                     <h3>Project info</h3>
                                     <ul>
                                         <li>Date - <span>2021</span></li>
                                         <li>client - <span>Suresh Yadav</span></li>
-                                        <li>Tools - <span>Html, CSS , Javascript, PHP</span></li>
+                                        <li>Tools - <span>Vue.js, Nuxt, Google Maps API, Firebase</span></li>
                                         <li>Website - <span><a href="https://priyalogisticsservices.com/"
                                                     target="_blank">www.priyalogisticsserviecs.com</a></span></li>
                                     </ul>
@@ -1770,24 +2087,20 @@
                             img/portfolio-img/large/project-6/6.webp">
                             <span class="view-project">view project</span>
                         </div>
-                        <p class="portfolio-item-title">TeleCommunication Website</p>
+                        <p class="portfolio-item-title">TelcoSync – Telecom Service Portal</p>
                         <!-- portfolio items details -->
                         <div class="portfolio-items-details">
                             <div class="row">
                                 <div class="description">
                                     <h3>Project Brief:</h3>
-                                    <p>This is a TeleCommunication website named 'J M Global Services'. It is involved
-                                        in Tele Calling services for leading generation and marketing services. Their
-                                        company's motive is that they do research and development
-                                        before making any decision to meet their target given by the clients.
-                                    </p>
+                                    <p> A customer-facing service portal for telecommunication providers. It allows users to effortlessly manage their data plans, view detailed billing histories, and upgrade services through a highly secure, responsive interface. </p>
                                 </div>
                                 <div class="info">
                                     <h3>Project info</h3>
                                     <ul>
                                         <li>Date - <span>2021</span></li>
                                         <li>client - <span>Faruk Shaik</span></li>
-                                        <li>Tools - <span>Html, CSS , Javascript, PHP</span></li>
+                                        <li>Tools - <span>React, Redux, Node.js, PostgreSQL</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -1803,21 +2116,20 @@
                                 data-screenshots="img/portfolio-img/large/project-1/1.webp,img/portfolio-img/large/project-1/2.webp">
                             <span class="view-project">view project</span>
                         </div>
-                        <p class="portfolio-item-title">Portfolio Website</p>
+                        <p class="portfolio-item-title">DevFolio – Interactive Developer Portfolio</p>
                         <!-- portfolio items details -->
                         <div class="portfolio-items-details">
                             <div class="row">
                                 <div class="description">
                                     <h3>Project Brief:</h3>
-                                    <p>This is a simple Portfolio Website. In both themes Light and Dark.
-                                    </p>
+                                    <p> A highly interactive, performance-optimized personal portfolio designed to showcase software engineering projects. It leverages modern CSS techniques like glassmorphism and custom scroll animations to deliver a premium user experience without relying on heavy frameworks. </p>
                                 </div>
                                 <div class="info">
                                     <h3>Project info</h3>
                                     <ul>
                                         <li>Date - <span>2021</span></li>
                                         <li>client - <span>Ele Mathew</span></li>
-                                        <li>Tools - <span>Html, CSS , Javascript</span></li>
+                                        <li>Tools - <span>HTML5, Modern CSS (Glassmorphism), Vanilla JS</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -1841,27 +2153,20 @@
                             img/portfolio-img/large/project-5/10.webp">
                             <span class="view-project">view project</span>
                         </div>
-                        <p class="portfolio-item-title">University Website</p>
+                        <p class="portfolio-item-title">UniCampus – Higher Education Portal</p>
                         <!-- portfolio items details -->
                         <div class="portfolio-items-details">
                             <div class="row">
                                 <div class="description">
                                     <h3>Project Brief:</h3>
-                                    <p>This is a University website name 'Captain University'. This is the world's first
-                                        and Advanced University of all time. Since their opening, they had become
-                                        masters of producing the world's best students in the history
-                                        of Mankind. They have a large campus in cities like New York, Manhattan, and
-                                        London. They provide various courses to the students. They take care of Sports
-                                        as they have big ground, they provide food for the students
-                                        as they have the best canteen. This is the world's most renowned University.
-                                    </p>
+                                    <p> A scalable university portal serving as a central hub for prospective students and current faculty. Built with a headless CMS, it enables easy content updates for campus news, automated admissions workflows, and virtual campus tours. </p>
                                 </div>
                                 <div class="info">
                                     <h3>Project info</h3>
                                     <ul>
                                         <li>Date - <span>2020</span></li>
                                         <li>client - <span>Richard Hendrix</span></li>
-                                        <li>Tools - <span>Html, CSS , Javascript, PHP, jQuery</span></li>
+                                        <li>Tools - <span>Next.js, GraphQL, TailwindCSS, Strapi CMS</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -1877,25 +2182,20 @@
                                 data-screenshots="img/portfolio-img/large/project-7/1.webp">
                             <span class="view-project">view project</span>
                         </div>
-                        <p class="portfolio-item-title">Tree Plantation landing-page</p>
+                        <p class="portfolio-item-title">EcoRoots – Environmental Campaign Initiative</p>
                         <!-- portfolio items details -->
                         <div class="portfolio-items-details">
                             <div class="row">
                                 <div class="description">
                                     <h3>Project Brief:</h3>
-                                    <p>
-                                        This is a tree plantation website that aware of planting a tree, the importance
-                                        of the tree, benefits of the tree, and all. They are strictly the opposite of
-                                        cutting down trees of coal mining or anything else. You can get to know about
-                                        them on their website.
-                                    </p>
+                                    <p> A high-conversion, visually striking landing page built for an environmental NGO. Optimized for ultra-fast loading speeds, it aims to drive awareness and securely process donations for global reforestation initiatives. </p>
                                 </div>
                                 <div class="info">
                                     <h3>Project info</h3>
                                     <ul>
                                         <li>Date - <span>2021</span></li>
                                         <li>client - <span>Jerad Done</span></li>
-                                        <li>Tools - <span>Html, CSS , Javascript, PHP, jQuery, React Js</span></li>
+                                        <li>Tools - <span>Astro, React, TailwindCSS</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -1911,24 +2211,20 @@
                                 data-screenshots="img/portfolio-img/large/project-8/1.webp">
                             <span class="view-project">view project</span>
                         </div>
-                        <p class="portfolio-item-title">Headphone landing-page</p>
+                        <p class="portfolio-item-title">SonicWave – Audio Product Landing Page</p>
                         <!-- portfolio items details -->
                         <div class="portfolio-items-details">
                             <div class="row">
                                 <div class="description">
                                     <h3>Project Brief:</h3>
-                                    <p> This is an online electronic shopping platform. They offer you a wide variety of
-                                        electronic items like Headphones, Mobiles, T.V., Home theater, etc. Here you can
-                                        get the best deals every Friday. They offer a flat 60%
-                                        off on every new product purchased for the first time.
-                                    </p>
+                                    <p> An immersive, 3D-driven product landing page for premium headphones. Utilizing WebGL, users can interact with a 360-degree model of the product while scrolling through scroll-triggered animations detailing product specifications. </p>
                                 </div>
                                 <div class="info">
                                     <h3>Project info</h3>
                                     <ul>
                                         <li>Date - <span>2021</span></li>
                                         <li>client - <span>Earlich Backhman</span></li>
-                                        <li>Tools - <span>Html, CSS , Javascript, jQuery</span></li>
+                                        <li>Tools - <span>Three.js, React-Three-Fiber, Framer Motion</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -1944,25 +2240,20 @@
                                 data-screenshots="img/portfolio-img/large/project-9/1.webp">
                             <span class="view-project">view project</span>
                         </div>
-                        <p class="portfolio-item-title">Bird Sanctuary landing-page</p>
+                        <p class="portfolio-item-title">AviaryReserve – Wildlife Conservation Hub</p>
                         <!-- portfolio items details -->
                         <div class="portfolio-items-details">
                             <div class="row">
                                 <div class="description">
                                     <h3>Project Brief:</h3>
-                                    <p>This is the bird Sanctuary project website, spreading awareness about saving
-                                        natural beauty. The birds are natural property and we don't have any authority
-                                        to disturb them. Therefore this bird Sanctuary saves the lives
-                                        of millions of birds which are near to extent. You can visit this sanctuary by
-                                        contacting them.
-                                    </p>
+                                    <p> A beautifully designed landing page for a national bird sanctuary. The site focuses on visual storytelling through high-resolution imagery and micro-interactions to educate visitors and encourage volunteer sign-ups. </p>
                                 </div>
                                 <div class="info">
                                     <h3>Project info</h3>
                                     <ul>
                                         <li>Date - <span>2020</span></li>
                                         <li>client - <span>Belchrum Glilfoil</span></li>
-                                        <li>Tools - <span>Html, CSS , Javascript, PHP</span></li>
+                                        <li>Tools - <span>Gatsby, React, Contentful</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -1978,24 +2269,20 @@
                                 data-screenshots="img/portfolio-img/large/project-10/1.webp">
                             <span class="view-project">view project</span>
                         </div>
-                        <p class="portfolio-item-title">GYM landing-page</p>
+                        <p class="portfolio-item-title">IronForge – Fitness Studio Promo</p>
                         <!-- portfolio items details -->
                         <div class="portfolio-items-details">
                             <div class="row">
                                 <div class="description">
                                     <h3>Project Brief:</h3>
-                                    <p>
-                                        It is a Gym website. It is the nearest gym in your locality and with lots of
-                                        premium membership offers at a very reasonable price. Make your health with
-                                        captain GYM.
-                                    </p>
+                                    <p> A dynamic, high-energy landing page for a boutique fitness studio. Designed to convert visitors into members, it features integrated class schedules, trainer profiles, and smooth scroll animations to keep users engaged. </p>
                                 </div>
                                 <div class="info">
                                     <h3>Project info</h3>
                                     <ul>
                                         <li>Date - <span>2019</span></li>
                                         <li>client - <span>Dinesh Chukati</span></li>
-                                        <li>Tools - <span>Html, CSS , Javascript, PHP, jQuery</span></li>
+                                        <li>Tools - <span>HTML5, SCSS, GSAP Animations</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -2011,25 +2298,20 @@
                                 data-screenshots="img/portfolio-img/large/project-11/1.webp">
                             <span class="view-project">view project</span>
                         </div>
-                        <p class="portfolio-item-title">Cold-Drink landing-page
-                        </p>
+                        <p class="portfolio-item-title">FrostBite – Beverage Product Launch</p>
                         <!-- portfolio items details -->
                         <div class="portfolio-items-details">
                             <div class="row">
                                 <div class="description">
                                     <h3>Project Brief:</h3>
-                                    <p>It is a Cold-Drink website named 'Monster'. It is an energy drink that will give
-                                        you energy whenever you feel tired. It is rich in protein and zeroes added sugar
-                                        as it is bad for the health. But this company claims
-                                        that they take your health their no 1 concern.
-                                    </p>
+                                    <p> A vibrant and interactive promotional page for a new energy beverage line. The UI incorporates fluid transitions, parallax scrolling, and bold typography to match the brand's energetic identity. </p>
                                 </div>
                                 <div class="info">
                                     <h3>Project info</h3>
                                     <ul>
                                         <li>Date - <span>2020</span></li>
                                         <li>client - <span>Hoover Nile</span></li>
-                                        <li>Tools - <span>Html, CSS , Javascript, PHP, jQuery</span></li>
+                                        <li>Tools - <span>React, Styled Components, Framer Motion</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -2045,23 +2327,20 @@
                                 data-screenshots="img/portfolio-img/large/project-12/1.webp">
                             <span class="view-project">view project</span>
                         </div>
-                        <p class="portfolio-item-title">Campaign landing-page</p>
+                        <p class="portfolio-item-title">Visionary – Political/Social Campaign Page</p>
                         <!-- portfolio items details -->
                         <div class="portfolio-items-details">
                             <div class="row">
                                 <div class="description">
                                     <h3>Project Brief:</h3>
-                                    <p>This is a Campaign website which motivates aware you about smoking and
-                                        non-smoking harmful effect and problems faced by the environment by smoking.
-                                        This helps you to leave smoking and make yourself a better man.
-                                    </p>
+                                    <p> A highly optimized, accessible landing page designed for a widespread social campaign. It focuses on clarity, rapid content delivery, and features robust email capture integration for community building. </p>
                                 </div>
                                 <div class="info">
                                     <h3>Project info</h3>
                                     <ul>
                                         <li>Date - <span>2020</span></li>
                                         <li>client - <span>Abhinav Bindra</span></li>
-                                        <li>Tools - <span>Html, CSS , Javascript, PHP, jQuery</span></li>
+                                        <li>Tools - <span>Next.js, TailwindCSS, Vercel</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -2083,25 +2362,20 @@
                             img/portfolio-img/large/project-13/8.webp">
                             <span class="view-project">view project</span>
                         </div>
-                        <p class="portfolio-item-title">Furniture Website</p>
+                        <p class="portfolio-item-title">LuxSpace – E-Commerce Furniture Store</p>
                         <!-- portfolio items details -->
                         <div class="portfolio-items-details">
                             <div class="row">
                                 <div class="description">
                                     <h3>Project Brief:</h3>
-                                    <p>This is a Furniture website named 'Luxury Furnitures'. Located in Lonavala. They
-                                        provide all types of sofas, chairs, couches etc. They design themself and
-                                        manufactures at the location only. They create your dream into
-                                        reality. They make furnitures for offices and Homes And deliver their products
-                                        all over India.
-                                    </p>
+                                    <p> A modern, headless e-commerce experience for a luxury furniture brand. The platform offers lightning-fast product filtering, high-quality image galleries, and a seamless, secure checkout process. </p>
                                 </div>
                                 <div class="info">
                                     <h3>Project info</h3>
                                     <ul>
                                         <li>Date - <span>2021</span></li>
                                         <li>client - <span>Govind Maurya</span></li>
-                                        <li>Tools - <span>Html, CSS , Javascript, PHP, Bootstrap</span></li>
+                                        <li>Tools - <span>Next.js, Shopify Storefront API, Stripe</span></li>
                                         <li>Website - <span><a href="https://luxuryfurnitures.co.in/"
                                                     target="_blank">www.luxuryfurnitures.co.in</a></span></li>
 
@@ -2126,26 +2400,20 @@
                             img/portfolio-img/large/project-14/9.webp">
                             <span class="view-project">view project</span>
                         </div>
-                        <p class="portfolio-item-title">College Website</p>
+                        <p class="portfolio-item-title">Collegiate – Academic Community Platform</p>
                         <!-- portfolio items details -->
                         <div class="portfolio-items-details">
                             <div class="row">
                                 <div class="description">
                                     <h3>Project Brief:</h3>
-                                    <p>This is Online College Admission Management System Website. This is a fully
-                                        working demo website, In which students can apply for any courses provided by
-                                        the college. Student can see all the facilities of the college
-                                        and then decide wether to take admission in the college. Here Management can see
-                                        the Admission form filled by the students and can Accept or Reject, further mail
-                                        will be sent to the students accordingly.
-                                    </p>
+                                    <p> A comprehensive academic platform tailored for community colleges. It features a student portal for grade tracking, an interactive campus map, and a dynamic events calendar synchronized with faculty databases. </p>
                                 </div>
                                 <div class="info">
                                     <h3>Project info</h3>
                                     <ul>
                                         <li>Date - <span>2022</span></li>
                                         <li>Purpose - <span>College Project</span></li>
-                                        <li>Tools - <span>Html, CSS , Javascript, PHP, Mysql</span></li>
+                                        <li>Tools - <span>React, Node.js, PostgreSQL, Redis</span></li>
                                         <li>Website - <span><a href="https://ocams.netlify.app/"
                                                     target="_blank">www.ocams.netlify.app</a></span></li>
                                     </ul>
@@ -2165,24 +2433,20 @@
                             img/portfolio-img/large/project-15/4.webp">
                             <span class="view-project">view project</span>
                         </div>
-                        <p class="portfolio-item-title">Water Purifier Website</p>
+                        <p class="portfolio-item-title">PureFlow – IoT Appliance Dashboard</p>
                         <!-- portfolio items details -->
                         <div class="portfolio-items-details">
                             <div class="row">
                                 <div class="description">
                                     <h3>Project Brief:</h3>
-                                    <p>This is a Water Purification Maintenance and Service Website. They maintain the
-                                        highest standard of quality services to avoid any contamination. They have
-                                        experienced and skilled technical team specialised in all brands
-                                        of water purifier installation, service & repairs with exchange offers.
-                                    </p>
+                                    <p> A product website coupled with an IoT web dashboard for smart water purifiers. Users can monitor filter life in real-time, order replacements, and track water consumption metrics securely. </p>
                                 </div>
                                 <div class="info">
                                     <h3>Project info</h3>
                                     <ul>
                                         <li>Date - <span>2022</span></li>
                                         <li>Purpose - <span>Water Purifier Maintenance and Service</span></li>
-                                        <li>Tools - <span>Html, CSS, Wordpress</span></li>
+                                        <li>Tools - <span>Vue.js, Node.js, WebSockets</span></li>
                                         <li>Website - <span><a href="https://naturalwaterservices.co.in/"
                                                     target="_blank">www.naturalwaterservices.co.in</a></span></li>
                                     </ul>
@@ -2202,26 +2466,20 @@
                             img/portfolio-img/large/project-16/5.webp">
                             <span class="view-project">view project</span>
                         </div>
-                        <p class="portfolio-item-title">Construction Website</p>
+                        <p class="portfolio-item-title">BuildPro – Construction & Engineering Firm</p>
                         <!-- portfolio items details -->
                         <div class="portfolio-items-details">
                             <div class="row">
                                 <div class="description">
                                     <h3>Project Brief:</h3>
-                                    <p>SIDDHIVINAYAK CONSULTANTS is a Project Management Consultancy firm set up by Team
-                                        of Professional 5 years before. At the heart of this service is cost and
-                                        commercial management. It is with the depth and strength of
-                                        our expertise and experience that we have developed a wide range of skills to
-                                        meet the financial and cost control management needs throughout a wide range of
-                                        industry sectors and organizations.
-                                    </p>
+                                    <p> A professional corporate website for a large-scale construction firm. The site highlights complex engineering portfolios, client testimonials, and features a client portal for secure project updates and contract management. </p>
                                 </div>
                                 <div class="info">
                                     <h3>Project info</h3>
                                     <ul>
                                         <li>Date - <span>2022</span></li>
                                         <!-- <li>Purpose - <span></span></li> -->
-                                        <li>Tools - <span>Html, CSS, Wordpress</span></li>
+                                        <li>Tools - <span>WordPress (Headless), React, TailwindCSS</span></li>
                                         <li>Website - <span><a href="https://siddhivinayakconsultant.in/"
                                                     target="_blank">www.siddhivinayakconsultant.in</a></span></li>
                                     </ul>
@@ -2238,23 +2496,20 @@
                                 data-screenshots="img/portfolio-img/large/project-17/1.webp, img/portfolio-img/large/project-17/2.webp, img/portfolio-img/large/project-17/3.webp, img/portfolio-img/large/project-17/4.webp ">
                             <span class="view-project">view project</span>
                         </div>
-                        <p class="portfolio-item-title">GYM Website</p>
+                        <p class="portfolio-item-title">FitCore – Complete Gym Management System</p>
                         <!-- portfolio items details -->
                         <div class="portfolio-items-details">
                             <div class="row">
                                 <div class="description">
                                     <h3>Project Brief:</h3>
-                                    <p>Gymnast is a gym website in Navi-Mumbai and It is one of the best gym in this
-                                        locality. They have best trainer and supporting staff. They provide them with
-                                        gym schedul and workout program.
-                                    </p>
+                                    <p> A full-stack web application designed for multi-location gyms. It moves beyond a simple landing page to offer member authentication, class booking management, subscription billing, and an integrated nutrition tracking dashboard. </p>
                                 </div>
                                 <div class="info">
                                     <h3>Project info</h3>
                                     <ul>
                                         <li>Date - <span>2022</span></li>
                                         <!-- <li>Purpose - <span></span></li> -->
-                                        <li>Tools - <span>Html, CSS, JAVASCRIPT, PHP</span></li>
+                                        <li>Tools - <span>Next.js, TypeScript, Supabase, Stripe</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -2848,6 +3103,13 @@
     <!-- main js -->
     <script defer src="js/main.js"></script>
     <script defer src="js/axion-shader-bundle.iife.js"></script>
+    <!-- Frosted Glass Filter -->
+    <svg width="0" height="0" style="display: none;">
+        <filter id="lg">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="1" result="n" />
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+    </svg>
 </body>
 
 </html>
