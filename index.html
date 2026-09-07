@@ -1,4 +1,4 @@
-﻿<!-- 4879 Lines of code -->
+<!-- 4879 Lines of code -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -1534,7 +1534,7 @@
                                                 <li>Payment: 50% upfront, 50% delivery</li>
                                             </ul>
                                             <div class="pricing-cta">
-                                                <a href="#contact"
+                                                <a href="#contact" onclick="selectPricing('Web: Basic')"
                                                     class="link-item btn-1 outer-shadow hover-in-shadow">Get a Quote</a>
                                             </div>
                                         </div>
@@ -1562,7 +1562,7 @@
                                                 <li>Payment: 40/30/30 milestone</li>
                                             </ul>
                                             <div class="pricing-cta">
-                                                <a href="#contact"
+                                                <a href="#contact" onclick="selectPricing('Web: Pro')"
                                                     class="link-item btn-1 outer-shadow hover-in-shadow">Get a Quote</a>
                                             </div>
                                         </div>
@@ -1589,7 +1589,7 @@
                                                 <li>Payment: 40/30/30 milestone</li>
                                             </ul>
                                             <div class="pricing-cta">
-                                                <a href="#contact"
+                                                <a href="#contact" onclick="selectPricing('Web: Enterprise')"
                                                     class="link-item btn-1 outer-shadow hover-in-shadow">Get a Quote</a>
                                             </div>
                                         </div>
@@ -1624,7 +1624,7 @@
                                                 <li>Payment: 40/30/30 milestone</li>
                                             </ul>
                                             <div class="pricing-cta">
-                                                <a href="#contact"
+                                                <a href="#contact" onclick="selectPricing('MVP: Foundation')"
                                                     class="link-item btn-1 outer-shadow hover-in-shadow">Book a
                                                     Discovery Call</a>
                                             </div>
@@ -1653,7 +1653,7 @@
                                                 <li>Payment: 40/30/30 milestone</li>
                                             </ul>
                                             <div class="pricing-cta">
-                                                <a href="#contact"
+                                                <a href="#contact" onclick="selectPricing('MVP: Growth')"
                                                     class="link-item btn-1 outer-shadow hover-in-shadow">Book a
                                                     Discovery Call</a>
                                             </div>
@@ -1680,7 +1680,7 @@
                                                 <li>Payment: 30/30/20/20 milestone</li>
                                             </ul>
                                             <div class="pricing-cta">
-                                                <a href="#contact"
+                                                <a href="#contact" onclick="selectPricing('MVP: Scale')"
                                                     class="link-item btn-1 outer-shadow hover-in-shadow">Book a
                                                     Discovery Call</a>
                                             </div>
@@ -1722,7 +1722,7 @@
                                                 <li>Minimum term: 1 month</li>
                                             </ul>
                                             <div class="pricing-cta">
-                                                <a href="#contact"
+                                                <a href="#contact" onclick="selectPricing('Retainer: Maintenance')"
                                                     class="link-item btn-1 outer-shadow hover-in-shadow">Start a
                                                     Retainer</a>
                                             </div>
@@ -1751,7 +1751,7 @@
                                                 <li>Minimum term: 2 months</li>
                                             </ul>
                                             <div class="pricing-cta">
-                                                <a href="#contact"
+                                                <a href="#contact" onclick="selectPricing('Retainer: Growth Partner')"
                                                     class="link-item btn-1 outer-shadow hover-in-shadow">Start a
                                                     Retainer</a>
                                             </div>
@@ -1779,7 +1779,7 @@
                                                 <li>Minimum term: 3 months</li>
                                             </ul>
                                             <div class="pricing-cta">
-                                                <a href="#contact"
+                                                <a href="#contact" onclick="selectPricing('Retainer: Dedicated')"
                                                     class="link-item btn-1 outer-shadow hover-in-shadow">Start a
                                                     Retainer</a>
                                             </div>
@@ -2724,6 +2724,56 @@
                                 </div>
                             </div>
 
+                            <!-- Step 1.5: Pricing Model (Radios) -->
+                            <div class="w-100 form-section">
+                                <h3 class="form-section-title">Which pricing model are you interested in?</h3>
+                                <div style="margin-bottom: 20px; text-align: left;">
+                                    <a href="#services" onclick="setTimeout(() => document.getElementById('pricing-track').scrollIntoView({behavior: 'smooth', block: 'start'}), 100)" class="link-item btn-1 outer-shadow hover-in-shadow" style="padding: 8px 15px; font-size: 14px; display: inline-block;">Select a Quote</a>
+                                </div>
+                                <div class="budget-radio-grid">
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="radio" name="PricingModel" value="Web: Basic" class="visually-hidden">
+                                        <span>Web: Basic</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="radio" name="PricingModel" value="Web: Pro" class="visually-hidden">
+                                        <span>Web: Pro</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="radio" name="PricingModel" value="Web: Enterprise" class="visually-hidden">
+                                        <span>Web: Enterprise</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="radio" name="PricingModel" value="MVP: Foundation" class="visually-hidden">
+                                        <span>MVP: Foundation</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="radio" name="PricingModel" value="MVP: Growth" class="visually-hidden">
+                                        <span>MVP: Growth</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="radio" name="PricingModel" value="MVP: Scale" class="visually-hidden">
+                                        <span>MVP: Scale</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="radio" name="PricingModel" value="Retainer: Maintenance" class="visually-hidden">
+                                        <span>Retainer: Maintenance</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="radio" name="PricingModel" value="Retainer: Growth Partner" class="visually-hidden">
+                                        <span>Retainer: Growth Partner</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="radio" name="PricingModel" value="Retainer: Dedicated" class="visually-hidden">
+                                        <span>Retainer: Dedicated</span>
+                                    </label>
+                                    <label class="custom-selection-btn outer-shadow hover-in-shadow">
+                                        <input type="radio" name="PricingModel" value="Skip" class="visually-hidden" checked>
+                                        <span>Skip</span>
+                                    </label>
+                                </div>
+                            </div>
+
                             <!-- Step 2: Budget (Radios) -->
                             <div class="w-100 form-section">
                                 <h3 class="form-section-title">What is your project budget?</h3>
@@ -3107,6 +3157,16 @@
             <feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G" />
         </filter>
     </svg>
+
+    <script>
+        function selectPricing(planName) {
+            const radio = document.querySelector(`input[name="PricingModel"][value="${planName}"]`);
+            if (radio) {
+                radio.checked = true;
+                radio.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        }
+    </script>
 </body>
 
 </html>
