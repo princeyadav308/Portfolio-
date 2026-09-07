@@ -1191,7 +1191,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const carousel = document.getElementById("pricing-carousel");
     
     if (track && carousel) {
+        const mobileQuery = window.matchMedia("(max-width: 768px)");
+
         const handleScroll = () => {
+            // Skip on mobile — CSS handles the stacked layout
+            if (mobileQuery.matches) return;
+
             const bounds = track.getBoundingClientRect();
             const stickyHeight = window.innerHeight;
             
@@ -1213,8 +1218,28 @@ document.addEventListener("DOMContentLoaded", () => {
             carousel.style.transform = `translateX(-${slideIndex * 33.333333}%)`;
         };
 
+        const onBreakpointChange = (e) => {
+            if (e.matches) {
+                // Entering mobile: reset transform so CSS column layout takes over
+                carousel.style.transform = "none";
+            } else {
+                // Leaving mobile: recalculate carousel position
+                handleScroll();
+            }
+        };
+
+        // Listen for breakpoint changes (e.g., orientation change)
+        mobileQuery.addEventListener("change", onBreakpointChange);
+
+        // Only attach scroll/resize if not currently mobile
         window.addEventListener("scroll", handleScroll, { passive: true });
         window.addEventListener("resize", handleScroll, { passive: true });
-        handleScroll();
+
+        // Initial setup
+        if (mobileQuery.matches) {
+            carousel.style.transform = "none";
+        } else {
+            handleScroll();
+        }
     }
 });

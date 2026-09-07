@@ -128,8 +128,8 @@
   .timeline-main-line {
     left: 255px !important;
     /* 30px padding + 225px half-width */
-    width: 4800px !important;
-    /* same as desktop */
+    width: 3150px !important;
+    /* 7 intervals * 450px (stops at center of 8th item) */
   }
 }
 
@@ -137,8 +137,8 @@
   .timeline-main-line {
     left: 190px !important;
     /* 30px padding + 160px half-width */
-    width: 2960px !important;
-    /* 8 intervals * 370px */
+    width: 2590px !important;
+    /* 7 intervals * 370px (stops at center of 8th item) */
   }
 }
 
