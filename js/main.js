@@ -472,10 +472,8 @@ window.addEventListener("load", () => {
   }, 1500);
 });
 
-// Form Inputs in Google Sheet
-const scriptURL =
-  "https://script.google.com/macros/s/AKfycbxLWctQI7t6iLKZsDZSlDFyu2FdBWHX0xN6kdfwo9N0NkEHJLUr0aDcEgD5ezGWpt9H/exec";
-const form = document.forms["submit-to-google-sheet"];
+// // Form Inputs with Netlify
+const form = document.forms["contact"];
 const msg = document.getElementById("msg");
 
 if (form) {
@@ -489,7 +487,7 @@ if (form) {
       if (badRegex.test(value)) {
         msg.style.color = "#ff4a4a";
         msg.innerHTML =
-          "Error: Invalid characters (> ; & | \\ \`) are not allowed.";
+          "Error: Invalid characters (> ; & | \\ `) are not allowed.";
         setTimeout(() => {
           msg.innerHTML = "";
         }, 5000);
@@ -508,10 +506,13 @@ if (form) {
     submitBtn.style.pointerEvents = 'none';
     submitBtn.style.opacity = '0.7';
 
-    fetch(scriptURL, {
+    // Required for Netlify AJAX submissions
+    formData.append("form-name", "contact");
+
+    fetch("/", {
       method: "POST",
-      body: formData,
-      mode: "no-cors"
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(formData).toString()
     })
       .then((response) => {
         // Button Success State
