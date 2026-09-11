@@ -3700,3 +3700,47 @@ body:has(.nav-menu.open) .fade-out-effect {
     }
     .pricing-item { flex: 0 0 100%; max-width: 100%; }
 }
+/* FAQ Section */
+.faq-item {
+  border-radius: 10px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+.faq-question {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.faq-question h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-black-900);
+  margin: 0;
+  transition: all 0.3s ease;
+}
+.faq-question i {
+  color: var(--skin-color);
+  transition: all 0.3s ease;
+}
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  padding: 0 20px;
+}
+.faq-answer p {
+  font-size: 16px;
+  color: var(--text-black-600);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+.faq-item.active .faq-answer {
+  padding-bottom: 10px;
+}
+.faq-item.active .faq-question i {
+  transform: rotate(180deg);
+}

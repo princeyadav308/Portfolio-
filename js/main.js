@@ -1244,3 +1244,36 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 });
+
+// FAQ Accordion Logic
+document.addEventListener("DOMContentLoaded", () => {
+    const faqItems = document.querySelectorAll(".faq-item");
+    faqItems.forEach(item => {
+        item.addEventListener("click", () => {
+            const answer = item.querySelector(".faq-answer");
+            const icon = item.querySelector("i");
+            const isActive = item.classList.contains("active");
+            
+            // Close all items
+            faqItems.forEach(otherItem => {
+                otherItem.classList.remove("active");
+                otherItem.classList.remove("inner-shadow");
+                otherItem.classList.add("outer-shadow");
+                otherItem.querySelector(".faq-answer").style.maxHeight = null;
+                const otherIcon = otherItem.querySelector("i");
+                otherIcon.classList.remove("fa-minus");
+                otherIcon.classList.add("fa-plus");
+            });
+
+            // Toggle current item if it wasn't already active
+            if (!isActive) {
+                item.classList.add("active");
+                item.classList.remove("outer-shadow");
+                item.classList.add("inner-shadow");
+                answer.style.maxHeight = answer.scrollHeight + "px";
+                icon.classList.remove("fa-plus");
+                icon.classList.add("fa-minus");
+            }
+        });
+    });
+});
