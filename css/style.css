@@ -3744,3 +3744,12 @@ body:has(.nav-menu.open) .fade-out-effect {
 .faq-item.active .faq-question i {
   transform: rotate(180deg);
 }
+
+/* Canvas optimization for mobile */
+@media (max-width: 768px) {
+    canvas {
+        width: 100vw !important;
+        height: 100vh !important;
+        object-fit: cover !important;
+    }
+}
