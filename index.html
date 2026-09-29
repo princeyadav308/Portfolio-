@@ -3041,7 +3041,7 @@
                     Project Details <i class="fas fa-plus"></i>
                 </div>
                 <div class="pp-close outer-shadow hover-in-shadow">&times</div>
-                <img loading="lazy" src="img/portfolio-img/large/project-2/1.png " alt="img "
+                <img loading="lazy" src="img/portfolio-img/large/project-2/1.webp"  alt="img "
                     class="pp-img outer-shadow">
                 <div class="pp-counter">1 of 5</div>
             </div>
@@ -3210,7 +3210,14 @@
             });
         }
     </script>
-    <script defer src="js/axion-shader-bundle.iife.js"></script>
+    <script>
+    if (window.innerWidth > 768) {
+        const shaderScript = document.createElement('script');
+        shaderScript.src = "js/axion-shader-bundle.iife.js";
+        shaderScript.defer = true;
+        document.body.appendChild(shaderScript);
+    }
+</script>
 
     <!-- Frosted Glass Filter -->
     <svg width="0" height="0" style="display: none;">
