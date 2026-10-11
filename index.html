@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="css/responsive.min.css">
 </head>
 
-<body>
+<body data-barba="wrapper">
     <!-- preloader -->
     <div class="preloader">
         <div class="preloader-half preloader-top">
@@ -107,6 +107,7 @@
 
     </div>
 
+    <main data-barba="container" data-barba-namespace="home">
     <!-- home section -->
     <section class="home-section section active" id="home" style="position: relative;">
         <!-- Wrap hero and slider to give them a solid background -->
@@ -278,11 +279,11 @@
                         <!-- social media links -->
                         <div class="social-links">
                             <a href="https://www.instagram.com/captain.bruce.007/" class="outer-shadow hover-in-shadow"
-                                target="_blank"><i class="fab fa-instagram"></i></a>
+                                target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
                             <a href="https://www.linkedin.com/in/prince-yadav-197479213/"
-                                class="outer-shadow hover-in-shadow" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                class="outer-shadow hover-in-shadow" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
                             <a href="https://github.com/princeyadav308" class="outer-shadow hover-in-shadow"
-                                target="_blank"><i class="fab fa-github"></i></a>
+                                target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
                         </div>
 
                     </div>
@@ -303,12 +304,12 @@
 
 
                         <p>I am currently based in India but am available for hire worldwide.</p>
-                        <a href="Prince_Yadav_CV.pdf" target="_blank"
+                        <a href="Prince_Yadav_CV.pdf" target="_blank" rel="noopener noreferrer"
                             class="btn-1 outer-shadow hover-in-shadow">Download
                             CV</a>
                         <a href="#contact" class="link-item btn-1 outer-shadow hover-in-shadow">Let's Build your
                             Idea</a>
-                        <a href="Pitch_Deck.pdf" target="_blank"
+                        <a href="Pitch_Deck.pdf" target="_blank" rel="noopener noreferrer"
                             class="link-item btn-1 outer-shadow hover-in-shadow">Pitch
                             Deck</a>
                     </div>
@@ -658,9 +659,9 @@
                     <span class="status-dot"></span> princeyadav308@gmail.com
                 </a>
                 <div class="footer-social-links">
-                    <a href="https://github.com/princeyadav308" target="_blank">GITHUB</a>
-                    <a href="https://www.linkedin.com/in/prince-yadav-197479213/" target="_blank">LINKEDIN</a>
-                    <a href="https://www.instagram.com/captain.bruce.007/" target="_blank">INSTAGRAM</a>
+                    <a href="https://github.com/princeyadav308" target="_blank" rel="noopener noreferrer">GITHUB</a>
+                    <a href="https://www.linkedin.com/in/prince-yadav-197479213/" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
+                    <a href="https://www.instagram.com/captain.bruce.007/" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
                 </div>
             </div>
     </section>
@@ -928,6 +929,7 @@
                     </div>
                 </div>
             </div>
+        </div>
 
             <!-- Engagement Section -->
             <div class="container services-subsection">
@@ -1151,7 +1153,7 @@
                         </div>
                         <div class="horizontal-timeline-container">
                             <div class="timeline-row" id="process-timeline">
-                                <div class="timeline-main-line" style="width: 3200px;">
+                                <div class="timeline-main-line">
                                     <div class="timeline-progress-line"></div>
                                 </div>
 
@@ -1794,25 +1796,25 @@
                 <div class="row"
                     style="display: flex; justify-content: space-around; text-align: center; flex-wrap: wrap;">
                     <div class="stat-item" style="flex: 1; min-width: 150px; margin-bottom: 20px;">
-                        <h2 style="font-size: 48px; color: var(--skin-color); margin-bottom: 5px;">5+</h2>
+                        <h2 class="stat-counter-number" data-target="5" data-suffix="+" style="font-size: 48px; color: var(--skin-color); margin-bottom: 5px;">5+</h2>
                         <p
                             style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-black-600);">
                             Years of Experience</p>
                     </div>
                     <div class="stat-item" style="flex: 1; min-width: 150px; margin-bottom: 20px;">
-                        <h2 style="font-size: 48px; color: var(--skin-color); margin-bottom: 5px;">50+</h2>
+                        <h2 class="stat-counter-number" data-target="50" data-suffix="+" style="font-size: 48px; color: var(--skin-color); margin-bottom: 5px;">50+</h2>
                         <p
                             style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-black-600);">
                             Projects Delivered</p>
                     </div>
                     <div class="stat-item" style="flex: 1; min-width: 150px; margin-bottom: 20px;">
-                        <h2 style="font-size: 48px; color: var(--skin-color); margin-bottom: 5px;">2</h2>
+                        <h2 class="stat-counter-number" data-target="2" data-suffix="" style="font-size: 48px; color: var(--skin-color); margin-bottom: 5px;">2</h2>
                         <p
                             style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-black-600);">
                             Countries Served</p>
                     </div>
                     <div class="stat-item" style="flex: 1; min-width: 150px; margin-bottom: 20px;">
-                        <h2 style="font-size: 48px; color: var(--skin-color); margin-bottom: 5px;">100%</h2>
+                        <h2 class="stat-counter-number" data-target="100" data-suffix="%" style="font-size: 48px; color: var(--skin-color); margin-bottom: 5px;">100%</h2>
                         <p
                             style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-black-600);">
                             5-Star Rated</p>
@@ -1922,6 +1924,39 @@
                                 <p>Absolutely. If you have an existing product struggling with performance or technical debt, I can audit your architecture, optimize your database, and transition your app to a scalable cloud infrastructure.</p>
                             </div>
                         </div>
+
+                        <!-- Searchable Query Box: Ask Any Question -->
+                        <div class="faq-query-box outer-shadow" id="faq-query-box">
+                            <div class="faq-query-header">
+                                <div class="faq-query-title-wrap">
+                                    <h4>Have any another question, just ask.</h4>
+                                </div>
+                            </div>
+                            <form class="faq-search-form" id="faq-query-form" onsubmit="event.preventDefault(); if(window.handleFaqQuery) window.handleFaqQuery();">
+                                <div class="faq-search-input-wrap inner-shadow">
+                                    <i class="fas fa-comment-dots faq-search-icon"></i>
+                                    <input type="text" id="faq-query-input" placeholder="Ask a question (e.g. Do I have to pay for Domain name?)" autocomplete="off" aria-label="Ask a question">
+                                    <button type="button" class="faq-search-clear" id="faq-query-clear" title="Clear input" style="display: none;">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                    <button type="submit" class="faq-search-submit btn-1 outer-shadow hover-in-shadow" id="faq-query-btn">
+                                        <span>Ask</span> <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </form>
+                            <div class="faq-query-chips">
+                                <span class="faq-chip outer-shadow hover-in-shadow" onclick="if(window.askFaqPreset) window.askFaqPreset('Do I have to pay for Domain name for my website?')">Domain name payment?</span>
+                                <span class="faq-chip outer-shadow hover-in-shadow" onclick="if(window.askFaqPreset) window.askFaqPreset('How much does MVP development cost?')">MVP pricing &amp; timelines?</span>
+                                <span class="faq-chip outer-shadow hover-in-shadow" onclick="if(window.askFaqPreset) window.askFaqPreset('Do you sign NDAs before starting?')">Do you sign NDAs?</span>
+                                <span class="faq-chip outer-shadow hover-in-shadow" onclick="if(window.askFaqPreset) window.askFaqPreset('Who owns the source code and assets?')">Code ownership?</span>
+                                <span class="faq-chip outer-shadow hover-in-shadow" onclick="if(window.askFaqPreset) window.askFaqPreset('What is your tech stack?')">Tech stack?</span>
+                            </div>
+                            <div class="faq-query-result" id="faq-query-result" style="display: none;">
+                                <div class="faq-result-card inner-shadow">
+                                    <div class="faq-result-body" id="faq-result-answer"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1933,9 +1968,9 @@
                     <span class="status-dot"></span> princeyadav308@gmail.com
                 </a>
                 <div class="footer-social-links">
-                    <a href="https://github.com/princeyadav308" target="_blank">GITHUB</a>
-                    <a href="https://www.linkedin.com/in/prince-yadav-197479213/" target="_blank">LINKEDIN</a>
-                    <a href="https://www.instagram.com/captain.bruce.007/" target="_blank">INSTAGRAM</a>
+                    <a href="https://github.com/princeyadav308" target="_blank" rel="noopener noreferrer">GITHUB</a>
+                    <a href="https://www.linkedin.com/in/prince-yadav-197479213/" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
+                    <a href="https://www.instagram.com/captain.bruce.007/" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
                 </div>
             </div>
     </section>
@@ -2102,7 +2137,7 @@
                                         <li>client - <span>Suresh Yadav</span></li>
                                         <li>Tools - <span>Vue.js, Nuxt, Google Maps API, Firebase</span></li>
                                         <li>Website - <span><a href="https://priyalogisticsservices.com/"
-                                                    target="_blank">www.priyalogisticsserviecs.com</a></span></li>
+                                                    target="_blank" rel="noopener noreferrer">www.priyalogisticsserviecs.com</a></span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -2376,7 +2411,7 @@
                                         <li>Date - <span>2022</span></li>
                                         <li>Tools - <span>React, Node.js, PostgreSQL, Redis</span></li>
                                         <li>Website - <span><a href="https://ocams.netlify.app/"
-                                                    target="_blank">www.ocams.netlify.app</a></span></li>
+                                                    target="_blank" rel="noopener noreferrer">www.ocams.netlify.app</a></span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -2443,7 +2478,7 @@
                                         <li>Date - <span>2022</span></li>
                                         <li>Tools - <span>WordPress (Headless), React, TailwindCSS</span></li>
                                         <li>Website - <span><a href="https://siddhivinayakconsultant.in/"
-                                                    target="_blank">siddhivinayakconsultant</a></span></li>
+                                                    target="_blank" rel="noopener noreferrer">siddhivinayakconsultant</a></span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -2511,7 +2546,7 @@
                                         <li>Tools - <span>Next.js, TypeScript, Machine Learning, Cloudinary, OpenCV, AWS
                                                 S3</span></li>
                                         <li>Live - <a href="https://smartvisionai.netlify.app/"
-                                                target="_blank">smartvisionai</a>
+                                                target="_blank" rel="noopener noreferrer">smartvisionai</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -2550,7 +2585,7 @@
                                         <li>Purpose - <span>Water Purifier Maintenance and Service Marketing</span></li>
                                         <li>Tools - <span>React, TailwindCSS</span></li>
                                         <li>Live - <a href="https://akshadaenterprises.in/"
-                                                target="_blank">akshadaenterprises</a></li>
+                                                target="_blank" rel="noopener noreferrer">akshadaenterprises</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -2561,16 +2596,16 @@
         </div>
         <div class="footer-bottom">
             <div class="footer-copyright">&copy;
-                <script>document.write(new Date().getFullYear())</script> PRINCE YADAV | <a href="privacy.html" target="_blank"
+                <script>document.write(new Date().getFullYear())</script> PRINCE YADAV | <a href="privacy.html" target="_blank" rel="noopener noreferrer"
                     style="color: var(--text-black-600); text-decoration: none;">Privacy & Legal</a>
             </div>
             <a href="mailto:princeyadav308@gmail.com" class="footer-email-btn outer-shadow hover-in-shadow">
                 <span class="status-dot"></span> princeyadav308@gmail.com
             </a>
             <div class="footer-social-links">
-                <a href="https://github.com/princeyadav308" target="_blank">GITHUB</a>
-                <a href="https://www.linkedin.com/in/prince-yadav-197479213/" target="_blank">LINKEDIN</a>
-                <a href="https://www.instagram.com/captain.bruce.007/" target="_blank">INSTAGRAM</a>
+                <a href="https://github.com/princeyadav308" target="_blank" rel="noopener noreferrer">GITHUB</a>
+                <a href="https://www.linkedin.com/in/prince-yadav-197479213/" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
+                <a href="https://www.instagram.com/captain.bruce.007/" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
             </div>
         </div>
     </section>
@@ -2684,7 +2719,7 @@
                         Have a project in mind or any questions?<br>Scan the QR code on the phone screen<br>to chat with
                         me instantly on WhatsApp,<br>or just tap the button below!
                     </p>
-                    <a href="https://wa.me/918422090696" target="_blank"
+                    <a href="https://wa.me/918422090696" target="_blank" rel="noopener noreferrer"
                         style="display: inline-flex; align-items: center; gap: 12px; background-color: #1b5936; color: #ffffff; padding: 12px 30px; border-radius: 30px; font-size: 18px; font-weight: 600; text-decoration: none; transition: transform 0.3s ease;">
                         Message on WhatsApp <i class="fab fa-whatsapp" style="font-size: 22px;"></i>
                     </a>
@@ -2986,16 +3021,16 @@
         </div>
         <div class="footer-bottom">
             <div class="footer-copyright">&copy;
-                <script>document.write(new Date().getFullYear())</script> PRINCE YADAV | <a href="privacy.html" target="_blank"
+                <script>document.write(new Date().getFullYear())</script> PRINCE YADAV | <a href="privacy.html" target="_blank" rel="noopener noreferrer"
                     style="color: var(--text-black-600); text-decoration: none;">Privacy & Legal</a>
             </div>
             <a href="mailto:princeyadav308@gmail.com" class="footer-email-btn outer-shadow hover-in-shadow">
                 <span class="status-dot"></span> princeyadav308@gmail.com
             </a>
             <div class="footer-social-links">
-                <a href="https://github.com/princeyadav308" target="_blank">GITHUB</a>
-                <a href="https://www.linkedin.com/in/prince-yadav-197479213/" target="_blank">LINKEDIN</a>
-                <a href="https://www.instagram.com/captain.bruce.007/" target="_blank">INSTAGRAM</a>
+                <a href="https://github.com/princeyadav308" target="_blank" rel="noopener noreferrer">GITHUB</a>
+                <a href="https://www.linkedin.com/in/prince-yadav-197479213/" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
+                <a href="https://www.instagram.com/captain.bruce.007/" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
             </div>
         </div>
     </section>
@@ -3182,19 +3217,12 @@
                 </div>
 
                 <div class="ppp-action">
-                    <a href="#" target="_blank" class="btn-1 outer-shadow hover-in-shadow ppp-live-link">View on
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="btn-1 outer-shadow hover-in-shadow ppp-live-link">View on
                         Github</a>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- style switch -->
-
-
-
-    <!-- style switch -->
-
 
     <!-- Lenis Smooth Scroll -->
     <script defer src="https://unpkg.com/lenis@1.3.25/dist/lenis.min.js"></script>
@@ -3280,6 +3308,10 @@
             clickedBtn.classList.add('inner-shadow');
         }
     </script>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/@barba/core"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="js/barba-init.js"></script>
 </body>
 
 </html>

@@ -1276,4 +1276,342 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
+
+    // Initialize stat counters
+    initStatCounters();
 });
+
+// --- Stat Counter Animation ---
+function initStatCounters() {
+    const statStrip = document.querySelector(".stat-strip");
+    const counters = document.querySelectorAll(".stat-counter-number");
+    if (!counters.length) return;
+
+    function renderReelStructure() {
+        counters.forEach(counter => {
+            const targetStr = counter.getAttribute("data-target") || "0";
+            const suffix = counter.getAttribute("data-suffix") || "";
+            const digits = targetStr.split("");
+
+            let html = "";
+            digits.forEach(digit => {
+                html += `<span class="odometer-reel"><span class="odometer-ribbon" data-digit="${digit}">`;
+                for (let d = 0; d <= 9; d++) {
+                    html += `<span class="odometer-digit">${d}</span>`;
+                }
+                for (let d = 0; d <= 9; d++) {
+                    html += `<span class="odometer-digit">${d}</span>`;
+                }
+                html += `</span></span>`;
+            });
+            if (suffix) {
+                html += `<span class="odometer-suffix">${suffix}</span>`;
+            }
+            counter.innerHTML = html;
+        });
+    }
+
+    function runCounterAnimation() {
+        counters.forEach(counter => {
+            const ribbons = counter.querySelectorAll(".odometer-ribbon");
+            ribbons.forEach((ribbon, idx) => {
+                const finalDigit = parseInt(ribbon.getAttribute("data-digit") || "0", 10);
+                ribbon.style.transition = "none";
+                ribbon.style.transform = "translateY(0%)";
+                // Force reflow
+                void ribbon.offsetHeight;
+
+                const targetIndex = 10 + finalDigit;
+                const delay = idx * 120;
+                ribbon.style.transition = `transform 1.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`;
+                ribbon.style.transform = `translateY(-${(targetIndex / 20) * 100}%)`;
+            });
+        });
+    }
+
+    renderReelStructure();
+
+    if (statStrip && "IntersectionObserver" in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    runCounterAnimation();
+                }
+            });
+        }, { threshold: 0.2 });
+
+        observer.observe(statStrip);
+    } else {
+        runCounterAnimation();
+    }
+
+    window.addEventListener("hashchange", () => {
+        if (window.location.hash === "#services") {
+            setTimeout(runCounterAnimation, 300);
+        }
+    });
+}
+
+// --- FAQ Search / Query Engine ---
+const faqKnowledgeBase = [
+    {
+        id: "domain",
+        keywords: ["domain", "domain name", "pay for domain", "buy domain", "dns", "domain registration", "who pays domain", "godaddy", "namecheap"],
+        question: "Do I have to pay for Domain name for my website?",
+        answer: "Yes, You have to pay for the Domain registration, and it should be bought under clients name only so you retain 100% legal ownership and administrative DNS control. I will happily guide you through the purchase and configure all DNS records and SSL certificates for your website launch."
+    },
+    {
+        id: "hosting",
+        keywords: ["hosting", "host", "server", "aws", "gcp", "vercel", "supabase", "cloud", "server cost", "infrastructure"],
+        question: "Do I need to pay for hosting and cloud infrastructure?",
+        answer: "Yes, hosting and cloud server subscriptions (such as Vercel, Supabase, AWS, or GCP) are paid directly by you under your own accounts to avoid vendor lock-in. I handle complete architecture setup, deployment pipelines, and performance tuning."
+    },
+    {
+        id: "mvp-timeline",
+        keywords: ["how long", "timeline", "mvp time", "delivery time", "weeks", "how fast", "turnaround", "time"],
+        question: "How long does it take to build an MVP or website?",
+        answer: "Standard websites and landing pages are delivered within 1 to 4 weeks. For full-scale Minimum Viable Products (MVPs), typical delivery is 4 to 8 weeks depending on the technical feature set, database complexity, and API integrations."
+    },
+    {
+        id: "mvp-pricing",
+        keywords: ["cost", "price", "pricing", "rate", "budget", "mvp cost", "how much", "quote", "charges", "fees", "expensive"],
+        question: "How much does MVP development cost?",
+        answer: "MVP development packages are structured into Foundation (₹80k - ₹1.5L / $1.5k - $3k in 3-4 weeks), Growth (₹1.5L - ₹3.5L / $3k - $7k in 6-8 weeks with AI integrations), and Scale (₹3.5L - ₹6L / $7k - $15k in 10-14 weeks) with milestone-based billing. Websites start from ₹25k ($500)."
+    },
+    {
+        id: "retainer",
+        keywords: ["retainer", "maintenance", "ongoing", "support", "monthly", "hourly", "after launch", "bug fix"],
+        question: "Do you offer post-launch maintenance or retainers?",
+        answer: "Yes! I provide monthly retainer packages: Maintenance (₹18k - ₹25k / $350 - $500/mo for 10 hrs), Growth Partner (₹40k - ₹60k / $800 - $1.2k/mo for 25 hrs), and Dedicated Developer (₹80k - ₹1.2L / $1.5k - $2.5k/mo for 50 hrs with 4-hr SLA)."
+    },
+    {
+        id: "payment-terms",
+        keywords: ["payment", "deposit", "upfront", "milestone", "installment", "pay", "terms", "invoice"],
+        question: "What are your payment terms and milestones?",
+        answer: "For websites, payment is 50% upfront deposit and 50% upon final delivery. For custom MVP projects, payments follow a 40/30/30 milestone schedule (deposit, mid-way review, final delivery). Monthly retainers are billed at the start of each month."
+    },
+    {
+        id: "nda",
+        keywords: ["nda", "non disclosure", "confidential", "confidentiality", "privacy", "agreement", "secret"],
+        question: "Do you sign Non-Disclosure Agreements (NDAs)?",
+        answer: "Yes, absolutely. Client confidentiality and intellectual property security are top priorities. I am always happy to sign an NDA before you share any proprietary product concepts, technical requirements, or business models."
+    },
+    {
+        id: "ownership",
+        keywords: ["ownership", "own code", "source code", "ip", "intellectual property", "copyright", "rights", "github", "repo"],
+        question: "Who owns the code and intellectual property?",
+        answer: "You retain 100% legal ownership of all source code, Figma design systems, database schemas, and digital assets upon project completion and final milestone settlement. Complete repository handover is included."
+    },
+    {
+        id: "tech-stack",
+        keywords: ["stack", "technology", "technologies", "languages", "framework", "react", "nextjs", "node", "python", "database", "postgres", "supabase"],
+        question: "What technologies and tech stack do you specialize in?",
+        answer: "I specialize in modern full-stack development using Next.js, React, Node.js, TypeScript, and Python. For databases, I frequently build with PostgreSQL, Supabase, and MongoDB, deploying to AWS and GCP with AI integrations using OpenAI and Claude APIs."
+    },
+    {
+        id: "ai-integration",
+        keywords: ["ai", "artificial intelligence", "llm", "chatgpt", "openai", "claude", "rag", "agents", "neural", "automation"],
+        question: "How do you integrate AI into products?",
+        answer: "I integrate custom AI solutions including Large Language Models (LLMs), RAG semantic search pipelines, AI copilot assistants, and automated workflows using OpenAI and Claude APIs deployed on scalable cloud infrastructure."
+    },
+    {
+        id: "revisions",
+        keywords: ["revision", "revisions", "changes", "feedback", "modify", "rounds"],
+        question: "How many revision rounds are included?",
+        answer: "All projects include dedicated revision rounds (1 round for Basic, 2 rounds for Pro, 3 rounds for Enterprise and MVP tiers). We test prototypes in Figma and conduct milestone reviews to guarantee complete satisfaction before production deployment."
+    },
+    {
+        id: "contact",
+        keywords: ["contact", "hire", "call", "email", "reach", "book", "meeting", "start", "discovery", "talk"],
+        question: "How can I get in touch or book a call?",
+        answer: "You can book a free 30-minute Discovery Call directly using the Book Discovery Call button or reach out by email at princeyadav308@gmail.com. I will get back to you promptly to discuss your goals."
+    }
+];
+
+function generateFaqAnswer(query) {
+    if (!query || !query.trim()) return null;
+    const cleanQuery = query.toLowerCase().replace(/[^a-z0-9\s]/g, ' ');
+    const words = cleanQuery.split(/\s+/).filter(w => w.length > 2);
+
+    let bestMatch = null;
+    let highestScore = 0;
+
+    for (const item of faqKnowledgeBase) {
+        let score = 0;
+        const cleanQ = item.question.toLowerCase().replace(/[^a-z0-9\s]/g, ' ');
+        if (cleanQuery.includes(cleanQ) || cleanQ.includes(cleanQuery)) {
+            score += 25;
+        }
+        for (const kw of item.keywords) {
+            if (cleanQuery.includes(kw)) {
+                score += 10 + kw.length;
+            }
+            for (const w of words) {
+                if (kw === w || kw.includes(w)) {
+                    score += 3;
+                }
+            }
+        }
+        if (score > highestScore) {
+            highestScore = score;
+            bestMatch = item;
+        }
+    }
+
+    if (highestScore >= 3 && bestMatch) {
+        return {
+            question: bestMatch.question,
+            answer: bestMatch.answer
+        };
+    }
+
+    return {
+        question: query.trim(),
+        answer: `Prince is a Full-Stack SaaS & AI Developer specializing in scalable web apps, custom MVPs, and cloud architecture (Next.js, Node.js, Python, AWS). Regarding "${query.trim()}", I can tailor a custom solution to your specific project needs. Feel free to book a free 30-min discovery call or email directly at princeyadav308@gmail.com!`
+    };
+}
+
+function handleFaqQuery(presetQuery) {
+    const input = document.getElementById("faq-query-input");
+    const clearBtn = document.getElementById("faq-query-clear");
+    let query = presetQuery || (input ? input.value : "");
+    
+    // If input is empty, smart-fill with currently active placeholder question!
+    if ((!query || !query.trim()) && window.getFaqActivePlaceholder) {
+        const activeSample = window.getFaqActivePlaceholder();
+        if (activeSample && activeSample !== "Have another question? Just ask...") {
+            query = activeSample;
+        } else {
+            query = "Do I have to pay for Domain name for my website?";
+        }
+    }
+
+    if (!query || !query.trim()) return;
+
+    if (input) {
+        input.value = query;
+        if (clearBtn) clearBtn.style.display = "flex";
+    }
+
+    const resultContainer = document.getElementById("faq-query-result");
+    const qEl = document.getElementById("faq-result-question");
+    const aEl = document.getElementById("faq-result-answer");
+    const btn = document.getElementById("faq-query-btn");
+
+    if (!resultContainer || !aEl) return;
+
+    resultContainer.style.display = "block";
+    if (qEl) qEl.innerText = `"${query.trim()}"`;
+    aEl.innerHTML = `<span style="opacity: 0.6;"><i class="fas fa-spinner fa-spin"></i> Generating answer from website details...</span>`;
+    if (btn) btn.disabled = true;
+
+    // Smooth scroll down to result card if needed
+    setTimeout(() => {
+        resultContainer.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }, 50);
+
+    setTimeout(() => {
+        const res = generateFaqAnswer(query);
+        if (res) {
+            aEl.innerText = res.answer;
+        }
+        if (btn) btn.disabled = false;
+    }, 200);
+}
+
+// Interactive Typewriter Animated Placeholder
+(function initFaqPlaceholderTypewriter() {
+    const input = document.getElementById("faq-query-input");
+    const clearBtn = document.getElementById("faq-query-clear");
+    if (!input) return;
+
+    const sampleQueries = [
+        "Do I have to pay for Domain name for my website?",
+        "How much does MVP development cost?",
+        "What is your tech stack and delivery timeline?",
+        "Do you sign NDAs before starting?",
+        "Who owns the source code and assets?",
+        "Have another question? Just ask..."
+    ];
+
+    let queryIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let isPaused = false;
+    let typingTimer = null;
+    let currentSample = sampleQueries[0];
+
+    function typeLoop() {
+        if (isPaused) return;
+
+        const fullText = sampleQueries[queryIndex];
+        currentSample = fullText;
+
+        if (isDeleting) {
+            charIndex--;
+            input.setAttribute("placeholder", fullText.substring(0, charIndex));
+            if (charIndex <= 0) {
+                isDeleting = false;
+                queryIndex = (queryIndex + 1) % sampleQueries.length;
+                typingTimer = setTimeout(typeLoop, 400);
+                return;
+            }
+            typingTimer = setTimeout(typeLoop, 25);
+        } else {
+            charIndex++;
+            input.setAttribute("placeholder", fullText.substring(0, charIndex));
+            if (charIndex >= fullText.length) {
+                isDeleting = true;
+                typingTimer = setTimeout(typeLoop, 2400); // Pause on completed sentence
+                return;
+            }
+            typingTimer = setTimeout(typeLoop, 50);
+        }
+    }
+
+    function updateClearButton() {
+        if (clearBtn) {
+            clearBtn.style.display = input.value.trim().length > 0 ? "flex" : "none";
+        }
+    }
+
+    input.addEventListener("input", updateClearButton);
+
+    input.addEventListener("focus", () => {
+        isPaused = true;
+        clearTimeout(typingTimer);
+        input.setAttribute("placeholder", "");
+    });
+
+    input.addEventListener("blur", () => {
+        if (!input.value.trim()) {
+            isPaused = false;
+            isDeleting = false;
+            charIndex = 0;
+            typeLoop();
+        } else {
+            input.setAttribute("placeholder", "");
+        }
+    });
+
+    if (clearBtn) {
+        clearBtn.addEventListener("click", () => {
+            input.value = "";
+            updateClearButton();
+            input.focus();
+        });
+    }
+
+    window.getFaqActivePlaceholder = function() {
+        return currentSample;
+    };
+
+    // Start typewriter
+    typingTimer = setTimeout(typeLoop, 600);
+})();
+
+window.handleFaqQuery = handleFaqQuery;
+window.askFaqPreset = function(q) {
+    handleFaqQuery(q);
+};
+
