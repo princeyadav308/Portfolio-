@@ -1355,110 +1355,215 @@ function initStatCounters() {
 // --- FAQ Search / Query Engine ---
 const faqKnowledgeBase = [
     {
+        id: "about-prince",
+        keywords: [
+            "who is prince", "who is prince yadav", "about prince", "about prince yadav",
+            "who are you", "tell me about yourself", "tell me about prince", "who is this",
+            "developer background", "experience", "prince bio", "profile", "prince", "prince yadav",
+            "who built this", "about developer", "who created this", "founder"
+        ],
+        question: "Who is Prince Yadav?",
+        answer: "Prince Yadav is a Full-Stack Engineer based in Mumbai, India, with 4+ years of experience building scalable SaaS applications, startup MVPs, and AI-driven platforms (Next.js, React, Node.js, Python, PostgreSQL, AWS). He works directly with founders and product teams globally to design, architect, and launch production-ready web products."
+    },
+    {
+        id: "services",
+        keywords: [
+            "services", "what do you do", "what services", "what can you build", "offerings",
+            "what do you build", "web development", "saas development", "mvp development", "ai engineering",
+            "what can you do", "development services"
+        ],
+        question: "What services do you offer?",
+        answer: "I provide comprehensive end-to-end digital engineering: (1) Custom Web & SaaS Development (Next.js, React, Node.js), (2) Rapid Startup MVP Delivery in 4-8 weeks, (3) AI & LLM Integration (OpenAI, Claude, RAG search pipelines, AI copilot agents), (4) Cloud Architecture & DevOps (AWS, GCP, Supabase), and (5) High-Performance UI/UX Engineering with 95+ Lighthouse scores."
+    },
+    {
+        id: "location-clients",
+        keywords: [
+            "where are you", "location", "based", "where do you live", "mumbai", "india",
+            "international clients", "remote", "time zone", "global clients", "timezone", "us clients",
+            "clients abroad", "uk clients"
+        ],
+        question: "Where are you based and do you work with international clients?",
+        answer: "I am based in Mumbai, India, and work remotely with startup founders and businesses across the US, UK, Europe, UAE, Australia, and India. I accommodate clients' time zones with structured async updates, weekly sprint demos, and milestone tracking."
+    },
+    {
+        id: "portfolio-projects",
+        keywords: [
+            "projects", "portfolio", "past work", "case studies", "examples", "what have you built",
+            "previous work", "show work", "client work", "smartvision", "ocams", "priya logistics",
+            "recent projects", "work samples"
+        ],
+        question: "What projects have you worked on?",
+        answer: "Featured projects include SmartVision AI (Next.js & computer vision ML platform deployed on AWS), OCAMS (full-stack management system with React & PostgreSQL), Priya Logistics (real-time logistics web application on Vue & Firebase), Headless WordPress ecommerce portals, and high-converting SaaS landing pages."
+    },
+    {
         id: "domain",
-        keywords: ["domain", "domain name", "pay for domain", "buy domain", "dns", "domain registration", "who pays domain", "godaddy", "namecheap"],
+        keywords: [
+            "domain", "domain name", "pay for domain", "buy domain", "dns", "domain registration",
+            "godaddy", "namecheap", "domain cost", "who pays domain"
+        ],
         question: "Do I have to pay for Domain name for my website?",
         answer: "Yes, You have to pay for the Domain registration, and it should be bought under clients name only so you retain 100% legal ownership and administrative DNS control. I will happily guide you through the purchase and configure all DNS records and SSL certificates for your website launch."
     },
     {
         id: "hosting",
-        keywords: ["hosting", "host", "server", "aws", "gcp", "vercel", "supabase", "cloud", "server cost", "infrastructure"],
+        keywords: [
+            "hosting", "host", "server", "aws", "gcp", "vercel", "supabase", "cloud",
+            "server cost", "infrastructure", "cloud cost", "deployment cost"
+        ],
         question: "Do I need to pay for hosting and cloud infrastructure?",
         answer: "Yes, hosting and cloud server subscriptions (such as Vercel, Supabase, AWS, or GCP) are paid directly by you under your own accounts to avoid vendor lock-in. I handle complete architecture setup, deployment pipelines, and performance tuning."
     },
     {
         id: "mvp-timeline",
-        keywords: ["how long", "timeline", "mvp time", "delivery time", "weeks", "how fast", "turnaround", "time"],
+        keywords: [
+            "how long", "timeline", "mvp time", "delivery time", "weeks", "how fast",
+            "turnaround", "duration", "schedule", "completion time"
+        ],
         question: "How long does it take to build an MVP or website?",
-        answer: "Standard websites and landing pages are delivered within 1 to 4 weeks. For full-scale Minimum Viable Products (MVPs), typical delivery is 4 to 8 weeks depending on the technical feature set, database complexity, and API integrations."
+        answer: "Standard websites and landing pages are delivered within 1 to 4 weeks. For full-scale Minimum Viable Products (MVPs), typical delivery is 4 to 8 weeks depending on technical feature complexity, database schemas, and third-party API integrations."
     },
     {
         id: "mvp-pricing",
-        keywords: ["cost", "price", "pricing", "rate", "budget", "mvp cost", "how much", "quote", "charges", "fees", "expensive"],
+        keywords: [
+            "cost", "price", "pricing", "rate", "budget", "mvp cost", "how much", "quote",
+            "charges", "fees", "packages", "rates", "pricing models"
+        ],
         question: "How much does MVP development cost?",
-        answer: "MVP development packages are structured into Foundation (₹80k - ₹1.5L / $1.5k - $3k in 3-4 weeks), Growth (₹1.5L - ₹3.5L / $3k - $7k in 6-8 weeks with AI integrations), and Scale (₹3.5L - ₹6L / $7k - $15k in 10-14 weeks) with milestone-based billing. Websites start from ₹25k ($500)."
+        answer: "MVP development packages are structured into Foundation (₹80k - ₹1.5L / $1.5k - $3k in 3-4 weeks), Growth (₹1.5L - ₹3.5L / $3k - $7k in 6-8 weeks with AI integrations), and Scale (₹3.5L - ₹6L / $7k - $15k in 10-14 weeks) with milestone-based billing. High-performance websites start from ₹25k ($500)."
     },
     {
         id: "retainer",
-        keywords: ["retainer", "maintenance", "ongoing", "support", "monthly", "hourly", "after launch", "bug fix"],
+        keywords: [
+            "retainer", "maintenance", "ongoing", "support", "monthly", "hourly",
+            "after launch", "bug fix", "post launch", "support packages"
+        ],
         question: "Do you offer post-launch maintenance or retainers?",
         answer: "Yes! I provide monthly retainer packages: Maintenance (₹18k - ₹25k / $350 - $500/mo for 10 hrs), Growth Partner (₹40k - ₹60k / $800 - $1.2k/mo for 25 hrs), and Dedicated Developer (₹80k - ₹1.2L / $1.5k - $2.5k/mo for 50 hrs with 4-hr SLA)."
     },
     {
         id: "payment-terms",
-        keywords: ["payment", "deposit", "upfront", "milestone", "installment", "pay", "terms", "invoice"],
+        keywords: [
+            "payment", "deposit", "upfront", "milestone", "installment", "pay terms",
+            "invoice", "billing terms", "payment schedule"
+        ],
         question: "What are your payment terms and milestones?",
         answer: "For websites, payment is 50% upfront deposit and 50% upon final delivery. For custom MVP projects, payments follow a 40/30/30 milestone schedule (deposit, mid-way review, final delivery). Monthly retainers are billed at the start of each month."
     },
     {
         id: "nda",
-        keywords: ["nda", "non disclosure", "confidential", "confidentiality", "privacy", "agreement", "secret"],
+        keywords: [
+            "nda", "non disclosure", "confidential", "confidentiality", "privacy agreement",
+            "secret", "proprietary", "sign nda"
+        ],
         question: "Do you sign Non-Disclosure Agreements (NDAs)?",
         answer: "Yes, absolutely. Client confidentiality and intellectual property security are top priorities. I am always happy to sign an NDA before you share any proprietary product concepts, technical requirements, or business models."
     },
     {
         id: "ownership",
-        keywords: ["ownership", "own code", "source code", "ip", "intellectual property", "copyright", "rights", "github", "repo"],
+        keywords: [
+            "ownership", "own code", "source code", "ip", "intellectual property",
+            "copyright", "rights", "github repo", "code ownership", "who owns"
+        ],
         question: "Who owns the code and intellectual property?",
         answer: "You retain 100% legal ownership of all source code, Figma design systems, database schemas, and digital assets upon project completion and final milestone settlement. Complete repository handover is included."
     },
     {
         id: "tech-stack",
-        keywords: ["stack", "technology", "technologies", "languages", "framework", "react", "nextjs", "node", "python", "database", "postgres", "supabase"],
+        keywords: [
+            "stack", "technology", "technologies", "languages", "framework", "react",
+            "nextjs", "node", "python", "database", "postgres", "supabase", "tech stack"
+        ],
         question: "What technologies and tech stack do you specialize in?",
-        answer: "I specialize in modern full-stack development using Next.js, React, Node.js, TypeScript, and Python. For databases, I frequently build with PostgreSQL, Supabase, and MongoDB, deploying to AWS and GCP with AI integrations using OpenAI and Claude APIs."
+        answer: "I specialize in modern full-stack development using Next.js, React, Node.js, TypeScript, and Python. For databases, I build with PostgreSQL, Supabase, and MongoDB, deploying to AWS and GCP with AI integrations using OpenAI and Claude APIs."
     },
     {
         id: "ai-integration",
-        keywords: ["ai", "artificial intelligence", "llm", "chatgpt", "openai", "claude", "rag", "agents", "neural", "automation"],
+        keywords: [
+            "ai", "artificial intelligence", "llm", "chatgpt", "openai", "claude",
+            "rag", "agents", "copilot", "machine learning", "automation"
+        ],
         question: "How do you integrate AI into products?",
         answer: "I integrate custom AI solutions including Large Language Models (LLMs), RAG semantic search pipelines, AI copilot assistants, and automated workflows using OpenAI and Claude APIs deployed on scalable cloud infrastructure."
     },
     {
         id: "revisions",
-        keywords: ["revision", "revisions", "changes", "feedback", "modify", "rounds"],
+        keywords: [
+            "revision", "revisions", "changes", "feedback rounds", "modify", "rounds"
+        ],
         question: "How many revision rounds are included?",
         answer: "All projects include dedicated revision rounds (1 round for Basic, 2 rounds for Pro, 3 rounds for Enterprise and MVP tiers). We test prototypes in Figma and conduct milestone reviews to guarantee complete satisfaction before production deployment."
     },
     {
+        id: "seo-performance",
+        keywords: [
+            "seo", "performance", "speed", "fast", "lighthouse", "core web vitals",
+            "google rank", "ranking", "optimization"
+        ],
+        question: "Will my website be SEO-friendly and fast?",
+        answer: "Yes. All projects are engineered with modern SEO fundamentals (meta tags, open-graph protocols, structured semantic HTML) and high-performance Web Vitals aiming for 95+ Google Lighthouse scores and sub-second load times."
+    },
+    {
         id: "contact",
-        keywords: ["contact", "hire", "call", "email", "reach", "book", "meeting", "start", "discovery", "talk"],
+        keywords: [
+            "contact", "hire", "call", "email", "reach", "book", "meeting",
+            "start", "discovery call", "talk to prince", "schedule", "how to hire"
+        ],
         question: "How can I get in touch or book a call?",
-        answer: "You can book a free 30-minute Discovery Call directly using the Book Discovery Call button or reach out by email at princeyadav308@gmail.com. I will get back to you promptly to discuss your goals."
+        answer: "You can book a free 30-minute Discovery Call directly using the Book Discovery Call button or reach out by email at princeyadav308@gmail.com or on WhatsApp at +91 8422090696. I will get back to you promptly to discuss your goals."
     }
 ];
 
+const STOP_WORDS = new Set([
+    "a", "an", "the", "in", "on", "at", "to", "for", "of", "and", "or", "is", "are", "am",
+    "was", "were", "do", "does", "did", "can", "could", "would", "should", "will", "i",
+    "you", "he", "she", "it", "we", "they", "my", "your", "this", "that", "there", "have", "has"
+]);
+
 function generateFaqAnswer(query) {
     if (!query || !query.trim()) return null;
-    const cleanQuery = query.toLowerCase().replace(/[^a-z0-9\s]/g, ' ');
-    const words = cleanQuery.split(/\s+/).filter(w => w.length > 2);
+    const cleanQuery = query.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').trim();
+    const queryTokens = cleanQuery.split(/\s+/).filter(w => w.length > 1);
+    const meaningfulTokens = queryTokens.filter(w => !STOP_WORDS.has(w));
 
     let bestMatch = null;
     let highestScore = 0;
 
     for (const item of faqKnowledgeBase) {
         let score = 0;
-        const cleanQ = item.question.toLowerCase().replace(/[^a-z0-9\s]/g, ' ');
-        if (cleanQuery.includes(cleanQ) || cleanQ.includes(cleanQuery)) {
-            score += 25;
+        const cleanQ = item.question.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').trim();
+
+        // Exact full phrase match in question
+        if (cleanQuery === cleanQ) {
+            score += 100;
+        } else if (cleanQuery.includes(cleanQ) || cleanQ.includes(cleanQuery)) {
+            score += 35;
         }
+
         for (const kw of item.keywords) {
-            if (cleanQuery.includes(kw)) {
-                score += 10 + kw.length;
+            const kwClean = kw.toLowerCase().trim();
+            // Exact keyword match
+            if (cleanQuery === kwClean) {
+                score += 50 + kwClean.length;
+            } else if (cleanQuery.includes(kwClean)) {
+                score += 20 + kwClean.length;
             }
-            for (const w of words) {
-                if (kw === w || kw.includes(w)) {
-                    score += 3;
+
+            // Word-level token match (must match whole word, not substring, and not be a stop word)
+            const kwWords = kwClean.split(/\s+/);
+            for (const qw of meaningfulTokens) {
+                if (kwWords.includes(qw)) {
+                    score += 6;
                 }
             }
         }
+
         if (score > highestScore) {
             highestScore = score;
             bestMatch = item;
         }
     }
 
-    if (highestScore >= 3 && bestMatch) {
+    if (highestScore >= 12 && bestMatch) {
         return {
             question: bestMatch.question,
             answer: bestMatch.answer
@@ -1467,7 +1572,7 @@ function generateFaqAnswer(query) {
 
     return {
         question: query.trim(),
-        answer: `Prince is a Full-Stack SaaS & AI Developer specializing in scalable web apps, custom MVPs, and cloud architecture (Next.js, Node.js, Python, AWS). Regarding "${query.trim()}", I can tailor a custom solution to your specific project needs. Feel free to book a free 30-min discovery call or email directly at princeyadav308@gmail.com!`
+        answer: `Prince Yadav is a Full-Stack Engineer based in Mumbai specializing in scalable SaaS apps, custom MVPs, and AI integrations (Next.js, Node.js, Python, AWS). Regarding "${query.trim()}", I can tailor a custom solution to your specific project needs. Feel free to book a free 30-min discovery call or email directly at princeyadav308@gmail.com!`
     };
 }
 
@@ -1526,11 +1631,12 @@ function handleFaqQuery(presetQuery) {
     if (!input) return;
 
     const sampleQueries = [
+        "Who is Prince Yadav?",
         "Do I have to pay for Domain name for my website?",
+        "What services and tech stack do you offer?",
         "How much does MVP development cost?",
-        "What is your tech stack and delivery timeline?",
+        "Where are you based and do you work globally?",
         "Do you sign NDAs before starting?",
-        "Who owns the source code and assets?",
         "Have another question? Just ask..."
     ];
 
