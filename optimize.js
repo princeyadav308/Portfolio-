@@ -25,18 +25,8 @@ html = html.replace(oldCSS, newCSS);
 // 2. Fix 404 image
 html = html.replace('src="img/portfolio-img/large/project-2/1.png "', 'src="img/portfolio-img/large/project-2/1.webp" ');
 
-// 3. Conditional Shader loading
-const oldShader = `<script defer src="js/axion-shader-bundle.iife.js"></script>`;
-const newShader = `<script>
-    if (window.innerWidth > 768) {
-        const shaderScript = document.createElement('script');
-        shaderScript.src = "js/axion-shader-bundle.iife.js";
-        shaderScript.defer = true;
-        document.body.appendChild(shaderScript);
-    }
-</script>`;
+// 3. Shader loaded for all devices with DPR optimization for mobile
 
-html = html.replace(oldShader, newShader);
 
 // 4. Add width and height to images to fix CLS
 let missingImgCount = 0;
