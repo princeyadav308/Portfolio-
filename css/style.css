@@ -622,13 +622,13 @@ img {
 
 @media (max-width: 990px) {
   .header {
-    padding: 8px 15px;
+    padding: 15px 15px;
   }
 
   .header.sticky {
     background-color: var(--bg-black-50);
     box-shadow: var(--outer-shadow);
-    padding: 5px 15px;
+    padding: 15px 15px;
   }
 
   .header.sticky .container {
