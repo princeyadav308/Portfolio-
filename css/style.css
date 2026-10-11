@@ -594,7 +594,7 @@ img {
 }
 
 .header {
-  padding: 15px 15px;
+  padding: 12px 15px;
   position: fixed;
   width: 100%;
   top: 0%;
@@ -608,6 +608,7 @@ img {
   top: 0;
   left: 0;
   width: 100%;
+  padding: 6px 15px;
 }
 
 .header .container {
@@ -616,18 +617,23 @@ img {
 
 .header.sticky .container {
   max-width: 80%;
-  padding: 20px 40px;
+  padding: 6px 30px;
 }
 
 @media (max-width: 990px) {
+  .header {
+    padding: 8px 15px;
+  }
+
   .header.sticky {
     background-color: var(--bg-black-50);
     box-shadow: var(--outer-shadow);
+    padding: 5px 15px;
   }
 
   .header.sticky .container {
     max-width: 100%;
-    padding: 10px 15px;
+    padding: 0;
   }
 }
 
@@ -639,21 +645,21 @@ img {
 
   .header.sticky .container {
     max-width: 100%;
-    padding: 10px 0px;
+    padding: 5px 0px;
   }
 }
 
 @media (min-width: 1341px) and (max-width: 1440px) {
   .header.sticky .container {
     max-width: 100%;
-    padding: 10px 0px;
+    padding: 5px 0px;
   }
 }
 
 @media (min-width: 1441px) and (max-width: 1758px) {
   .header.sticky .container {
     max-width: 100%;
-    padding: 10px 0px;
+    padding: 5px 0px;
   }
 }
 
