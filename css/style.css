@@ -293,8 +293,16 @@ img {
   z-index: 2;
 }
 
+.effect-wrap,
 .home-section>.effect-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
   pointer-events: none;
+  z-index: 1;
 }
 
 .home-section>.container .row>*,

@@ -37,6 +37,20 @@
     max-width: 350px;
   }
 
+  .effect-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .effect-2t {
+    animation: topBounce 4s ease-in-out infinite;
+  }
+
   .effect-3 {
     margin-left: -150px;
     /* Fix theme button overlap */
