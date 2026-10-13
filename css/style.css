@@ -3707,6 +3707,10 @@ body:has(.nav-menu.open) .fade-out-effect {
     .pricing-item { flex: 0 0 100%; max-width: 100%; }
 }
 /* FAQ Section */
+.faq-section {
+  padding-left: 20px;
+  padding-right: 20px;
+}
 .faq-item {
   border-radius: 10px;
   margin-bottom: 20px;

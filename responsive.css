@@ -174,17 +174,24 @@
     font-size: 17px !important;
   }
 
-  .timeline-main-line {
-    top: 490px !important;
+  .timeline-main-line,
+  #process-timeline .timeline-main-line,
+  #blueprint-timeline .timeline-main-line {
+    top: 512px !important;
     height: 5px !important;
   }
 }
 
 /* Tablet line positioning */
 @media (min-width: 768px) and (max-width: 991px) {
-  .timeline-main-line {
+  .timeline-main-line,
+  #process-timeline .timeline-main-line,
+  #blueprint-timeline .timeline-main-line {
     left: 190px !important;
-    width: 2900px !important;
+    top: 512px !important;
+    width: 2800px !important;
+    max-width: 2800px !important;
+    height: 5px !important;
   }
 }
 
@@ -250,10 +257,13 @@
     border-width: 3px !important;
   }
 
-  .timeline-main-line {
+  .timeline-main-line,
+  #process-timeline .timeline-main-line,
+  #blueprint-timeline .timeline-main-line {
     left: 170px !important;
-    top: 440px !important;
-    width: 2400px !important;
+    top: 468px !important;
+    width: 2310px !important;
+    max-width: 2310px !important;
     height: 4px !important;
   }
 }
@@ -314,10 +324,14 @@
     border-width: 3px !important;
   }
 
-  .timeline-main-line {
+  .timeline-main-line,
+  #process-timeline .timeline-main-line,
+  #blueprint-timeline .timeline-main-line {
     left: 150px !important;
-    top: 420px !important;
-    width: 2200px !important;
+    top: 445px !important;
+    width: 2100px !important;
+    max-width: 2100px !important;
+    height: 4px !important;
   }
 }
 
@@ -338,6 +352,14 @@
 @media (max-width: 991px) {
   .testimonials {
     padding: 0 15px !important;
+  }
+}
+
+/* Fix missing side padding on FAQ section mobile view */
+@media (max-width: 991px) {
+  .faq-section {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
   }
 }
 
