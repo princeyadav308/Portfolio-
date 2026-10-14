@@ -11,3 +11,6 @@ lighthouse-report*.json
 
 # Customizations
 .agents/
+
+# Original asset backups
+*-orig.*

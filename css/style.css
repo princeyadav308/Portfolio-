@@ -7,7 +7,7 @@
   --text-black-900: #302e4d;
   --text-black-700: #504e70;
   --text-black-600: #666666;
-  --text-black-300: #bbbbbb;
+  --text-black-300: #71717a;
   --outer-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15), -5px -5px 10px rgba(255, 255, 255, 0.8);
   --outer-shadow-0: 0 0 0 rgba(0, 0, 0, 0.15), 0 0 0 rgba(255, 255, 255, 0.8);
   --inner-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.15), inset -5px -5px 10px rgba(255, 255, 255, 0.8);
@@ -99,7 +99,7 @@ body.dark {
   /* Slightly dimmer text */
   --text-black-600: #aaaaaa;
   /* Paragraph text */
-  --text-black-300: #888888;
+  --text-black-300: #9ca3af;
   /* Muted text */
 
   /* Skeuomorphic/Neumorphic Shadows */
@@ -159,6 +159,7 @@ ul {
 img {
   vertical-align: middle;
   max-width: 100%;
+  height: auto;
 }
 
 .container {
@@ -963,6 +964,7 @@ img {
 
 .about-section .about-img .img-box img {
   width: 100%;
+  height: auto;
   border: 10px solid transparent;
   border-radius: 5px;
 }
@@ -1385,6 +1387,7 @@ body.loading .home-section .home-img .img-box {
 .about-section .personal-projects .portfolio-item-img img {
   border-radius: 5px;
   width: 100%;
+  height: auto;
   transition: all 0.3s ease;
 }
 
@@ -1802,6 +1805,21 @@ body.loading .home-section .home-img .img-box {
   height: 184px;
   padding-top: 15px;
   resize: none;
+}
+
+.contact-section .input-group.input-error {
+  box-shadow: 0 0 0 2px #ff4a4a, 0 0 12px rgba(255, 74, 74, 0.4), var(--outer-shadow) !important;
+  animation: errorShake 0.4s ease;
+}
+
+.contact-section .input-group.input-error .input-control {
+  color: #ff4a4a;
+}
+
+@keyframes errorShake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
 }
 
 .contact-section .submit-btn {

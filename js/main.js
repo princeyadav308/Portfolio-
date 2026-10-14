@@ -462,41 +462,240 @@ function bodyScrollingToggle() {
   });
 })();
 
-document.body.classList.add("loading");
-
-window.addEventListener("load", () => {
-  document.querySelector(".preloader").classList.add("fade-out");
+function hidePreloader() {
+  const preloader = document.querySelector(".preloader");
+  if (!preloader || preloader.classList.contains("fade-out")) return;
+  preloader.classList.add("fade-out");
   document.body.classList.remove("loading");
   setTimeout(() => {
-    document.querySelector(".preloader").style.display = "none";
-  }, 1500);
-});
+    preloader.style.display = "none";
+  }, 800);
+}
 
-// // Form Inputs with Netlify
+if (document.readyState === "complete" || document.readyState === "interactive") {
+  hidePreloader();
+} else {
+  document.addEventListener("DOMContentLoaded", hidePreloader);
+}
+window.addEventListener("load", hidePreloader);
+setTimeout(hidePreloader, 2000);
+
+// // Form Inputs with Netlify & Security Validation
 const form = document.forms["contact"];
 const msg = document.getElementById("msg");
 
 if (form) {
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
+  // Real-time phone input filtering to restrict to numbers & phone symbols only (blocks letters)
+  const phoneInput = form.querySelector('input[name="Phone"]');
+  if (phoneInput) {
+    phoneInput.addEventListener("input", (e) => {
+      // Strip any letters or disallowed characters in real-time
+      const cleaned = e.target.value.replace(/[^0-9+\s\-()]/g, '');
+      if (e.target.value !== cleaned) {
+        e.target.value = cleaned;
+      }
+    });
 
-    // Validate inputs to prevent code injection
-    const formData = new FormData(form);
-    const badRegex = /[>;&|\\`]/;
-    for (let [key, value] of formData.entries()) {
-      if (badRegex.test(value)) {
-        msg.style.color = "#ff4a4a";
-        msg.innerHTML =
-          "Error: Invalid characters (> ; & | \\ `) are not allowed.";
+    phoneInput.addEventListener("keydown", (e) => {
+      // Prevent typing alphabetic characters directly (A-Z, a-z)
+      if (e.key.length === 1 && /[a-zA-Z]/.test(e.key) && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+      }
+    });
+  }
+
+  // Security & Validation helper to display errors and highlight offending input field
+  const showFormError = (errorText, fieldName) => {
+    // Clear any existing input-error states across the form
+    form.querySelectorAll('.input-group, .form-section').forEach((el) => {
+      el.classList.remove('input-error');
+    });
+
+    // Visually highlight and focus the offending field
+    if (fieldName) {
+      const fieldEl = form.querySelector(`[name="${fieldName}"]`);
+      if (fieldEl) {
+        const targetGroup = fieldEl.closest('.input-group') || fieldEl.closest('.form-section') || fieldEl;
+        targetGroup.classList.add('input-error');
+
+        // Scroll to the error element and focus it
+        targetGroup.scrollIntoView({ behavior: 'smooth', block: 'center' });
         setTimeout(() => {
-          msg.innerHTML = "";
-        }, 5000);
-        return; // Stop submission
+          if (typeof fieldEl.focus === 'function') fieldEl.focus();
+        }, 300);
+
+        // Remove error highlight when user starts typing or changing the field
+        const clearHighlight = () => {
+          targetGroup.classList.remove('input-error');
+          fieldEl.removeEventListener('input', clearHighlight);
+          fieldEl.removeEventListener('change', clearHighlight);
+        };
+        fieldEl.addEventListener('input', clearHighlight);
+        fieldEl.addEventListener('change', clearHighlight);
       }
     }
 
-    // Reset color on success
+    // Render Neumorphic error alert
+    msg.style.color = "#ff4a4a";
+    msg.innerHTML = '<i class="fas fa-shield-alt" style="margin-right: 8px;"></i> ' + errorText;
+    msg.className = "outer-shadow";
+    msg.style.display = "block";
+    msg.style.padding = "16px";
+    msg.style.marginTop = "25px";
+    msg.style.borderRadius = "10px";
+    msg.style.fontWeight = "600";
+    msg.style.textAlign = "center";
+
+    setTimeout(() => {
+      msg.innerHTML = "";
+      msg.style.display = "none";
+    }, 6000);
+  };
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    // 1. Sync hidden Services field before creating FormData
+    const hiddenServices = document.getElementById('selected-services-input');
+    if (hiddenServices) {
+        const selected = Array.from(
+            form.querySelectorAll('.services-checkbox-grid input[type="checkbox"]:checked')
+        ).map(cb => cb.value);
+        hiddenServices.value = selected.length > 0 ? selected.join(', ') : 'None selected';
+    }
+
+    const formData = new FormData(form);
+
+    // 2. Strict Security Patterns for Free-Text Inputs
+    const sqliPatterns = [
+      /(\b(SELECT|UNION|INSERT|DELETE|UPDATE|DROP|ALTER|EXEC|EXECUTE|TRUNCATE|DECLARE|GRANT|REVOKE)\b[\s\S]*\b(FROM|INTO|TABLE|WHERE|DATABASE|JOIN|VALUES)\b)/i,
+      /(--|\/\*|\*\/|@@version|load_file|benchmark|sleep\s*\()/i,
+      /(\bOR\b\s+['"\d\w]+(\s*=\s*|\s+LIKE\s+)['"\d\w]+)/i,
+      /(\bAND\b\s+['"\d\w]+(\s*=\s*|\s+LIKE\s+)['"\d\w]+)/i,
+      /(';|";|char\s*\(|concat\s*\()/i
+    ];
+
+    const xssPatterns = [
+      /<[\s/]*(script|iframe|object|embed|svg|style|link|meta|base|form|input|button|applet|img|audio|video)/i,
+      /javascript\s*:/i,
+      /data\s*:\s*text\/html/i,
+      /vbscript\s*:/i,
+      /\bon\w+\s*=/i,
+      /<[a-zA-Z/][^>]*>/ // Any HTML tag
+    ];
+
+    // 3. Validate Name (Free-Text)
+    const nameVal = (formData.get("Name") || "").trim();
+    if (!nameVal || nameVal.length < 2) {
+      showFormError("Please enter your name (at least 2 characters).", "Name");
+      return;
+    }
+    if (!/^[a-zA-Z\s.'\-]+$/.test(nameVal)) {
+      showFormError("Name should only contain letters, spaces, and hyphens.", "Name");
+      return;
+    }
+    if (nameVal.length > 100) {
+      showFormError("Name cannot exceed 100 characters.", "Name");
+      return;
+    }
+
+    // 4. Validate Email (Free-Text)
+    const emailVal = (formData.get("Email") || "").trim();
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(emailVal)) {
+      showFormError("Please enter a valid email address.", "Email");
+      return;
+    }
+    if (emailVal.length > 100) {
+      showFormError("Email address is too long.", "Email");
+      return;
+    }
+
+    // 5. Validate Phone (Optional Free-Text, but min 10 digits & no letters if entered)
+    const phoneVal = (formData.get("Phone") || "").trim();
+    if (phoneVal) {
+      if (/[a-zA-Z]/.test(phoneVal)) {
+        showFormError("Phone number cannot contain letters. Numbers only.", "Phone");
+        return;
+      }
+      if (!/^[0-9+\s\-()]+$/.test(phoneVal)) {
+        showFormError("Phone number contains invalid symbols.", "Phone");
+        return;
+      }
+      const digitsOnly = phoneVal.replace(/\D/g, "");
+      if (digitsOnly.length < 10) {
+        showFormError("Please enter a valid phone number with at least 10 digits.", "Phone");
+        return;
+      }
+      if (digitsOnly.length > 15) {
+        showFormError("Phone number cannot exceed 15 digits.", "Phone");
+        return;
+      }
+    }
+
+    // 6. Validate Location (Free-Text)
+    const locVal = (formData.get("Location") || "").trim();
+    if (!locVal || locVal.length < 2) {
+      showFormError("Please enter your project location (City, Country).", "Location");
+      return;
+    }
+    if (!/^[a-zA-Z0-9\s,.'\-]+$/.test(locVal)) {
+      showFormError("Location should only contain letters, numbers, spaces, and commas.", "Location");
+      return;
+    }
+    if (locVal.length > 100) {
+      showFormError("Location cannot exceed 100 characters.", "Location");
+      return;
+    }
+
+    // 7. Validate Message (Free-Text with Security Screening)
+    const msgVal = (formData.get("Message") || "").trim();
+    if (!msgVal || msgVal.length < 10) {
+      showFormError("Please describe your project (at least 10 characters).", "Message");
+      return;
+    }
+    if (msgVal.length > 3000) {
+      showFormError("Message cannot exceed 3000 characters.", "Message");
+      return;
+    }
+
+    // Check Message for XSS
+    for (const pattern of xssPatterns) {
+      if (pattern.test(msgVal)) {
+        showFormError("Security alert: Dangerous script or HTML syntax detected in Message.", "Message");
+        return;
+      }
+    }
+
+    // Check Message for SQLi
+    for (const pattern of sqliPatterns) {
+      if (pattern.test(msgVal)) {
+        showFormError("Security alert: Invalid SQL syntax detected in Message.", "Message");
+        return;
+      }
+    }
+
+    // Check Message for dangerous shell execution characters (backtick, pipes, backslash)
+    if (/[|`\\]/.test(msgVal)) {
+      showFormError("Security alert: Forbidden characters (|, `, \\) detected in Message.", "Message");
+      return;
+    }
+
+    // 8. Validate Budget & Pricing Model Preset Selections
+    const budgetVal = formData.get("Budget");
+    const validBudgets = ["< $1k", "$1k - $5k", "$5k - $10k", "$10k - $25k", "$25k+"];
+    if (!budgetVal || !validBudgets.includes(budgetVal)) {
+      showFormError("Please select a valid project budget option.", "Budget");
+      return;
+    }
+
+    // Clear any previous error styling on success
+    form.querySelectorAll('.input-group, .form-section').forEach((el) => {
+      el.classList.remove('input-error');
+    });
     msg.style.color = "";
+    msg.style.display = "none";
+    msg.innerHTML = "";
 
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalBtnText = submitBtn.innerHTML;
@@ -539,6 +738,8 @@ if (form) {
         }, 6000);
         
         form.reset();
+        const hiddenServicesReset = document.getElementById('selected-services-input');
+        if (hiddenServicesReset) hiddenServicesReset.value = '';
         
         // Reset our custom Neumorphic selection buttons
         document.querySelectorAll('.custom-selection-btn').forEach(btn => {
@@ -617,17 +818,27 @@ window.addEventListener("load", () => {
 });
 
 // Sticky Header on Scroll
+let headerTicking = false;
 window.addEventListener("scroll", () => {
-  const header = document.querySelector(".header");
-  if (window.scrollY > 50) {
-    header.classList.add("sticky");
-  } else {
-    header.classList.remove("sticky");
+  if (!headerTicking) {
+    requestAnimationFrame(() => {
+      const header = document.querySelector(".header");
+      if (header) {
+        if (window.scrollY > 50) {
+          header.classList.add("sticky");
+        } else {
+          header.classList.remove("sticky");
+        }
+      }
+      headerTicking = false;
+    });
+    headerTicking = true;
   }
-});
+}, { passive: true });
 
 // Timeline Progress Scroll Effect (Horizontal)
-window.addEventListener("scroll", () => {
+let timelineTicking = false;
+const onTimelineScroll = () => {
   const scrollTracks = document.querySelectorAll(".horizontal-scroll-track");
   
   scrollTracks.forEach((scrollTrack) => {
@@ -689,7 +900,17 @@ window.addEventListener("scroll", () => {
       }
     });
   });
-});
+};
+
+window.addEventListener("scroll", () => {
+  if (!timelineTicking) {
+    requestAnimationFrame(() => {
+      onTimelineScroll();
+      timelineTicking = false;
+    });
+    timelineTicking = true;
+  }
+}, { passive: true });
 
 // Side-by-Side Image Slider (Smooth Lerp Hover Effect)
 (() => {
@@ -1044,10 +1265,10 @@ window.addEventListener("scroll", () => {
         }
         
         // Mutual exclusivity for Custom/Other service checkbox
-        if (input.type === 'checkbox' && input.name && input.name.startsWith('Service_')) {
-            if (input.name === 'Service_Custom' && input.checked) {
+        if (input.type === 'checkbox' && input.closest('.services-checkbox-grid')) {
+            if (input.value === 'Custom Request' && input.checked) {
                 // Uncheck all other services
-                const otherServices = document.querySelectorAll('input[type="checkbox"][name^="Service_"]:not([name="Service_Custom"])');
+                const otherServices = document.querySelectorAll('.services-checkbox-grid input[type="checkbox"]:not([value="Custom Request"])');
                 otherServices.forEach(cb => {
                     if (cb.checked) {
                         cb.checked = false;
@@ -1058,9 +1279,9 @@ window.addEventListener("scroll", () => {
                         }
                     }
                 });
-            } else if (input.name !== 'Service_Custom' && input.checked) {
+            } else if (input.value !== 'Custom Request' && input.checked) {
                 // Uncheck Custom if another service is selected
-                const customCb = document.querySelector('input[type="checkbox"][name="Service_Custom"]');
+                const customCb = document.querySelector('.services-checkbox-grid input[value="Custom Request"]');
                 if (customCb && customCb.checked) {
                     customCb.checked = false;
                     const parent = customCb.closest('.custom-selection-btn');
@@ -1069,6 +1290,15 @@ window.addEventListener("scroll", () => {
                         parent.classList.add('outer-shadow', 'hover-in-shadow');
                     }
                 }
+            }
+
+            // Sync hidden Services field
+            const hiddenServices = document.getElementById('selected-services-input');
+            if (hiddenServices) {
+                const selected = Array.from(
+                    document.querySelectorAll('.services-checkbox-grid input[type="checkbox"]:checked')
+                ).map(cb => cb.value);
+                hiddenServices.value = selected.join(', ');
             }
         }
 
@@ -1116,8 +1346,9 @@ requestAnimationFrame(raf);
   const gridContainer = document.createElement("div");
   gridContainer.classList.add("grid-container");
 
-  // Number of tiles to generate (enough to cover rotated 250vw/vh)
-  const numTiles = 1000;
+  // Number of tiles to generate (optimized for viewport performance)
+  const isMobile = window.innerWidth <= 768;
+  const numTiles = isMobile ? 40 : 120;
 
   for (let i = 0; i < numTiles; i++) {
     const tile = document.createElement("div");
@@ -1180,8 +1411,18 @@ requestAnimationFrame(raf);
       });
     };
 
-    window.addEventListener('scroll', updateReveal);
-    window.addEventListener('resize', updateReveal);
+    let revealTicking = false;
+    const throttledUpdateReveal = () => {
+      if (!revealTicking) {
+        requestAnimationFrame(() => {
+          updateReveal();
+          revealTicking = false;
+        });
+        revealTicking = true;
+      }
+    };
+    window.addEventListener('scroll', throttledUpdateReveal, { passive: true });
+    window.addEventListener('resize', throttledUpdateReveal, { passive: true });
     updateReveal();
   });
 })();
