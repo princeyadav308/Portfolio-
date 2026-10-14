@@ -2968,7 +2968,7 @@
 
                 <div class="row">
                     <div class="contact-form">
-                        <form name="contact" id="qualifying-contact-form" netlify>
+                        <form name="contact" id="qualifying-contact-form" netlify novalidate>
                             <input type="hidden" name="form-name" value="contact">
                             <input type="hidden" name="Services" id="selected-services-input" value="">
                             <div class="row">
@@ -3098,8 +3098,7 @@
                                     <h3 class="form-section-title">What is your project budget?</h3>
                                     <div class="budget-radio-grid">
                                         <label class="custom-selection-btn outer-shadow hover-in-shadow">
-                                            <input type="radio" name="Budget" value="< $1k" class="visually-hidden"
-                                                required>
+                                            <input type="radio" name="Budget" value="< $1k" class="visually-hidden">
                                             <span>&lt; $1k</span>
                                         </label>
                                         <label class="custom-selection-btn outer-shadow hover-in-shadow">
@@ -3138,8 +3137,8 @@
                                             </div>
                                             <div class="input-group outer-shadow hover-in-shadow">
                                                 <input type="tel" name="Phone" id="contact-phone"
-                                                    placeholder="WhatsApp / Phone (Optional)" class="input-control"
-                                                    maxlength="20" inputmode="tel" autocomplete="tel">
+                                                    placeholder="WhatsApp / Phone (Optional - 10 digits)" class="input-control"
+                                                    maxlength="16" inputmode="tel" autocomplete="tel">
                                             </div>
                                             <div class="input-group outer-shadow hover-in-shadow">
                                                 <input type="text" required name="Location"

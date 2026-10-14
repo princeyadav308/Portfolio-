@@ -510,6 +510,7 @@ if (form) {
     form.querySelectorAll('.input-group, .form-section').forEach((el) => {
       el.classList.remove('input-error');
     });
+    form.querySelectorAll('.field-error-msg').forEach((el) => el.remove());
 
     // Visually highlight and focus the offending field
     if (fieldName) {
@@ -517,6 +518,18 @@ if (form) {
       if (fieldEl) {
         const targetGroup = fieldEl.closest('.input-group') || fieldEl.closest('.form-section') || fieldEl;
         targetGroup.classList.add('input-error');
+
+        // Add inline error message right below the input group for immediate visibility
+        const inlineError = document.createElement('div');
+        inlineError.className = 'field-error-msg';
+        inlineError.style.color = '#ff4a4a';
+        inlineError.style.fontSize = '13px';
+        inlineError.style.fontWeight = '500';
+        inlineError.style.marginTop = '-15px';
+        inlineError.style.marginBottom = '15px';
+        inlineError.style.paddingLeft = '15px';
+        inlineError.innerHTML = '<i class="fas fa-exclamation-circle" style="margin-right: 6px;"></i>' + errorText;
+        targetGroup.parentNode.insertBefore(inlineError, targetGroup.nextSibling);
 
         // Scroll to the error element and focus it
         targetGroup.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -527,6 +540,7 @@ if (form) {
         // Remove error highlight when user starts typing or changing the field
         const clearHighlight = () => {
           targetGroup.classList.remove('input-error');
+          inlineError.remove();
           fieldEl.removeEventListener('input', clearHighlight);
           fieldEl.removeEventListener('change', clearHighlight);
         };
@@ -611,7 +625,7 @@ if (form) {
       return;
     }
 
-    // 5. Validate Phone (Optional Free-Text, but min 10 digits & no letters if entered)
+    // 5. Validate Phone (Optional Free-Text, but must be valid 10-digit number if entered)
     const phoneVal = (formData.get("Phone") || "").trim();
     if (phoneVal) {
       if (/[a-zA-Z]/.test(phoneVal)) {
@@ -623,13 +637,39 @@ if (form) {
         return;
       }
       const digitsOnly = phoneVal.replace(/\D/g, "");
-      if (digitsOnly.length < 10) {
-        showFormError("Please enter a valid phone number with at least 10 digits.", "Phone");
-        return;
-      }
-      if (digitsOnly.length > 15) {
-        showFormError("Phone number cannot exceed 15 digits.", "Phone");
-        return;
+      
+      if (phoneVal.startsWith("+")) {
+        if (digitsOnly.startsWith("91")) {
+          // India (+91): 91 + 10 subscriber digits = 12 total digits
+          if (digitsOnly.length < 12) {
+            showFormError("Indian phone number (+91) must have 10 digits.", "Phone");
+            return;
+          }
+          if (digitsOnly.length > 12) {
+            showFormError("Phone number cannot exceed 10 digits (got " + (digitsOnly.length - 2) + " digits after +91).", "Phone");
+            return;
+          }
+        } else {
+          // International with country code (1-3 digits + 10 digits = 11 to 13 digits)
+          if (digitsOnly.length < 10) {
+            showFormError("Phone number must have at least 10 digits.", "Phone");
+            return;
+          }
+          if (digitsOnly.length > 13) {
+            showFormError("Phone number cannot exceed 10 digits after country code.", "Phone");
+            return;
+          }
+        }
+      } else {
+        // Without country code: must be standard 10 digits
+        if (digitsOnly.length < 10) {
+          showFormError("Phone number must be at least 10 digits (got " + digitsOnly.length + " digits).", "Phone");
+          return;
+        }
+        if (digitsOnly.length > 10) {
+          showFormError("Phone number cannot exceed 10 digits (got " + digitsOnly.length + " digits).", "Phone");
+          return;
+        }
       }
     }
 
@@ -685,7 +725,7 @@ if (form) {
     const budgetVal = formData.get("Budget");
     const validBudgets = ["< $1k", "$1k - $5k", "$5k - $10k", "$10k - $25k", "$25k+"];
     if (!budgetVal || !validBudgets.includes(budgetVal)) {
-      showFormError("Please select a valid project budget option.", "Budget");
+      showFormError("Please select a project budget option in Step 2.", "Budget");
       return;
     }
 
