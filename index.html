@@ -3497,17 +3497,8 @@
         <!-- main js -->
         <script defer src="js/main.min.js"></script>
 
-        <!-- Axion Shader Background (Desktop only to prevent mobile main-thread jank) -->
-        <script>
-            if (window.innerWidth > 768 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                window.addEventListener('load', () => {
-                    const shaderScript = document.createElement('script');
-                    shaderScript.src = 'js/axion-shader-bundle.iife.js';
-                    shaderScript.defer = true;
-                    document.body.appendChild(shaderScript);
-                });
-            }
-        </script>
+        <!-- Axion Shader Background -->
+        <script defer src="js/axion-shader-bundle.iife.js"></script>
 
         <!-- Frosted Glass Filter -->
         <svg width="0" height="0" style="display: none;">
