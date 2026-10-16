@@ -469,7 +469,7 @@ function hidePreloader() {
   document.body.classList.remove("loading");
   setTimeout(() => {
     preloader.style.display = "none";
-  }, 800);
+  }, 450);
 }
 
 if (document.readyState === "complete" || document.readyState === "interactive") {
@@ -478,7 +478,7 @@ if (document.readyState === "complete" || document.readyState === "interactive")
   document.addEventListener("DOMContentLoaded", hidePreloader);
 }
 window.addEventListener("load", hidePreloader);
-setTimeout(hidePreloader, 2000);
+setTimeout(hidePreloader, 1000);
 
 // // Form Inputs with Netlify & Security Validation
 const form = document.forms["contact"];
@@ -1360,43 +1360,62 @@ window.addEventListener("scroll", () => {
 /* =========================================================
    Initialize Lenis for Smooth Scrolling
 ========================================================= */
-window.lenis = new Lenis({
-  duration: 1.2,
-  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  smoothWheel: true,
-  wheelMultiplier: 1,
-  touchMultiplier: 2,
-  prevent: (node) => node.closest("[data-lenis-prevent]") !== null,
-});
+const initLenis = () => {
+  if (typeof Lenis !== "undefined" && !window.lenis) {
+    window.lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
+      prevent: (node) => node.closest("[data-lenis-prevent]") !== null,
+    });
 
-function raf(time) {
-  window.lenis.raf(time);
-  requestAnimationFrame(raf);
+    function raf(time) {
+      if (window.lenis) window.lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+  }
+};
+
+if (typeof Lenis !== "undefined") {
+  initLenis();
+} else {
+  window.addEventListener("load", initLenis);
 }
-
-requestAnimationFrame(raf);
 
 /* =========================================================
    Diamond Grid Background Animation
 ========================================================= */
 (() => {
-  const gridBg = document.getElementById("diamondGridBg");
-  if (!gridBg) return;
+  const initGrid = () => {
+    const gridBg = document.getElementById("diamondGridBg");
+    if (!gridBg || gridBg.children.length > 0) return;
 
-  const gridContainer = document.createElement("div");
-  gridContainer.classList.add("grid-container");
+    const gridContainer = document.createElement("div");
+    gridContainer.classList.add("grid-container");
 
-  // Number of tiles to generate (optimized for viewport performance)
-  const isMobile = window.innerWidth <= 768;
-  const numTiles = isMobile ? 40 : 120;
+    const isMobile = window.innerWidth <= 768;
+    const numTiles = isMobile ? 30 : 90;
+    const fragment = document.createDocumentFragment();
 
-  for (let i = 0; i < numTiles; i++) {
-    const tile = document.createElement("div");
-    tile.classList.add("diamond-tile");
-    gridContainer.appendChild(tile);
+    for (let i = 0; i < numTiles; i++) {
+      const tile = document.createElement("div");
+      tile.classList.add("diamond-tile");
+      fragment.appendChild(tile);
+    }
+
+    gridContainer.appendChild(fragment);
+    gridBg.appendChild(gridContainer);
+  };
+
+  if ("requestIdleCallback" in window) {
+    requestIdleCallback(() => initGrid(), { timeout: 1500 });
+  } else {
+    setTimeout(initGrid, 100);
   }
-
-  gridBg.appendChild(gridContainer);
 })();
 
 /* =========================================================
