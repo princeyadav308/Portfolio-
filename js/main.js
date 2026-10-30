@@ -858,99 +858,129 @@ window.addEventListener("load", () => {
 });
 
 // Sticky Header on Scroll
-let headerTicking = false;
-window.addEventListener("scroll", () => {
-  if (!headerTicking) {
-    requestAnimationFrame(() => {
-      const header = document.querySelector(".header");
-      if (header) {
-        if (window.scrollY > 50) {
-          header.classList.add("sticky");
-        } else {
-          header.classList.remove("sticky");
-        }
-      }
-      headerTicking = false;
-    });
-    headerTicking = true;
+const headerEl = document.querySelector(".header");
+let headerStickyState = null;
+const updateStickyHeader = () => {
+  if (!headerEl) return;
+  const isSticky = window.scrollY > 50;
+  if (isSticky !== headerStickyState) {
+    headerStickyState = isSticky;
+    headerEl.classList.toggle("sticky", isSticky);
   }
-}, { passive: true });
+};
 
-// Timeline Progress Scroll Effect (Horizontal)
-let timelineTicking = false;
-const onTimelineScroll = () => {
-  const scrollTracks = document.querySelectorAll(".horizontal-scroll-track");
-  
-  scrollTracks.forEach((scrollTrack) => {
-    const scrollSticky = scrollTrack.querySelector(".horizontal-scroll-sticky");
-    const timelineRow = scrollTrack.querySelector(".timeline-row");
+// Timeline Progress Scroll Effect (Horizontal) - Optimized without layout thrashing
+const timelineTracks = [];
+const initTimelineTracks = () => {
+  timelineTracks.length = 0;
+  const tracks = document.querySelectorAll(".horizontal-scroll-track");
+  tracks.forEach((track) => {
+    const scrollSticky = track.querySelector(".horizontal-scroll-sticky");
+    const timelineRow = track.querySelector(".timeline-row");
     if (!scrollSticky || !timelineRow) return;
 
-    const progressLine = scrollTrack.querySelector(".timeline-progress-line");
-    const markers = scrollTrack.querySelectorAll(".timeline-marker");
-    const timelineItems = scrollTrack.querySelectorAll(".timeline-item");
+    const progressLine = track.querySelector(".timeline-progress-line");
+    const markers = Array.from(track.querySelectorAll(".timeline-marker"));
+    const items = Array.from(track.querySelectorAll(".timeline-item"));
 
-    const trackBounds = scrollTrack.getBoundingClientRect();
-    const stickyHeight = scrollSticky.offsetHeight;
-    const scrollContentWidth = timelineRow.scrollWidth;
-    const viewportWidth = window.innerWidth < 1140 ? window.innerWidth : 1140; // Dynamically calculate for mobile
-
-    // Calculate progress (0 to 1) based on vertical scroll within the track
-    let progress = -trackBounds.top / (trackBounds.height - stickyHeight);
-    progress = Math.max(0, Math.min(1, progress));
-
-    // Horizontal translation of the timeline row
-    const maxTranslate = scrollContentWidth - viewportWidth;
-    if (maxTranslate > 0) {
-      timelineRow.style.transform = `translateX(${-progress * maxTranslate}px)`;
-    }
-
-    // Update horizontal progress line width
-    if (progressLine) {
-      progressLine.style.width = progress * 100 + "%";
-    }
-
-    // Highlight markers and items based on horizontal scroll position
-    const horizontalScrollPos = progress * maxTranslate;
-    timelineItems.forEach((item, index) => {
-      const itemCenter = item.offsetLeft + item.offsetWidth / 2;
-      const marker = markers[index];
-
-      // Trigger marker when its center point reaches the center of the viewport
-      if (horizontalScrollPos + viewportWidth / 2 >= itemCenter) {
-        if (marker) marker.classList.add("active");
-        item.classList.add("in-view");
-      } else {
-        if (marker) marker.classList.remove("active");
-        item.classList.remove("in-view");
-      }
+    timelineTracks.push({
+      track,
+      scrollSticky,
+      timelineRow,
+      progressLine,
+      markers,
+      items,
+      stickyHeight: 0,
+      scrollContentWidth: 0,
+      trackHeight: 0,
+      viewportWidth: 0,
+      maxTranslate: 0,
+      itemCenters: [],
+      lastProgress: -1
     });
+  });
+  measureTimelineTracks();
+};
 
-    // Handle phase card scale/emphasis based on focus
-    const cards = scrollTrack.querySelectorAll(".timeline-phase-card");
-    cards.forEach((card) => {
-      const bounds = card.getBoundingClientRect();
-      const center = viewportWidth / 2;
-      if (bounds.left < center + 100 && bounds.right > center - 100) {
-        card.style.transform = "scale(1.15)";
-        card.style.transition =
-          "transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
-      } else {
-        card.style.transform = "scale(1)";
-      }
-    });
+const measureTimelineTracks = () => {
+  timelineTracks.forEach((t) => {
+    t.stickyHeight = t.scrollSticky.offsetHeight;
+    t.scrollContentWidth = t.timelineRow.scrollWidth;
+    t.trackHeight = t.track.offsetHeight;
+    t.viewportWidth = window.innerWidth < 1140 ? window.innerWidth : 1140;
+    t.maxTranslate = Math.max(0, t.scrollContentWidth - t.viewportWidth);
+    t.itemCenters = t.items.map((item) => item.offsetLeft + item.offsetWidth / 2);
   });
 };
 
-window.addEventListener("scroll", () => {
-  if (!timelineTicking) {
-    requestAnimationFrame(() => {
-      onTimelineScroll();
-      timelineTicking = false;
-    });
-    timelineTicking = true;
-  }
-}, { passive: true });
+const onTimelineScroll = () => {
+  if (timelineTracks.length === 0) return;
+  const vh = window.innerHeight;
+
+  timelineTracks.forEach((t) => {
+    const rect = t.track.getBoundingClientRect();
+
+    // Offscreen above
+    if (rect.bottom < 0) {
+      if (t.lastProgress !== 1) {
+        t.lastProgress = 1;
+        t.timelineRow.style.transform = `translateX(${-t.maxTranslate}px)`;
+        if (t.progressLine) t.progressLine.style.transform = "scaleX(1)";
+        t.items.forEach((item, i) => {
+          item.classList.add("in-view");
+          if (t.markers[i]) t.markers[i].classList.add("active");
+        });
+      }
+      return;
+    }
+
+    // Offscreen below
+    if (rect.top > vh) {
+      if (t.lastProgress !== 0) {
+        t.lastProgress = 0;
+        t.timelineRow.style.transform = "translateX(0px)";
+        if (t.progressLine) t.progressLine.style.transform = "scaleX(0)";
+        t.items.forEach((item, i) => {
+          item.classList.remove("in-view");
+          if (t.markers[i]) t.markers[i].classList.remove("active");
+        });
+      }
+      return;
+    }
+
+    // Currently in view
+    const scrollableRange = t.trackHeight - t.stickyHeight;
+    let progress = scrollableRange > 0 ? -rect.top / scrollableRange : 0;
+    progress = Math.max(0, Math.min(1, progress));
+    t.lastProgress = progress;
+
+    if (t.maxTranslate > 0) {
+      t.timelineRow.style.transform = `translateX(${-progress * t.maxTranslate}px)`;
+    }
+
+    if (t.progressLine) {
+      t.progressLine.style.transform = `scaleX(${progress})`;
+    }
+
+    const horizontalScrollPos = progress * t.maxTranslate;
+    const centerPoint = horizontalScrollPos + t.viewportWidth / 2;
+
+    for (let i = 0; i < t.items.length; i++) {
+      const item = t.items[i];
+      const marker = t.markers[i];
+      const shouldBeInView = centerPoint >= t.itemCenters[i];
+
+      if (item.classList.contains("in-view") !== shouldBeInView) {
+        item.classList.toggle("in-view", shouldBeInView);
+        if (marker) marker.classList.toggle("active", shouldBeInView);
+      }
+    }
+  });
+};
+
+window.addEventListener("resize", measureTimelineTracks, { passive: true });
+document.addEventListener("DOMContentLoaded", initTimelineTracks);
+initTimelineTracks();
 
 // Side-by-Side Image Slider (Smooth Lerp Hover Effect)
 (() => {
@@ -1360,16 +1390,25 @@ window.addEventListener("scroll", () => {
 /* =========================================================
    Initialize Lenis for Smooth Scrolling
 ========================================================= */
+const onGlobalScroll = () => {
+  updateStickyHeader();
+  onTimelineScroll();
+  if (typeof window._updateAllReveals === "function") window._updateAllReveals();
+  if (typeof window._handlePricingScroll === "function") window._handlePricingScroll();
+};
+
 const initLenis = () => {
   if (typeof Lenis !== "undefined" && !window.lenis) {
     window.lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
+      lerp: 0.09,           // Responsive, velvety smooth inertia with zero input lag
+      smoothWheel: true,     // Silky mouse wheel scrolling
+      syncTouch: false,      // Preserve native 120Hz momentum on touch devices
+      wheelMultiplier: 1.0,  // Natural 1:1 speed with zero delay
+      touchMultiplier: 1.0,
       prevent: (node) => node.closest("[data-lenis-prevent]") !== null,
     });
+
+    window.lenis.on("scroll", onGlobalScroll);
 
     function raf(time) {
       if (window.lenis) window.lenis.raf(time);
@@ -1379,6 +1418,18 @@ const initLenis = () => {
     requestAnimationFrame(raf);
   }
 };
+
+let scrollTicking = false;
+window.addEventListener("scroll", () => {
+  if (window.lenis && window.lenis.isSmooth) return;
+  if (!scrollTicking) {
+    requestAnimationFrame(() => {
+      onGlobalScroll();
+      scrollTicking = false;
+    });
+    scrollTicking = true;
+  }
+}, { passive: true });
 
 if (typeof Lenis !== "undefined") {
   initLenis();
@@ -1426,6 +1477,8 @@ if (typeof Lenis !== "undefined") {
   
   if (scrollRevealElements.length === 0) return;
 
+  const revealData = [];
+
   scrollRevealElements.forEach((el) => {
     const text = el.innerText;
     el.innerHTML = '';
@@ -1439,51 +1492,61 @@ if (typeof Lenis !== "undefined") {
       el.appendChild(document.createTextNode(' '));
     });
 
-    const spans = el.querySelectorAll('.reveal-word');
+    const spans = Array.from(el.querySelectorAll('.reveal-word'));
     const container = el.closest('.intro-text-section');
 
-    const updateReveal = () => {
-      let progress = 0;
-      
-      if (container) {
-        const rect = container.getBoundingClientRect();
-        const scrollableDistance = rect.height - window.innerHeight;
-        const scrolled = -rect.top;
-        progress = scrolled / scrollableDistance;
-      } else {
-        const rect = el.getBoundingClientRect();
-        const startReveal = window.innerHeight;
-        const endReveal = window.innerHeight / 2;
-        progress = (startReveal - rect.top) / (startReveal - endReveal);
-      }
-      
-      progress = Math.max(0, Math.min(1, progress));
-      
-      const numActive = Math.floor(progress * spans.length);
-      
-      spans.forEach((span, index) => {
-        if (index < numActive) {
-          span.classList.add('active');
-        } else {
-          span.classList.remove('active');
-        }
-      });
-    };
-
-    let revealTicking = false;
-    const throttledUpdateReveal = () => {
-      if (!revealTicking) {
-        requestAnimationFrame(() => {
-          updateReveal();
-          revealTicking = false;
-        });
-        revealTicking = true;
-      }
-    };
-    window.addEventListener('scroll', throttledUpdateReveal, { passive: true });
-    window.addEventListener('resize', throttledUpdateReveal, { passive: true });
-    updateReveal();
+    revealData.push({
+      el,
+      container,
+      spans,
+      lastActiveIndex: -1
+    });
   });
+
+  const updateAllReveals = () => {
+    const vh = window.innerHeight;
+    revealData.forEach((item) => {
+      let progress = 0;
+      if (item.container) {
+        const rect = item.container.getBoundingClientRect();
+        if (rect.bottom < 0) {
+          progress = 1;
+        } else if (rect.top > vh) {
+          progress = 0;
+        } else {
+          const scrollableDistance = rect.height - vh;
+          progress = scrollableDistance > 0 ? -rect.top / scrollableDistance : 0;
+        }
+      } else {
+        const rect = item.el.getBoundingClientRect();
+        if (rect.bottom < 0) {
+          progress = 1;
+        } else if (rect.top > vh) {
+          progress = 0;
+        } else {
+          progress = (vh - rect.top) / (vh / 2);
+        }
+      }
+
+      progress = Math.max(0, Math.min(1, progress));
+      const numActive = Math.floor(progress * item.spans.length);
+
+      if (numActive === item.lastActiveIndex) return;
+      item.lastActiveIndex = numActive;
+
+      for (let i = 0; i < item.spans.length; i++) {
+        const span = item.spans[i];
+        const isActive = i < numActive;
+        if (span.classList.contains('active') !== isActive) {
+          span.classList.toggle('active', isActive);
+        }
+      }
+    });
+  };
+
+  window._updateAllReveals = updateAllReveals;
+  window.addEventListener('resize', updateAllReveals, { passive: true });
+  updateAllReveals();
 })();
 
 /* ---------------- Pricing Carousel ---------------- */
@@ -1493,22 +1556,33 @@ document.addEventListener("DOMContentLoaded", () => {
     
     if (track && carousel) {
         const mobileQuery = window.matchMedia("(max-width: 768px)");
+        let currentSlideIndex = -1;
 
-        const handleScroll = () => {
-            // Skip on mobile — CSS handles the stacked layout
+        const handlePricingScroll = () => {
             if (mobileQuery.matches) return;
 
             const bounds = track.getBoundingClientRect();
-            const stickyHeight = window.innerHeight;
-            
-            // Calculate progress (0 to 1) based on vertical scroll within the track
-            let progress = -bounds.top / (bounds.height - stickyHeight);
+            const vh = window.innerHeight;
+            if (bounds.bottom < 0) {
+                if (currentSlideIndex !== 2) {
+                    currentSlideIndex = 2;
+                    carousel.style.transform = `translateX(-66.666666%)`;
+                }
+                return;
+            }
+            if (bounds.top > vh) {
+                if (currentSlideIndex !== 0) {
+                    currentSlideIndex = 0;
+                    carousel.style.transform = `translateX(0%)`;
+                }
+                return;
+            }
+
+            const stickyHeight = vh;
+            const scrollRange = bounds.height - stickyHeight;
+            let progress = scrollRange > 0 ? -bounds.top / scrollRange : 0;
             progress = Math.max(0, Math.min(1, progress));
             
-            // Discrete snapping logic: 
-            // First 1/3rd of the scroll = Slide 1
-            // Middle 1/3rd = Slide 2
-            // Last 1/3rd = Slide 3
             let slideIndex = 0;
             if (progress > 0.33 && progress <= 0.66) {
                 slideIndex = 1;
@@ -1516,31 +1590,29 @@ document.addEventListener("DOMContentLoaded", () => {
                 slideIndex = 2;
             }
             
-            carousel.style.transform = `translateX(-${slideIndex * 33.333333}%)`;
-        };
-
-        const onBreakpointChange = (e) => {
-            if (e.matches) {
-                // Entering mobile: reset transform so CSS column layout takes over
-                carousel.style.transform = "none";
-            } else {
-                // Leaving mobile: recalculate carousel position
-                handleScroll();
+            if (slideIndex !== currentSlideIndex) {
+                currentSlideIndex = slideIndex;
+                carousel.style.transform = `translateX(-${slideIndex * 33.333333}%)`;
             }
         };
 
-        // Listen for breakpoint changes (e.g., orientation change)
+        window._handlePricingScroll = handlePricingScroll;
+
+        const onBreakpointChange = (e) => {
+            if (e.matches) {
+                carousel.style.transform = "none";
+            } else {
+                handlePricingScroll();
+            }
+        };
+
         mobileQuery.addEventListener("change", onBreakpointChange);
+        window.addEventListener("resize", handlePricingScroll, { passive: true });
 
-        // Only attach scroll/resize if not currently mobile
-        window.addEventListener("scroll", handleScroll, { passive: true });
-        window.addEventListener("resize", handleScroll, { passive: true });
-
-        // Initial setup
         if (mobileQuery.matches) {
             carousel.style.transform = "none";
         } else {
-            handleScroll();
+            handlePricingScroll();
         }
     }
 });
@@ -1663,7 +1735,7 @@ const faqKnowledgeBase = [
             "who built this", "about developer", "who created this", "founder"
         ],
         question: "Who is Prince Yadav?",
-        answer: "Prince Yadav is a Full-Stack Engineer based in Mumbai, India, with 4+ years of experience building scalable SaaS applications, startup MVPs, and AI-driven platforms (Next.js, React, Node.js, Python, PostgreSQL, AWS). He works directly with founders and product teams globally to design, architect, and launch production-ready web products."
+        answer: "Prince Yadav is a Full-Stack Engineer based in Mumbai, India, with 5+ years of experience building scalable SaaS applications, startup MVPs, and AI-driven platforms (Next.js, React, Node.js, Python, PostgreSQL, AWS). He works directly with founders and product teams globally to design, architect, and launch production-ready web products."
     },
     {
         id: "services",

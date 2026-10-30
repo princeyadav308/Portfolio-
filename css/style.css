@@ -16,6 +16,32 @@
   --glass-border: rgba(255, 255, 255, 0.18);
 }
 
+/* ---- Lenis Recommended Smooth Scroll ---- */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+html {
+  scroll-behavior: auto !important;
+}
+
 /* ---- Custom Scrollbar ---- */
 ::-webkit-scrollbar {
   display: none;
@@ -116,6 +142,7 @@ body {
   font-size: 16px;
   line-height: 1.5;
   overflow-x: hidden;
+  overflow-x: clip;
   background-color: var(--bg-black-50);
   transition: background-color 0.5s ease;
 }
@@ -1875,6 +1902,7 @@ body.loading .home-section .home-img .img-box {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  transform: translateZ(0);
 }
 
 .sticky-title-wrapper {
@@ -1934,9 +1962,11 @@ body.loading .home-section .home-img .img-box {
   top: 0;
   left: 0;
   height: 100%;
-  width: 0;
+  width: 100%;
   background-color: var(--skin-color);
-  transition: width 0.1s linear;
+  transform-origin: left center;
+  transform: scaleX(0);
+  will-change: transform;
 }
 
 .timeline-row .timeline-item {
